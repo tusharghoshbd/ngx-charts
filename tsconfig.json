@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-charts": [
+        "dist/ngx-charts"
+      ],
+      "ngx-charts/*": [
+        "dist/ngx-charts/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
