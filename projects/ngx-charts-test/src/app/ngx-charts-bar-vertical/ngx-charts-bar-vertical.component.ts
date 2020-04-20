@@ -17,12 +17,13 @@ import { scaleBand, scaleLinear } from "d3-scale";
 export class ngxChartsBarVerticalComponent implements OnChanges {
   @Input() options: any = {};
   @Input() xData: any = {};
-  @Input() yData: any = {};
+  @Input() yData: any={};
+  @Input() barPadding = 8;
 
   scale: any;
   xScale: any;
   yScale: any;
-
+  bars: any;
   margin = {
     top: 50,
     right: 100,
@@ -37,19 +38,25 @@ export class ngxChartsBarVerticalComponent implements OnChanges {
   }
 
   update(): void {
-    //this.xScale = this.getXScale();
-    this.yScale = this.getYScale();
-    console.log(this.yScale);
+    this.xScale = this.getXScale();
+    this.yScale=this.getYScale();
+    // this.xData.map(item => { 
+    //   console.log(this.xScale(item));
+    // })
+
+    this.createBar();
+    console.log(this.bars )
+    
   }
 
-  // getXScale(): any {
-  //   this.xDomain = this.getXDomain();
-  //   const spacing = this.xDomain.length / (this.dims.width / this.barPadding + 1);
-  //   return scaleBand()
-  //     .range([0, this.dims.width])
-  //     .paddingInner(spacing)
-  //     .domain(this.xDomain);
-  // }
+  getXScale(): any {
+    const spacing = this.xData.length / (this.options.width / this.barPadding + 1);
+    return scaleBand()
+      .range([40, this.options.width])
+      .paddingInner(spacing)
+      .paddingOuter(0.1)
+      .domain(this.xData);
+  }
 
   getYScale(): any {
     let uniqueValue: any = new Set();
@@ -59,16 +66,37 @@ export class ngxChartsBarVerticalComponent implements OnChanges {
       });
     });
 
-    console.log(...uniqueValue);
-
-    let min = Math.min(...uniqueValue);
-    let max = Math.max(...uniqueValue);
-
-    console.log(min, max);
-
+    let min = Math.min(0,...uniqueValue);
+    let max=Math.max(0,...uniqueValue);
+    
     this.scale = scaleLinear()
-      .range([this.options.height - 20, 0])
+      .range([this.options.height, 0])
       .domain([min, max]);
     return this.scale.nice().ticks();
+
   }
+
+  createBar() { 
+    this.bars=this.xData.map((item, index) => {
+      if (index) { 
+        
+      }
+      const bar: any = {
+        value:item,
+        //label,
+        //roundEdges,
+        data: this.yData[0].data[index],
+        width: this.xScale.bandwidth(),
+        //formattedLabel,
+        height: this.scale(0) - this.scale(this.yData[0].data[index]),
+        x: this.xScale(item),
+        y: this.scale(this.yData[0].data[index])
+      };
+      
+      return bar;
+    });
+  }
+
+
+
 }

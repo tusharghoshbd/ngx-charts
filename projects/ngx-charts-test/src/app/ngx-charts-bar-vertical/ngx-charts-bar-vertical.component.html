@@ -16,6 +16,12 @@
         *ngFor="let y of yScale"
          [attr.y]="scale(y)" opacity="1">{{y}}</text>
     </g>
+    
+    <g data-z-index="0.1" class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
+        <rect 
+            *ngFor="let bar of bars" 
+            [attr.x]="bar.x" [attr.y]="bar.y" [attr.width]="bar.width" [attr.height]="bar.height" fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0" tabindex="-1" role="img" aria-label="1. Jan, 49.9. Tokyo."></rect>
+    </g>
 
         <!-- <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
             <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 321.5 L 790 321.5" opacity="1"></path>
