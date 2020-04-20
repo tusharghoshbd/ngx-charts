@@ -78,9 +78,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges {
 
   createBar() { 
     this.bars=this.xData.map((item, index) => {
-      if (index) { 
-        
-      }
+     
       const bar: any = {
         value:item,
         //label,

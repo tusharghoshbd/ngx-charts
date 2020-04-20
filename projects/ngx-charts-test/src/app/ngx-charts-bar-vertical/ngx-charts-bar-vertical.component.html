@@ -23,6 +23,14 @@
             [attr.x]="bar.x" [attr.y]="bar.y" [attr.width]="bar.width" [attr.height]="bar.height" fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0" tabindex="-1" role="img" aria-label="1. Jan, 49.9. Tokyo."></rect>
     </g>
 
+    <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true">
+        <text 
+            *ngFor="let item of xData"
+            [attr.x] = 'xScale(item) + (xScale.bandwidth()/2)'
+            [attr.y] = "scale(-10)"
+            style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)"  opacity="1">{{item}}</text>
+    </g>
+
         <!-- <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
             <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 321.5 L 790 321.5" opacity="1"></path>
             <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 271.5 L 790 271.5" opacity="1"></path>
