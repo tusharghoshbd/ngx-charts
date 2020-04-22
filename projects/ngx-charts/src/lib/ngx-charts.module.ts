@@ -3,6 +3,7 @@ import { NgxChartsComponent } from './ngx-charts.component';
 
 
 
+
 @NgModule({
   declarations: [NgxChartsComponent],
   imports: [

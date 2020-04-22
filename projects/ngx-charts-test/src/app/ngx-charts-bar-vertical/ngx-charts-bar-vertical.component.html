@@ -1,37 +1,29 @@
+<svg version="1.1" class="highcharts-root" width="800" height="400" viewBox="0 0 800 400" aria-label="Interactive chart" style="border:1px solid"
+    aria-hidden="false">
+
+    <g y-axis 
+        [yScale]="yScale"
+        [options] = "options"
+        (yAxisWidthChange)="yAxisWidthChange($event)"
+    ></g>
 
 
- <svg version="1.1" class="highcharts-root" width="900" height="500"  viewBox="0 0 800 400" aria-label="Interactive chart" aria-hidden="false">
-        
-    
-    <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
-        <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" 
-            *ngFor="let y of yScale"
-            [attr.d]="'M 40 '+scale(y)+' L '+options.width+' '+scale(y)"
-            opacity="1"></path>
-    </g>
-    
-    <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true">
-        <text x="10" style="color:#666666;cursor:default;font-size:11px;fill:#666666;"
-        text-anchor="start"
-        *ngFor="let y of yScale"
-         [attr.y]="scale(y)" opacity="1">{{y}}</text>
-    </g>
-    
-    <g data-z-index="0.1" class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
-        <rect 
-            *ngFor="let bar of bars" 
-            [attr.x]="bar.x" [attr.y]="bar.y" [attr.width]="bar.width" [attr.height]="bar.height" fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0" tabindex="-1" role="img" aria-label="1. Jan, 49.9. Tokyo."></rect>
-    </g>
+    <!-- <g data-z-index="0.1"
+        class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
+        <rect *ngFor="let bar of bars" [attr.x]="bar.x" [attr.y]="bar.y" [attr.width]="bar.width"
+            [attr.height]="bar.height" fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0"
+            tabindex="-1" role="img" aria-label="1. Jan, 49.9. Tokyo."></rect>
+    </g> -->
 
-    <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true">
+    <!-- <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true">
         <text 
-            *ngFor="let item of xData"
+            *ngFor="let item of categories"
             [attr.x] = 'xScale(item) + (xScale.bandwidth()/2)'
             [attr.y] = "scale(-10)"
             style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)"  opacity="1">{{item}}</text>
-    </g>
+    </g> -->
 
-        <!-- <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
+    <!-- <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
             <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 321.5 L 790 321.5" opacity="1"></path>
             <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 271.5 L 790 271.5" opacity="1"></path>
             <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 221.5 L 790 221.5" opacity="1"></path>
@@ -39,7 +31,7 @@
             <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 122.5 L 790 122.5" opacity="1"></path>
             <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 71.5 L 790 71.5" opacity="1"></path>
         </g> -->
-<!--         
+    <!--         
         <g class="highcharts-axis highcharts-yaxis" data-z-index="2" aria-hidden="true">
             <text x="26.4375" data-z-index="7" text-anchor="middle" transform="translate(0,0) rotate(270 26.4375 196.5)" class="highcharts-axis-title" style="color:#666666;fill:#666666;" y="196.5">
                 <tspan>Rainfall (mm)</tspan>
@@ -108,5 +100,4 @@
             <text x="60" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="end" transform="translate(0,0)" y="126" opacity="1">200</text>
             <text x="60" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="end" transform="translate(0,0)" y="76" opacity="1">250</text>
         </g> -->
-    </svg>
-	
+</svg>
