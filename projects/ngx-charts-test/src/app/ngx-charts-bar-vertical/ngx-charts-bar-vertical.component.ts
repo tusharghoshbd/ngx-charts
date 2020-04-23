@@ -17,17 +17,18 @@ import { scaleBand, scaleLinear } from "d3-scale";
     encapsulation: ViewEncapsulation.None
 })
 export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
+    
     private customOptions={
         title: '',
         subtitle: '',
         height: 400,
         width: 800,
         xAxis: {
-            title: 'Rainfall (mm)',
+            title: '',
             height: 0,
         },
         yAxis: {
-            title: 'Rainfall (mm)',
+            title: '',
             width: 0
         }
     };
@@ -74,11 +75,11 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
     }
+
     ngOnInit() {
         this.options.width=this.options.width-this.margin.left-this.margin.right;
         this.options.height=this.options.height-this.margin.top-this.margin.bottom;
         this.update();
-
     }
 
     update(): void {
@@ -87,15 +88,15 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         // this.xData.map(item => {
         //   console.log(this.xScale(item));
         // })
-
         this.createBar();
-        // console.log(this.bars);
+        console.log(this.bars);
     }
 
     getXScale(): any {
         const spacing=this.categories.length/(this.options.width/this.barPadding+1);
+        let width=this.options.width-this.options.yAxis.width;
         return scaleBand()
-            .range([40, this.options.width])
+            .range([0, width])
             .paddingInner(spacing)
             .paddingOuter(0.1)
             .domain(this.categories);
@@ -112,8 +113,12 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         let min=Math.min(0, ...uniqueValue);
         let max=Math.max(0, ...uniqueValue);
 
+        let height=this.options.height-this.options.xAxis.height;
+
+        console.log("getYScale height = "+height);
+
         return scaleLinear()
-            .range([this.options.height, 0])
+            .range([height, 0])
             .domain([min, max]);
         //return this.scale.nice().ticks();
     }
@@ -143,6 +148,17 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             yAxis: {
                 ...this.options.yAxis,
                 width:yAxisWidth
+            }
+        }
+        this.update()
+    }
+
+    xAxisHeightChange({ xAxisHeight }) { 
+        this.options={
+            ...this.options,
+            xAxis: {
+                ...this.options.xAxis,
+                height:xAxisHeight
             }
         }
         this.update()

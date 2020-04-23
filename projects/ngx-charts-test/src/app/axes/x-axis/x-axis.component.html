@@ -1,1 +1,54 @@
-<p>x-axis works!</p>
+
+<svg>
+
+    <g #xAxisHeightEl>
+
+        <!-- <g class="highcharts-legend" data-z-index="7" transform="translate(232,355)" aria-hidden="true">
+            <rect fill="none" class="highcharts-legend-box" rx="0" ry="0" x="0" y="0" width="335" height="30" visibility="visible"></rect>
+            <g data-z-index="1">
+                <g>
+                    <g class="highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0" data-z-index="1" transform="translate(8,3)">
+                        <text x="21" style="color:#333333;cursor:pointer;font-size:12px;font-weight:bold;fill:#333333;" text-anchor="start" data-z-index="2" y="15">
+                            <tspan>Tokyo</tspan>
+                        </text>
+                        <rect x="2" y="4" width="12" height="12" fill="#7cb5ec" rx="6" ry="6" class="highcharts-point" data-z-index="3"></rect>
+                    </g>
+                    <g class="highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1" data-z-index="1" transform="translate(86.875,3)">
+                        <text x="21" y="15" style="color:#333333;cursor:pointer;font-size:12px;font-weight:bold;fill:#333333;" text-anchor="start" data-z-index="2">
+                            <tspan>New York</tspan>
+                        </text>
+                        <rect x="2" y="4" width="12" height="12" fill="#434348" rx="6" ry="6" class="highcharts-point" data-z-index="3"></rect>
+                    </g>
+                    <g class="highcharts-legend-item highcharts-column-series highcharts-color-2 highcharts-series-2" data-z-index="1" transform="translate(185.671875,3)">
+                        <text x="21" y="15" style="color:#333333;cursor:pointer;font-size:12px;font-weight:bold;fill:#333333;" text-anchor="start" data-z-index="2">
+                            <tspan>London</tspan>
+                        </text>
+                        <rect x="2" y="4" width="12" height="12" fill="#90ed7d" rx="6" ry="6" class="highcharts-point" data-z-index="3"></rect>
+                    </g>
+                    <g class="highcharts-legend-item highcharts-column-series highcharts-color-3 highcharts-series-3" data-z-index="1" transform="translate(271.703125,3)">
+                        <text x="21" y="15" style="color:#333333;cursor:pointer;font-size:12px;font-weight:bold;fill:#333333;" text-anchor="start" data-z-index="2">
+                            <tspan>Berlin</tspan>
+                        </text>
+                        <rect x="2" y="4" width="12" height="12" fill="#f7a35c" rx="6" ry="6" class="highcharts-point" data-z-index="3"></rect>
+                    </g>
+                </g>
+            </g>
+        </g> -->
+        
+        <g class="highcharts-axis highcharts-yaxis" data-z-index="2" aria-hidden="true" >
+            <text [attr.x]="options.width/2" [attr.y]="options.height-10" text-anchor="middle" dominant-baseline="central"  style="margin-bottom: 50px; color:#666666;cursor:default;font-size:11px;fill:#666666;"
+                class="highcharts-axis-title"
+                >
+                {{options.xAxis ? options.xAxis.title : ""}}
+            </text>
+        </g>
+    </g>
+
+    <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true">
+        <text 
+            *ngFor="let item of categories"
+            [attr.x] = 'xScale(item) + (xScale.bandwidth()/2)+this.options.yAxis.width'
+            [attr.y] = "yScale(-10)"
+            style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)"  opacity="1">{{item}}</text>
+    </g> 
+</svg>

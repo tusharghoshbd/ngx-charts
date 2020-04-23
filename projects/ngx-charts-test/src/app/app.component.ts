@@ -14,6 +14,7 @@ export class AppComponent {
         height:400,
         width: 800,
         xAxis: {
+            title: 'Month'
         },
         yAxis: {
             title: 'Rainfall (mm)'

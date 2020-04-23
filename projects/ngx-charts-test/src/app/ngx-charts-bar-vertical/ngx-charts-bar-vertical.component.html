@@ -7,13 +7,22 @@
         (yAxisWidthChange)="yAxisWidthChange($event)"
     ></g>
 
+    <g x-axis 
+        [xScale]="xScale"
+        [yScale]="yScale"
+        [options] = "options"
+        [categories] = "categories"
+        [series] = "series"
+        (xAxisHeightChange)="xAxisHeightChange($event)"
+    ></g>
 
-    <!-- <g data-z-index="0.1"
+
+    <g data-z-index="0.1"
         class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
-        <rect *ngFor="let bar of bars" [attr.x]="bar.x" [attr.y]="bar.y" [attr.width]="bar.width"
+        <rect *ngFor="let bar of bars" [attr.x]="bar.x+this.options.yAxis.width" [attr.y]="bar.y" [attr.width]="bar.width"
             [attr.height]="bar.height" fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0"
             tabindex="-1" role="img" aria-label="1. Jan, 49.9. Tokyo."></rect>
-    </g> -->
+    </g>
 
     <!-- <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true">
         <text 

@@ -25,6 +25,8 @@ export class YAxisComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         console.log(changes)
+        console.log("-------------------")
+        console.log(this.yScale)
         this.update();
     }
     ngAfterViewInit(): void {
@@ -35,8 +37,6 @@ export class YAxisComponent implements OnInit, OnChanges {
 
     update() {
         this.ticks=this.yScale.nice().ticks();
-        
-
     }
 
     transform() {
