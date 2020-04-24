@@ -1,6 +1,11 @@
 <svg version="1.1" class="highcharts-root" width="800" height="400" viewBox="0 0 800 400" aria-label="Interactive chart" style="border:1px solid"
     aria-hidden="false">
 
+    <g header 
+        [options] = "options"
+        (headerHeightChange)="headerHeightChange($event)"
+    ></g>
+
     <g y-axis 
         [yScale]="yScale"
         [options] = "options"
@@ -19,7 +24,7 @@
 
     <g data-z-index="0.1"
         class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
-        <rect *ngFor="let bar of bars" [attr.x]="bar.x+this.options.yAxis.width" [attr.y]="bar.y" [attr.width]="bar.width"
+        <rect *ngFor="let bar of bars" [attr.x]="bar.x+this.options.yAxis.width+20" [attr.y]="bar.y+20+this.options.header.height" [attr.width]="bar.width"
             [attr.height]="bar.height" fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0"
             tabindex="-1" role="img" aria-label="1. Jan, 49.9. Tokyo."></rect>
     </g>

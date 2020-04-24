@@ -23,6 +23,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         subtitle: '',
         height: 400,
         width: 800,
+        padding:10,
         xAxis: {
             title: '',
             height: 0,
@@ -30,6 +31,16 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         yAxis: {
             title: '',
             width: 0
+        },
+        plotBackground: {
+            x: 0,
+            y: 0,
+            height: 0,
+            width:0
+        },
+        header: {
+            height: 0,
+            width:0
         }
     };
 
@@ -38,8 +49,13 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     @Input() set options(obj: any) {
         let xAxis=obj.xAxis;
         let yAxis=obj.yAxis;
+        let plotBackground=obj.plotBackground;
+        let header=obj.header;
+
         delete obj['xAxis'];
         delete obj['yAxis'];
+        delete obj['plotBackground'];
+        delete obj['header'];
 
         this._options={
             ...this.customOptions,
@@ -51,6 +67,14 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             yAxis: {
                 ...this.customOptions.yAxis,
                 ...yAxis
+            },
+            plotBackground: {
+                ...this.customOptions.plotBackground,
+                ...plotBackground
+            },
+            header: {
+                ...this.customOptions.header,
+                ...header
             }
         };
     }
@@ -88,13 +112,17 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         // this.xData.map(item => {
         //   console.log(this.xScale(item));
         // })
-        this.createBar();
-        console.log(this.bars);
+        this.calPlotBackground()
+        console.log(this.options)
+        setTimeout(() => this.createBar());
+        //this.createBar();
+        // console.log("-------------")
+        // console.log(this.bars);
     }
 
     getXScale(): any {
         const spacing=this.categories.length/(this.options.width/this.barPadding+1);
-        let width=this.options.width-this.options.yAxis.width;
+        let width=this.options.width-this.options.yAxis.width-20;
         return scaleBand()
             .range([0, width])
             .paddingInner(spacing)
@@ -113,9 +141,9 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         let min=Math.min(0, ...uniqueValue);
         let max=Math.max(0, ...uniqueValue);
 
-        let height=this.options.height-this.options.xAxis.height;
+        let height=this.options.height-this.options.xAxis.height-this.options.header.height;
 
-        console.log("getYScale height = "+height);
+        // console.log("getYScale height = "+height);
 
         return scaleLinear()
             .range([height, 0])
@@ -123,6 +151,19 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         //return this.scale.nice().ticks();
     }
 
+
+    calPlotBackground() { 
+        this.options={
+            ...this.options,
+            plotBackground: {
+                ...this.options.plotBackground,
+                x: 0,
+                y: 0,
+                height: 0,
+                width:0
+            }
+        }
+    }
     createBar() {
         this.bars=this.categories.map((item, index) => {
             const bar: any={
@@ -159,6 +200,16 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             xAxis: {
                 ...this.options.xAxis,
                 height:xAxisHeight
+            }
+        }
+        this.update()
+    }
+    headerHeightChange({ headerHeight }) { 
+        this.options={
+            ...this.options,
+            header: {
+                ...this.options.header,
+                height:headerHeight
             }
         }
         this.update()
