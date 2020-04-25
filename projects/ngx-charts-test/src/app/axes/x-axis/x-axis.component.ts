@@ -32,13 +32,13 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
         let xAxisHeight=parseInt(this.xAxisHeightEl.nativeElement.getBoundingClientRect().height, 10);
         if (xAxisHeight<50)
             xAxisHeight=50;
-        
+        //console.log("xAxisHeight "+xAxisHeight);
         this.xAxisHeightChange.emit({ xAxisHeight });
         //setTimeout(() => this.updateDims());
     }
 
     update() {
-        //this.ticks=this.xScale.nice().ticks();
+        this.ticks=this.yScale.nice().ticks();
     }
 
 

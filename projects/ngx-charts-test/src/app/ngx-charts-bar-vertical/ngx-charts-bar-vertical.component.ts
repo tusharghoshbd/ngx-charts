@@ -88,7 +88,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     @Input() categories: any=[];
     @Input() series: any=[];
 
-    @Input() barPadding=8;
+    @Input() barPadding=30;
 
     // scale: any;
     xScale: any;
@@ -123,7 +123,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         const hostElem=this.chartElement.nativeElement;
         let dims=hostElem.parentNode!==null? hostElem.parentNode.getBoundingClientRect():{height:400, width:800};
         
-        console.log(dims)
+        //console.log(dims)
         
         var style=hostElem.parentNode.currentStyle||window.getComputedStyle(hostElem.parentNode);
        
@@ -139,14 +139,15 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                     this.groupName.push(item.name);
             })
             this.createBar();
-            //console.log(this.bars)
+            console.log(this.bars)
             // console.log("window:resize111")
             // this.cdr.detectChanges(); 
         });
     }
 
     getXScale(): any {
-        const spacing=this.categories.length/(this.options.width/this.barPadding+1);
+        const spacing= (this.categories.length/(this.options.width/this.barPadding) ) ;
+        //console.log(spacing)
         let width=this.options.width-this.options.yAxis.width;
         return scaleBand()
             .range([0, width])
@@ -163,12 +164,17 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             });
         });
 
-        let min=Math.min(0, ...uniqueValue);
+        let min=Math.min(...uniqueValue);
+        min=min>0 ? 0:min;
+        // console.log(min);
         let max=Math.max(0, ...uniqueValue);
+        max=max > 0 ? max:0;
+        // console.log(max);
 
         let height=this.options.height-this.options.xAxis.height-this.options.header.height;
 
-        // console.log("getYScale height = "+height);
+        // console.log(this.options.header.height, this.options.xAxis.height)
+        // console.log(min, max, height);
 
         return scaleLinear()
             .range([height, 0])
@@ -192,15 +198,15 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     createBar() {
         this.bars=this.categories.map((item, index) => {
             const bar: any={
-                value: item,
-                //label,
+                value: item,  //jan,feb
+                //label, 
                 //roundEdges,
-                data: this.series[0].data[index],
-                width: this.xScale.bandwidth(),
+                data: this.series[0].data[index], //101,202
                 //formattedLabel,
-                height: this.yScale(0)-this.yScale(this.series[0].data[index]),
-                x: this.xScale(item),
-                y: this.yScale(this.series[0].data[index]),
+                width: this.xScale.bandwidth(),
+                height:  this.series[0].data[index] > 0  ? (this.yScale(0)-this.yScale(this.series[0].data[index]) ) : (this.yScale(this.series[0].data[index]) - this.yScale(0) ),
+                x: this.xScale(item) ,
+                y: this.series[0].data[index] > 0 ? this.yScale(this.series[0].data[index]) : this.yScale(0) ,
             };
 
             return bar;
@@ -208,7 +214,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     }
 
     yAxisWidthChange({ yAxisWidth }) {
-        console.log("yAxisWidth "+yAxisWidth)
+        //console.log("yAxisWidth "+yAxisWidth)
         this.options={
             ...this.options,
             yAxis: {
@@ -242,7 +248,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        console.log("window:resize")
+        //console.log("window:resize")
         setTimeout(() => this.update());
     }
 

@@ -21,12 +21,15 @@ export class YAxisComponent implements OnInit, OnChanges {
     
     constructor() { }
 
-    ngOnInit() { console.log("test11") }
+    ngOnInit() {
+        // console.log(this.yScale)
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         // console.log(changes)
         // console.log("-------------------")
         // console.log(this.yScale)
+        //console.log(this.yScale(-200))
         this.update();
     }
     ngAfterViewInit(): void {
@@ -38,12 +41,14 @@ export class YAxisComponent implements OnInit, OnChanges {
 
     update() {
         this.ticks=this.yScale.nice().ticks();
+        //console.log(this.ticks)
     }
 
     transform() {
         return "rotate(270, 10, "+this.options.height/2+")";
     }
     pathDirection(tick) { 
+        //console.log(tick, this.yScale(tick))
         return 'M '+(this.options.yAxis.width)+' '+(this.yScale(tick)+this.options.header.height)+' L '+(this.options.width)+' '+(this.yScale(tick)+this.options.header.height);
     }
 
