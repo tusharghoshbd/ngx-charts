@@ -254,14 +254,11 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     onResize(event) {
         console.log("window:resize")
         setTimeout(() => this.update());
-
     }
 
     private strToNumber(str) { 
-
         let numberPattern=/\d+/g;
         let num=str.match(numberPattern).join('')
         return parseFloat(num);
-
     }
 }

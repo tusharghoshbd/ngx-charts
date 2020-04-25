@@ -1,0 +1,59 @@
+
+.chart-legend ul li {
+    display: inline-block;
+}
+.chart-legend {
+    text-align: center;
+    display: inline-block;
+    padding: 0;
+}
+.chart-legend .legend-label {
+    cursor: pointer;
+    font-size: 90%;
+    margin: 8px;
+    color: #afb7c8;
+    text-align: center;
+}
+.chart-legend ul, .chart-legend li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.chart-legend .legend-labels {
+    line-height: 85%;
+    list-style: none;
+    /* text-align: left; */
+    float: left;
+    width: 100%;
+    border-radius: 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+.chart-legend .legend-label {
+    cursor: pointer;
+    font-size: 90%;
+    margin: 8px;
+    color: #afb7c8;
+}
+
+.chart-legend .legend-label-color {
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    margin-right: 5px;
+    color: #5b646b;
+    border-radius: 3px;
+}
+
+.chart-legend .legend-label-text {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 15px;
+    font-size: 12px;
+    /* width: calc(100% - 20px); */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

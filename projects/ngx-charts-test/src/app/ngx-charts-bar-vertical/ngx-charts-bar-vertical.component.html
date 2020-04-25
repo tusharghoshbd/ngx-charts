@@ -1,123 +1,114 @@
-<svg version="1.1" class="highcharts-root"  
-    [attr.padding]="options.padding" 
-    [attr.width]="options.width" 
-    [attr.height]="options.height" 
-    [attr.viewBox]="'0 0 '+options.width +' '+ options.height" aria-label="Interactive chart" 
-    [style.border]="'1px solid'"
-    [style.padding]="options.padding"
-    aria-hidden="false">
-
-    <g header 
-        [options] = "options"
-        (headerHeightChange)="headerHeightChange($event)"
-    ></g>
-
-    <g y-axis 
-        [yScale]="yScale"
-        [options] = "options"
-        (yAxisWidthChange)="yAxisWidthChange($event)"
-    ></g>
-
-    <g x-axis 
-        [xScale]="xScale"
-        [yScale]="yScale"
-        [options] = "options"
-        [categories] = "categories"
-        [series] = "series"
-        (xAxisHeightChange)="xAxisHeightChange($event)"
-    ></g>
+<div [style.width]="options.width+'px'">
 
 
-    <g data-z-index="0.1"
-        class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
-        <rect *ngFor="let bar of bars" [attr.x]="bar.x+this.options.yAxis.width+20" [attr.y]="bar.y+20+this.options.header.height" [attr.width]="bar.width"
-            [attr.height]="bar.height" fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0"
-            tabindex="-1" role="img" aria-label="1. Jan, 49.9. Tokyo."></rect>
-    </g>
+    <svg version="1.1" class="highcharts-root" [attr.padding]="options.padding" [attr.width]="options.width"
+        [attr.height]="options.height" [attr.viewBox]="'0 0 '+options.width +' '+ options.height"
+        aria-label="Interactive chart" [style.border]="'0px solid gray'" [style.padding]="options.padding"
+        aria-hidden="false">
 
-    <!-- <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true">
-        <text 
-            *ngFor="let item of categories"
-            [attr.x] = 'xScale(item) + (xScale.bandwidth()/2)'
-            [attr.y] = "scale(-10)"
-            style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)"  opacity="1">{{item}}</text>
-    </g> -->
+        <g header [options]="options" (headerHeightChange)="headerHeightChange($event)"></g>
 
-    <!-- <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
-            <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 321.5 L 790 321.5" opacity="1"></path>
-            <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 271.5 L 790 271.5" opacity="1"></path>
-            <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 221.5 L 790 221.5" opacity="1"></path>
-            <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 172.5 L 790 172.5" opacity="1"></path>
-            <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 122.5 L 790 122.5" opacity="1"></path>
-            <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line" d="M 75 71.5 L 790 71.5" opacity="1"></path>
-        </g> -->
-    <!--         
-        <g class="highcharts-axis highcharts-yaxis" data-z-index="2" aria-hidden="true">
-            <text x="26.4375" data-z-index="7" text-anchor="middle" transform="translate(0,0) rotate(270 26.4375 196.5)" class="highcharts-axis-title" style="color:#666666;fill:#666666;" y="196.5">
-                <tspan>Rainfall (mm)</tspan>
-            </text>
+        <g y-axis [yScale]="yScale" [options]="options" (yAxisWidthChange)="yAxisWidthChange($event)"></g>
+
+        <g x-axis [xScale]="xScale" [yScale]="yScale" [options]="options" [categories]="categories" [series]="series"
+            (xAxisHeightChange)="xAxisHeightChange($event)"></g>
+
+
+        <g data-z-index="0.1"
+            class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
+            <rect *ngFor="let bar of bars" [attr.x]="bar.x+this.options.yAxis.width+20"
+                [attr.y]="bar.y+20+this.options.header.height" [attr.width]="bar.width" [attr.height]="bar.height"
+                fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0" tabindex="-1" role="img"
+                aria-label="1. Jan, 49.9. Tokyo."></rect>
         </g>
-        
-      
-        <text x="400" text-anchor="middle" class="highcharts-title" data-z-index="4" style="color:#333333;font-size:18px;fill:#333333;" y="24" aria-hidden="true">
-            <tspan>Monthly Average Rainfall</tspan>
-        </text>
-        <text x="400" text-anchor="middle" class="highcharts-subtitle" data-z-index="4" style="color:#666666;fill:#666666;" y="52" aria-hidden="true">
-            <tspan>Source: WorldClimate.com</tspan>
-        </text>
-		
 
-        <g class="highcharts-legend" data-z-index="7" transform="translate(232,355)" aria-hidden="true">
-            <rect fill="none" class="highcharts-legend-box" rx="0" ry="0" x="0" y="0" width="335" height="30" visibility="visible"></rect>
-            <g data-z-index="1">
-                <g>
-                    <g class="highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0" data-z-index="1" transform="translate(8,3)">
-                        <text x="21" style="color:#333333;cursor:pointer;font-size:12px;font-weight:bold;fill:#333333;" text-anchor="start" data-z-index="2" y="15">
-                            <tspan>Tokyo</tspan>
-                        </text>
-                        <rect x="2" y="4" width="12" height="12" fill="#7cb5ec" rx="6" ry="6" class="highcharts-point" data-z-index="3"></rect>
-                    </g>
-                    <g class="highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1" data-z-index="1" transform="translate(86.875,3)">
-                        <text x="21" y="15" style="color:#333333;cursor:pointer;font-size:12px;font-weight:bold;fill:#333333;" text-anchor="start" data-z-index="2">
-                            <tspan>New York</tspan>
-                        </text>
-                        <rect x="2" y="4" width="12" height="12" fill="#434348" rx="6" ry="6" class="highcharts-point" data-z-index="3"></rect>
-                    </g>
-                    <g class="highcharts-legend-item highcharts-column-series highcharts-color-2 highcharts-series-2" data-z-index="1" transform="translate(185.671875,3)">
-                        <text x="21" y="15" style="color:#333333;cursor:pointer;font-size:12px;font-weight:bold;fill:#333333;" text-anchor="start" data-z-index="2">
-                            <tspan>London</tspan>
-                        </text>
-                        <rect x="2" y="4" width="12" height="12" fill="#90ed7d" rx="6" ry="6" class="highcharts-point" data-z-index="3"></rect>
-                    </g>
-                    <g class="highcharts-legend-item highcharts-column-series highcharts-color-3 highcharts-series-3" data-z-index="1" transform="translate(271.703125,3)">
-                        <text x="21" y="15" style="color:#333333;cursor:pointer;font-size:12px;font-weight:bold;fill:#333333;" text-anchor="start" data-z-index="2">
-                            <tspan>Berlin</tspan>
-                        </text>
-                        <rect x="2" y="4" width="12" height="12" fill="#f7a35c" rx="6" ry="6" class="highcharts-point" data-z-index="3"></rect>
-                    </g>
-                </g>
-            </g>
-        </g>
-        <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true">
-            <text x="104.79166666666332" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Jan</text>
-            <text x="164.37500000000335" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Feb</text>
-            <text x="223.95833333333334" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Mar</text>
-            <text x="283.54166666666333" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Apr</text>
-            <text x="343.1250000000033" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">May</text>
-            <text x="402.7083333333333" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Jun</text>
-            <text x="462.29166666666333" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Jul</text>
-            <text x="521.8750000000034" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Aug</text>
-            <text x="581.4583333333334" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Sep</text>
-            <text x="641.0416666666633" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Oct</text>
-            <text x="700.6250000000034" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Nov</text>
-            <text x="760.2083333333334" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)" y="340" opacity="1">Dec</text>
-        </g>
-        <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true">
-            <text x="60" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="end" transform="translate(0,0)" y="325" opacity="1">0</text>
-            <text x="60" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="end" transform="translate(0,0)" y="275" opacity="1">50</text>
-            <text x="60" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="end" transform="translate(0,0)" y="225" opacity="1">100</text>
-            <text x="60" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="end" transform="translate(0,0)" y="176" opacity="1">150</text>
-            <text x="60" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="end" transform="translate(0,0)" y="126" opacity="1">200</text>
-            <text x="60" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="end" transform="translate(0,0)" y="76" opacity="1">250</text>
-        </g> -->
-</svg>
+    </svg>
+
+
+    <div class="chart-legend ng-tns-c30-0 ng-star-inserted" [style.width]="options.width+'px'">
+        <div style="text-align: center;">
+
+            <div class="legend-wrap">
+                <ul class="legend-labels" style="max-height: 255px;">
+                    <li class="legend-label ng-star-inserted">
+                        <div ng-reflect-color="#a8385d" ng-reflect-label="Germany" ng-reflect-formatted-label="Germany"
+                            ng-reflect-is-active="false">
+                            <span tabindex="-1" title="Germany" class="">
+                                <span class="legend-label-color" style="background-color: rgb(168, 56, 93);"> </span>
+                                <span class="legend-label-text">
+                                    Germany
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="legend-label ng-star-inserted">
+                        <div ng-reflect-color="#a8385d" ng-reflect-label="Germany" ng-reflect-formatted-label="Germany"
+                            ng-reflect-is-active="false">
+                            <span tabindex="-1" title="Germany" class="">
+                                <span class="legend-label-color" style="background-color: rgb(168, 56, 93);"> </span>
+                                <span class="legend-label-text">
+                                    Germany
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="legend-label ng-star-inserted">
+                        <div ng-reflect-color="#7aa3e5" ng-reflect-label="United States"
+                            ng-reflect-formatted-label="United States" ng-reflect-is-active="false">
+                            <span tabindex="-1" title="United States" class="">
+                                <span class="legend-label-color" style="background-color: rgb(122, 163, 229);"> </span>
+                                <span class="legend-label-text">
+                                    United States
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="legend-label ng-star-inserted">
+                        <div ng-reflect-color="#a27ea8" ng-reflect-label="France" ng-reflect-formatted-label="France"
+                            ng-reflect-is-active="false">
+                            <span tabindex="-1" title="France" class="">
+                                <span class="legend-label-color" style="background-color: rgb(162, 126, 168);"> </span>
+                                <span class="legend-label-text">
+                                    France
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="legend-label ng-star-inserted">
+                        <div ng-reflect-color="#aae3f5" ng-reflect-label="United Kingdom"
+                            ng-reflect-formatted-label="United Kingdom" ng-reflect-is-active="false">
+                            <span tabindex="-1" title="United Kingdom" class="">
+                                <span class="legend-label-color" style="background-color: rgb(170, 227, 245);"> </span>
+                                <span class="legend-label-text">
+                                    United Kingdom
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="legend-label ng-star-inserted">
+                        <div ng-reflect-color="#adcded" ng-reflect-label="Spain" ng-reflect-formatted-label="Spain"
+                            ng-reflect-is-active="false">
+                            <span tabindex="-1" title="Spain" class="">
+                                <span class="legend-label-color" style="background-color: rgb(173, 205, 237);"> </span>
+                                <span class="legend-label-text">
+                                    Spain
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    <li class="legend-label ng-star-inserted">
+                        <div ng-reflect-color="#a95963" ng-reflect-label="Italy" ng-reflect-formatted-label="Italy"
+                            ng-reflect-is-active="false">
+                            <span tabindex="-1" title="Italy" class="">
+                                <span class="legend-label-color" style="background-color: rgb(169, 89, 99);"> </span>
+                                <span class="legend-label-text">
+                                    Italy
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
