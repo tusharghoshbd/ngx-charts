@@ -41,7 +41,7 @@ export class YAxisComponent implements OnInit, OnChanges {
     }
 
     transform() {
-        return "rotate(270, 20, "+this.options.height/2+")";
+        return "rotate(270, 10, "+this.options.height/2+")";
     }
     pathDirection(tick) { 
         return 'M '+(this.options.yAxis.width+20)+' '+(this.yScale(tick)+20+this.options.header.height)+' L '+(this.options.width)+' '+(this.yScale(tick)+20+this.options.header.height);

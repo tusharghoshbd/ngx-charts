@@ -22,7 +22,7 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
     constructor() { }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes)
+        // console.log(changes)
         this.update();
     }
 

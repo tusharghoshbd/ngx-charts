@@ -12,7 +12,7 @@ export class AppComponent {
         title: 'Monthly Average Rainfall',
         subtitle: 'Source: WorldClimate.com',
         height:400,
-        width: 800,
+        // width: 700,
         xAxis: {
             title: 'Month'
         },

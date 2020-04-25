@@ -5,7 +5,9 @@ import {
     OnChanges,
     OnInit,
     SimpleChanges,
+    ElementRef,
     ChangeDetectorRef,
+    HostListener
 } from "@angular/core";
 
 import { scaleBand, scaleLinear } from "d3-scale";
@@ -17,13 +19,13 @@ import { scaleBand, scaleLinear } from "d3-scale";
     encapsulation: ViewEncapsulation.None
 })
 export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
-    
+
     private customOptions={
         title: '',
         subtitle: '',
-        height: 400,
-        width: 800,
-        padding:10,
+        height: 0,
+        width: 0,
+        padding: 5,
         xAxis: {
             title: '',
             height: 0,
@@ -36,11 +38,11 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             x: 0,
             y: 0,
             height: 0,
-            width:0
+            width: 0
         },
         header: {
             height: 0,
-            width:0
+            width: 0
         }
     };
 
@@ -97,7 +99,13 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         left: 0,
     };
 
+
+    constructor(public chartElement: ElementRef) { }
+
+
     ngOnChanges(changes: SimpleChanges): void {
+
+        setTimeout(() => this.update());
     }
 
     ngOnInit() {
@@ -107,13 +115,40 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     }
 
     update(): void {
+
+        // console.log("before dim")
+        // console.log( JSON.stringify(this.options) )
+        const hostElem=this.chartElement.nativeElement;
+        let dims=hostElem.parentNode!==null? hostElem.parentNode.getBoundingClientRect():{height:400, width:800};
+        
+        var style=hostElem.parentNode.currentStyle||window.getComputedStyle(hostElem.parentNode);
+        // console.log(style)
+//      paddingLeft: "15px"
+//      paddingRight: "15px"
+        // console.log(hostElem.parentNode.getBoundingClientRect());
+        // console.log(style.paddingLeft, style.paddingRight)
+        this.options.height = !this.options.height? dims.height - this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)  :this.options.height;
+        this.options.width = !this.options.width ? dims.width- this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)   : this.options.width;
+        
+        // if (hostElem.parentNode!==null) {
+        //     dims=hostElem.parentNode.getBoundingClientRect();
+        // }
+        // if (!this.options.height) { 
+        //     this.options.height=dims.height;
+        // }
+        // if (!this.options.width) { 
+        //     this.options.width=dims.width;
+        // // }
+        // console.log("after dim")
+        // console.log( JSON.stringify(this.options) )
+
         this.xScale=this.getXScale();
         this.yScale=this.getYScale();
         // this.xData.map(item => {
         //   console.log(this.xScale(item));
         // })
         this.calPlotBackground()
-        console.log(this.options)
+        
         setTimeout(() => this.createBar());
         //this.createBar();
         // console.log("-------------")
@@ -152,7 +187,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     }
 
 
-    calPlotBackground() { 
+    calPlotBackground() {
         this.options={
             ...this.options,
             plotBackground: {
@@ -160,7 +195,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                 x: 0,
                 y: 0,
                 height: 0,
-                width:0
+                width: 0
             }
         }
     }
@@ -188,30 +223,45 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             ...this.options,
             yAxis: {
                 ...this.options.yAxis,
-                width:yAxisWidth
+                width: yAxisWidth
             }
         }
         this.update()
     }
 
-    xAxisHeightChange({ xAxisHeight }) { 
+    xAxisHeightChange({ xAxisHeight }) {
         this.options={
             ...this.options,
             xAxis: {
                 ...this.options.xAxis,
-                height:xAxisHeight
+                height: xAxisHeight
             }
         }
         this.update()
     }
-    headerHeightChange({ headerHeight }) { 
+    headerHeightChange({ headerHeight }) {
         this.options={
             ...this.options,
             header: {
                 ...this.options.header,
-                height:headerHeight
+                height: headerHeight
             }
         }
         this.update()
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        console.log("window:resize")
+        setTimeout(() => this.update());
+
+    }
+
+    private strToNumber(str) { 
+
+        let numberPattern=/\d+/g;
+        let num=str.match(numberPattern).join('')
+        return parseFloat(num);
+
     }
 }
