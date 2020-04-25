@@ -30,8 +30,8 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
 
     ngAfterViewInit(): void {
         let xAxisHeight=parseInt(this.xAxisHeightEl.nativeElement.getBoundingClientRect().height, 10);
-        if (xAxisHeight<70)
-            xAxisHeight=70;
+        if (xAxisHeight<50)
+            xAxisHeight=50;
         
         this.xAxisHeightChange.emit({ xAxisHeight });
         //setTimeout(() => this.updateDims());

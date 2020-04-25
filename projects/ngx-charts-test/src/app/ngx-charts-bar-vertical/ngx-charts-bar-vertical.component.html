@@ -1,4 +1,4 @@
-<div [style.width]="options.width+'px'">
+<div [style.width]="options.width+'px'" [style.border]="'1px solid #f3f3f3'">
 
 
     <svg version="1.1" class="highcharts-root" [attr.padding]="options.padding" [attr.width]="options.width"
@@ -16,99 +16,19 @@
 
         <g data-z-index="0.1"
             class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
-            <rect *ngFor="let bar of bars" [attr.x]="bar.x+this.options.yAxis.width+20"
-                [attr.y]="bar.y+20+this.options.header.height" [attr.width]="bar.width" [attr.height]="bar.height"
+            <rect *ngFor="let bar of bars" [attr.x]="bar.x+this.options.yAxis.width"
+                [attr.y]="bar.y+this.options.header.height" [attr.width]="bar.width" [attr.height]="bar.height"
                 fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0" tabindex="-1" role="img"
                 aria-label="1. Jan, 49.9. Tokyo."></rect>
         </g>
 
     </svg>
 
-
-    <div class="chart-legend ng-tns-c30-0 ng-star-inserted" [style.width]="options.width+'px'">
-        <div style="text-align: center;">
-
-            <div class="legend-wrap">
-                <ul class="legend-labels" style="max-height: 255px;">
-                    <li class="legend-label ng-star-inserted">
-                        <div ng-reflect-color="#a8385d" ng-reflect-label="Germany" ng-reflect-formatted-label="Germany"
-                            ng-reflect-is-active="false">
-                            <span tabindex="-1" title="Germany" class="">
-                                <span class="legend-label-color" style="background-color: rgb(168, 56, 93);"> </span>
-                                <span class="legend-label-text">
-                                    Germany
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                    <li class="legend-label ng-star-inserted">
-                        <div ng-reflect-color="#a8385d" ng-reflect-label="Germany" ng-reflect-formatted-label="Germany"
-                            ng-reflect-is-active="false">
-                            <span tabindex="-1" title="Germany" class="">
-                                <span class="legend-label-color" style="background-color: rgb(168, 56, 93);"> </span>
-                                <span class="legend-label-text">
-                                    Germany
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                    <li class="legend-label ng-star-inserted">
-                        <div ng-reflect-color="#7aa3e5" ng-reflect-label="United States"
-                            ng-reflect-formatted-label="United States" ng-reflect-is-active="false">
-                            <span tabindex="-1" title="United States" class="">
-                                <span class="legend-label-color" style="background-color: rgb(122, 163, 229);"> </span>
-                                <span class="legend-label-text">
-                                    United States
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                    <li class="legend-label ng-star-inserted">
-                        <div ng-reflect-color="#a27ea8" ng-reflect-label="France" ng-reflect-formatted-label="France"
-                            ng-reflect-is-active="false">
-                            <span tabindex="-1" title="France" class="">
-                                <span class="legend-label-color" style="background-color: rgb(162, 126, 168);"> </span>
-                                <span class="legend-label-text">
-                                    France
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                    <li class="legend-label ng-star-inserted">
-                        <div ng-reflect-color="#aae3f5" ng-reflect-label="United Kingdom"
-                            ng-reflect-formatted-label="United Kingdom" ng-reflect-is-active="false">
-                            <span tabindex="-1" title="United Kingdom" class="">
-                                <span class="legend-label-color" style="background-color: rgb(170, 227, 245);"> </span>
-                                <span class="legend-label-text">
-                                    United Kingdom
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                    <li class="legend-label ng-star-inserted">
-                        <div ng-reflect-color="#adcded" ng-reflect-label="Spain" ng-reflect-formatted-label="Spain"
-                            ng-reflect-is-active="false">
-                            <span tabindex="-1" title="Spain" class="">
-                                <span class="legend-label-color" style="background-color: rgb(173, 205, 237);"> </span>
-                                <span class="legend-label-text">
-                                    Spain
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                    <li class="legend-label ng-star-inserted">
-                        <div ng-reflect-color="#a95963" ng-reflect-label="Italy" ng-reflect-formatted-label="Italy"
-                            ng-reflect-is-active="false">
-                            <span tabindex="-1" title="Italy" class="">
-                                <span class="legend-label-color" style="background-color: rgb(169, 89, 99);"> </span>
-                                <span class="legend-label-text">
-                                    Italy
-                                </span>
-                            </span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <chart-legend
+        *ngIf="groupName.length"
+        [options]="options"
+        [series] = "series"    
+    >
+    </chart-legend>
+  
 </div>

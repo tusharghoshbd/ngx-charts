@@ -1,7 +1,7 @@
 <svg>
     <g #yAxisWidthEl>
         <g class="highcharts-axis highcharts-yaxis" data-z-index="2" aria-hidden="true">
-            <text x="20" [attr.y]="options.height/2" text-anchor="middle" dominant-baseline="central" 
+            <text x="10" [attr.y]="options.height/2" text-anchor="middle" dominant-baseline="central" 
                 style="color:#666666;cursor:default;font-size:11px;fill:#666666;" 
                 class="highcharts-axis-title"
                 [attr.transform]="transform()">
@@ -9,8 +9,8 @@
             </text>
         </g>
         <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true">
-            <text x="40" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="right"
-                *ngFor="let tick of ticks" [attr.y]="yScale(tick)+23++this.options.header.height" opacity="1">{{tick}} &nbsp;</text>
+            <text x="30" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="right"
+                *ngFor="let tick of ticks" [attr.y]="yScale(tick)+3+this.options.header.height" opacity="1">{{tick}}</text>
         </g>
     </g>
     <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">

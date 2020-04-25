@@ -1,0 +1,21 @@
+<div class="chart-legend ng-tns-c30-0 ng-star-inserted" [style.width]="options.width+'px'">
+    <div style="text-align: center;">
+        <div class="legend-wrap">
+            <ul class="legend-labels" style="max-height: 255px;">
+                <li class="legend-label ng-star-inserted"
+                  *ngFor="let gn of series"  
+                >
+                    <div ng-reflect-color="#a8385d" ng-reflect-label="Germany" ng-reflect-formatted-label="Germany"
+                        ng-reflect-is-active="false">
+                        <span tabindex="-1" class="" *ngIf="gn.name">
+                            <span class="legend-label-color" style="background-color: rgb(168, 56, 93);"> </span>
+                            <span class="legend-label-text">
+                                {{gn.name}}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

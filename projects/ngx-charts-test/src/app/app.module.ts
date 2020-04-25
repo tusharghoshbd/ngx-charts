@@ -8,6 +8,7 @@ import { ngxChartsBarVerticalModule } from './ngx-charts-bar-vertical/ngx-charts
 import { AxesModule } from './axes/axes.module';
 import { HeaderModule } from './header/header.module';
 
+import { LegendModule } from './legend/legend.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { HeaderModule } from './header/header.module';
         BrowserModule,
         ngxChartsBarVerticalModule,
         AxesModule,
-        HeaderModule
+        HeaderModule,
+        LegendModule
     ],
     providers: [],
     bootstrap: [AppComponent]

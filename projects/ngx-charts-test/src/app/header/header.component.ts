@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit, OnChanges, AfterViewInit {
     ngOnInit() {}
 
     ngAfterViewInit(): void {
-        let headerHeight=parseInt(this.headerHeightEl.nativeElement.getBoundingClientRect().height, 10);
+        let headerHeight=parseInt(this.headerHeightEl.nativeElement.getBoundingClientRect().height, 10)+20;
         console.log("headerHeight "+headerHeight)
         this.headerHeightChange.emit({ headerHeight });
         //setTimeout(() => this.updateDims());

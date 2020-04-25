@@ -88,17 +88,17 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
 
     @Input() barPadding=8;
 
-    scale: any;
+    // scale: any;
     xScale: any;
     yScale: any;
     bars: any;
-    margin={
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-    };
-
+    // margin={
+    //     top: 0,
+    //     right: 0,
+    //     bottom: 0,
+    //     left: 0,
+    // };
+    groupName:any[] =[] 
 
     constructor(public chartElement: ElementRef) { }
 
@@ -109,55 +109,36 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     }
 
     ngOnInit() {
-        this.options.width=this.options.width-this.margin.left-this.margin.right;
-        this.options.height=this.options.height-this.margin.top-this.margin.bottom;
+        this.options.width=this.options.width;
+        this.options.height=this.options.height;
         this.update();
     }
 
     update(): void {
 
-        // console.log("before dim")
-        // console.log( JSON.stringify(this.options) )
         const hostElem=this.chartElement.nativeElement;
         let dims=hostElem.parentNode!==null? hostElem.parentNode.getBoundingClientRect():{height:400, width:800};
         
         var style=hostElem.parentNode.currentStyle||window.getComputedStyle(hostElem.parentNode);
-        // console.log(style)
-//      paddingLeft: "15px"
-//      paddingRight: "15px"
-        // console.log(hostElem.parentNode.getBoundingClientRect());
-        // console.log(style.paddingLeft, style.paddingRight)
+       
         this.options.height = !this.options.height? dims.height - this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)  :this.options.height;
         this.options.width = !this.options.width ? dims.width- this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)   : this.options.width;
-        
-        // if (hostElem.parentNode!==null) {
-        //     dims=hostElem.parentNode.getBoundingClientRect();
-        // }
-        // if (!this.options.height) { 
-        //     this.options.height=dims.height;
-        // }
-        // if (!this.options.width) { 
-        //     this.options.width=dims.width;
-        // // }
-        // console.log("after dim")
-        // console.log( JSON.stringify(this.options) )
 
         this.xScale=this.getXScale();
         this.yScale=this.getYScale();
-        // this.xData.map(item => {
-        //   console.log(this.xScale(item));
-        // })
         this.calPlotBackground()
-        
-        setTimeout(() => this.createBar());
-        //this.createBar();
-        // console.log("-------------")
-        // console.log(this.bars);
+        setTimeout(() => {
+            this.series.map(item => { 
+                if (item.name)
+                    this.groupName.push(item.name);
+            })
+            this.createBar();
+        });
     }
 
     getXScale(): any {
         const spacing=this.categories.length/(this.options.width/this.barPadding+1);
-        let width=this.options.width-this.options.yAxis.width-20;
+        let width=this.options.width-this.options.yAxis.width;
         return scaleBand()
             .range([0, width])
             .paddingInner(spacing)

@@ -58,8 +58,8 @@
         <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true">
             <text 
                 *ngFor="let item of categories; let last = last;let first = first;"
-                [attr.x] = 'xScale(item) + (xScale.bandwidth()/2)+this.options.yAxis.width+20'
-                [attr.y] = "yScale(first)+40+this.options.header.height"
+                [attr.x] = 'xScale(item) + (xScale.bandwidth()/2)+this.options.yAxis.width'
+                [attr.y] = "yScale(first)+20+this.options.header.height"
                 style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" transform="translate(0,0)"  opacity="1">{{item}}</text>
         </g> 
     </g>

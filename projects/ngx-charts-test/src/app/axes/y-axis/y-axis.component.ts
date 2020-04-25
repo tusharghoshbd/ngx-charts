@@ -30,8 +30,8 @@ export class YAxisComponent implements OnInit, OnChanges {
         this.update();
     }
     ngAfterViewInit(): void {
-        const yAxisWidth=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10);
-        console.log("yAxisWidth :"+yAxisWidth)
+        const yAxisWidth=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10)+20;
+        // console.log("yAxisWidth :"+yAxisWidth)
         this.yAxisWidthChange.emit({ yAxisWidth });
         //setTimeout(() => this.updateDims());
     }
@@ -44,7 +44,7 @@ export class YAxisComponent implements OnInit, OnChanges {
         return "rotate(270, 10, "+this.options.height/2+")";
     }
     pathDirection(tick) { 
-        return 'M '+(this.options.yAxis.width+20)+' '+(this.yScale(tick)+20+this.options.header.height)+' L '+(this.options.width)+' '+(this.yScale(tick)+20+this.options.header.height);
+        return 'M '+(this.options.yAxis.width)+' '+(this.yScale(tick)+this.options.header.height)+' L '+(this.options.width)+' '+(this.yScale(tick)+this.options.header.height);
     }
 
     
