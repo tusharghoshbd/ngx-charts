@@ -7,6 +7,7 @@ import {
     SimpleChanges,
     ElementRef,
     ChangeDetectorRef,
+    ChangeDetectionStrategy,
     HostListener
 } from "@angular/core";
 
@@ -16,6 +17,7 @@ import { scaleBand, scaleLinear } from "d3-scale";
     selector: "ngx-charts-bar-vertical",
     templateUrl: "./ngx-charts-bar-vertical.component.html",
     styleUrls: ["./ngx-charts-bar-vertical.component.css"],
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
 export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
@@ -100,7 +102,9 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     // };
     groupName:any[] =[] 
 
-    constructor(public chartElement: ElementRef) { }
+    constructor(
+        private chartElement: ElementRef,
+        private  cdr: ChangeDetectorRef) { }
 
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -119,10 +123,12 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         const hostElem=this.chartElement.nativeElement;
         let dims=hostElem.parentNode!==null? hostElem.parentNode.getBoundingClientRect():{height:400, width:800};
         
+        console.log(dims)
+        
         var style=hostElem.parentNode.currentStyle||window.getComputedStyle(hostElem.parentNode);
        
         this.options.height = !this.options.height? dims.height - this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)  :this.options.height;
-        this.options.width = !this.options.width ? dims.width- this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)   : this.options.width;
+        this.options.width = !this.options.width ? dims.width- this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)   : dims.width- this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight);
 
         this.xScale=this.getXScale();
         this.yScale=this.getYScale();
@@ -133,6 +139,9 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                     this.groupName.push(item.name);
             })
             this.createBar();
+            //console.log(this.bars)
+            // console.log("window:resize111")
+            // this.cdr.detectChanges(); 
         });
     }
 
@@ -235,6 +244,10 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     onResize(event) {
         console.log("window:resize")
         setTimeout(() => this.update());
+    }
+
+    test() { 
+
     }
 
     private strToNumber(str) { 
