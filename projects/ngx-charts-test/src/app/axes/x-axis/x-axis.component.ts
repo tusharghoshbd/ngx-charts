@@ -22,7 +22,8 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
     constructor() { }
 
     ngOnChanges(changes: SimpleChanges): void {
-        // console.log(changes)
+        // console.log("-----------------------")
+        // console.log(this.options)
         this.update();
     }
 
@@ -39,6 +40,13 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
 
     update() {
         this.ticks=this.yScale.nice().ticks();
+    }
+    xTransformRotate(item) { 
+        // let angle=315;
+        // console.log(this.categories.join(" ").length, this.xScale.bandwidth())
+        // if (this.categories.join(" ").length>this.options.plotBackground.width)
+        //     angle=0;
+        return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item) + (this.xScale.bandwidth()/2)+this.options.yAxis.width)+", "+(this.yScale(this.ticks[0])+20+this.options.header.height)+")";
     }
 
 

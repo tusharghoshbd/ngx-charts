@@ -13,11 +13,15 @@
         <g x-axis [xScale]="xScale" [yScale]="yScale" [options]="options" [categories]="categories" [series]="series"
             (xAxisHeightChange)="xAxisHeightChange($event)"></g>
 
-
         <g data-z-index="0.1"
             class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
-            <rect *ngFor="let bar of bars" [attr.x]="bar.x+this.options.yAxis.width"
-                [attr.y]="bar.y+this.options.header.height" [attr.width]="bar.width" [attr.height]="bar.height"
+            <rect *ngFor="let bar of bars" 
+                [attr.x]="bar.x+this.options.yAxis.width"
+                [tooltip]="bar.value+': '+bar.data" 
+                [placement]="bar.data >0 ? 'top': 'bottom'" 
+                delay="10"
+                [attr.y]="bar.y+this.options.header.height" 
+                [attr.width]="bar.width" [attr.height]="bar.height"
                 fill="rgb(149,206,255)" opacity="1" class="highcharts-point highcharts-color-0" tabindex="-1" role="img"
                 aria-label="1. Jan, 49.9. Tokyo."></rect>
         </g>
@@ -31,3 +35,4 @@
     </chart-legend>
   
 </div>
+

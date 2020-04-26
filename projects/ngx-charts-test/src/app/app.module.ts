@@ -9,7 +9,7 @@ import { AxesModule } from './axes/axes.module';
 import { HeaderModule } from './header/header.module';
 
 import { LegendModule } from './legend/legend.module';
-
+import { TooltipDirective } from './tooltip/tooltip.directive';
 
 @NgModule({
     declarations: [

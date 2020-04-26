@@ -31,10 +31,12 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         xAxis: {
             title: '',
             height: 0,
+            labelRotation:0
         },
         yAxis: {
             title: '',
-            width: 0
+            width: 0,
+            labelRotation:0
         },
         plotBackground: {
             x: 0,
@@ -88,7 +90,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     @Input() categories: any=[];
     @Input() series: any=[];
 
-    @Input() barPadding=30;
+    @Input() barPadding=8;
 
     // scale: any;
     xScale: any;
@@ -139,7 +141,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                     this.groupName.push(item.name);
             })
             this.createBar();
-            console.log(this.bars)
+            // console.log(this.bars)
             // console.log("window:resize111")
             // this.cdr.detectChanges(); 
         });
@@ -190,8 +192,8 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                 ...this.options.plotBackground,
                 x: 0,
                 y: 0,
-                height: 0,
-                width: 0
+                height:this.options.height-this.options.xAxis.height-this.options.header.height-this.options.padding,
+                width: this.options.width-this.options.yAxis.width-this.options.padding
             }
         }
     }
