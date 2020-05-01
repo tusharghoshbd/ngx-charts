@@ -12,7 +12,7 @@ export class AppComponent {
         title: 'Monthly Average Rainfall',
         subtitle: 'Source: WorldClimate.com',
         height:400,
-        // width: 700,
+        //width: 700,
         xAxis: {
             title: 'Month name',
             labelRotation:315
@@ -20,6 +20,10 @@ export class AppComponent {
         yAxis: {
             title: 'Rainfall (mm)'
         },
+        plotOptions: {
+            groupBarPadding :30,
+            innerBarPadding :3
+        }
     }
     categories = [ 'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec' ]
     series=[{

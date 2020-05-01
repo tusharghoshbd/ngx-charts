@@ -17,7 +17,7 @@
             class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
             <rect *ngFor="let bar of bars" 
                 [attr.x]="bar.x+this.options.yAxis.width"
-                [tooltip]="bar.value+': '+bar.data" 
+                [tooltip]="bar.value+', '+bar.group+', '+bar.data" 
                 [placement]="bar.data >0 ? 'top': 'bottom'" 
                 delay="10"
                 [attr.y]="bar.y+this.options.header.height" 

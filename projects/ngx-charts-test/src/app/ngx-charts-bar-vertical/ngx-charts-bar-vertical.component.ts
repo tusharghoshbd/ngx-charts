@@ -45,6 +45,10 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             height: 0,
             width: 0
         },
+        plotOptions: { 
+            groupBarPadding :20,
+            innerBarPadding :3
+        },
         header: {
             height: 0,
             width: 0
@@ -57,11 +61,13 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         let xAxis=obj.xAxis;
         let yAxis=obj.yAxis;
         let plotBackground=obj.plotBackground;
+        let plotOptions=obj.plotOptions;
         let header=obj.header;
 
         delete obj['xAxis'];
         delete obj['yAxis'];
         delete obj['plotBackground'];
+        delete obj['plotOptions'];
         delete obj['header'];
 
         this._options={
@@ -79,6 +85,11 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                 ...this.customOptions.plotBackground,
                 ...plotBackground
             },
+            plotOptions: {
+                ...this.customOptions.plotOptions,
+                ...plotOptions
+                
+            },
             header: {
                 ...this.customOptions.header,
                 ...header
@@ -91,27 +102,25 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     @Input() categories: any=[];
     @Input() series: any=[];
 
-    @Input() groupBarPadding=30;
-    @Input() innerBarPadding=5;
+    //@Input() groupBarPadding=20;
+    //@Input() innerBarPadding=3;
 
     // scale: any;
     xScale: any;
     xInnerScale: any;
     yScale: any;
     bars: any = [];
-    // margin={
-    //     top: 0,
-    //     right: 0,
-    //     bottom: 0,
-    //     left: 0,
-    // };
-    groupName:any[] =[] 
+    groupName: any[]=[] 
+    groupBarPaddingBK: any;
+    innerBarPaddingBK: any;
 
     constructor(
         private chartElement: ElementRef,
         private  cdr: ChangeDetectorRef) { }
 
     ngOnChanges(changes: SimpleChanges): void {
+        this.groupBarPaddingBK=this.options.plotOptions.groupBarPadding;
+            this.innerBarPaddingBK=this.options.plotOptions.innerBarPadding;
         setTimeout(() => this.update());
     }
 
@@ -132,9 +141,20 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
        
         this.options.height = !this.options.height? dims.height - this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)  :this.options.height;
         this.options.width = !this.options.width ? dims.width- this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight)   : dims.width- this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight);
+        let countFlag=false;
+        this.options.plotOptions.groupBarPadding=this.groupBarPaddingBK;
+        this.options.plotOptions.innerBarPadding=this.innerBarPaddingBK;
 
-        this.xScale=this.getXScale();
-        this.xInnerScale=this.getXInnerScale();
+        do {
+            if (countFlag==true) {
+                this.options.plotOptions.groupBarPadding--;
+                this.options.plotOptions.innerBarPadding = 2;
+            }
+            this.xScale=this.getXScale();
+            this.xInnerScale=this.getXInnerScale();
+            countFlag=true;
+        } while (this.xInnerScale.bandwidth()<2);
+
         this.yScale=this.getYScale();
         this.calPlotBackground()
         setTimeout(() => {
@@ -150,7 +170,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     }
 
     getXScale(): any {
-        const spacing= (this.categories.length/(this.options.width/this.groupBarPadding) ) ;
+        const spacing= (this.categories.length/(this.options.width/this.options.plotOptions.groupBarPadding) ) ;
         //console.log(spacing)
         let width=this.options.width-this.options.yAxis.width;
         return scaleBand()
@@ -164,7 +184,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         for (let i=0; i<this.series.length; i++) { 
             groupDataArr.push(this.series[i].name);
         }
-        const spacing= (this.series.length/(this.xScale.bandwidth()/this.innerBarPadding) ) ;
+        const spacing= (this.series.length/(this.xScale.bandwidth()/this.options.plotOptions.innerBarPadding) ) ;
         let width=this.xScale.bandwidth();
         return scaleBand()
             .range([0, width])
@@ -214,18 +234,14 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         }
     }
     createBar() {
-        // this.bars=[];
-        // for (let i=0; i<this.categories.length; i++) { 
-        //     for (let j=0; j<) { 
-        //     }
-        // }
-
+        //console.log("this.xInnerScale.bandwidth() "+this.xInnerScale.bandwidth())
         this.bars=[];
         this.categories.map((item, index) => {
             for (let i=0; i<this.series.length; i++) { 
                 const bar: any={
                     value: item,  //jan,feb
                     data: this.series[i].data[index], //101,202
+                    group:this.series[i].name,
                     //formattedLabel,
                     width: this.xInnerScale.bandwidth(),
                     height:  this.series[i].data[index] > 0  ? (this.yScale(0)-this.yScale(this.series[i].data[index]) ) : (this.yScale(this.series[i].data[index]) - this.yScale(0) ),
