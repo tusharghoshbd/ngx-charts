@@ -11,7 +11,8 @@ import {
     HostListener
 } from "@angular/core";
 
-import { scaleBand, scaleLinear, scaleOrdinal } from "d3-scale";
+import { scaleBand, scaleLinear } from "d3-scale";
+import { ColorHelper } from '../utils/color.helper';
 
 @Component({
     selector: "ngx-charts-bar-vertical",
@@ -121,13 +122,14 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         this.groupBarPaddingBK=this.options.plotOptions.groupBarPadding;
-            this.innerBarPaddingBK=this.options.plotOptions.innerBarPadding;
+        this.innerBarPaddingBK=this.options.plotOptions.innerBarPadding;
         setTimeout(() => this.update());
     }
 
     ngOnInit() {
         this.options.width=this.options.width;
         this.options.height=this.options.height;
+        
         this.update();
     }
 
@@ -135,8 +137,6 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
 
         const hostElem=this.chartElement.nativeElement;
         let dims=hostElem.parentNode!==null? hostElem.parentNode.getBoundingClientRect():{height:400, width:800};
-        
-        //console.log(dims)
         
         var style=hostElem.parentNode.currentStyle||window.getComputedStyle(hostElem.parentNode);
        
@@ -146,7 +146,6 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         let countFlag=false;
         this.options.plotOptions.groupBarPadding=this.groupBarPaddingBK;
         this.options.plotOptions.innerBarPadding=this.innerBarPaddingBK;
-
         do {
             if (countFlag==true) {
                 this.options.plotOptions.groupBarPadding--;
@@ -159,17 +158,22 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         } while (this.xInnerScale.bandwidth()<2);
 
         this.yScale=this.getYScale();
-        this.colorScale=this.generateColorScale();
+
+        let colorHelper=new ColorHelper(this.options, this.series);
+        this.colorScale=colorHelper.generateColorScale();
+        
         this.calPlotBackground()
+
         setTimeout(() => {
+            this.groupName=[];
             this.series.map(item => { 
                 if (item.name)
-                    this.groupName.push(item.name);
+                    this.groupName.push({
+                        name: item.name,
+                        color: this.colorScale(item.name)
+                    });
             })
             this.createBar();
-            // console.log(this.bars)
-            // console.log("window:resize111")
-            // this.cdr.detectChanges(); 
         });
         this.cdr.detectChanges();
     }
@@ -298,17 +302,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         setTimeout(() => this.update());
     }
 
-    generateColorScale() { 
-        //let colorArr=["#a8385d", "#7aa3e5", "#a27ea8", "#aae3f5", "#adcded", "#a95963", "#8796c0", "#7ed3ed", "#50abcc", "#ad6886"];
-        let colorArr=['#7cb5ec', '#434348','#90ed7d','#f7a35c','#8085E9','#F15C80','#E4D354','#2B908F','#F45B5B','#91E8E1'];
-        let groupDataArr=[];
-        for (let i=0; i<this.series.length; i++) { 
-            groupDataArr.push(this.series[i].name);
-        }
-        return scaleOrdinal()
-        .range(colorArr)
-        .domain(groupDataArr);
-    }
+   
     
     
 

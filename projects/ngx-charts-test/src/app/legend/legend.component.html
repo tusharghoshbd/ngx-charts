@@ -3,12 +3,12 @@
         <div class="legend-wrap">
             <ul class="legend-labels" style="max-height: 255px;">
                 <li class="legend-label ng-star-inserted"
-                  *ngFor="let gn of series"  
+                  *ngFor="let gn of groupName;let i=index"  
                 >
-                    <div ng-reflect-color="#a8385d" ng-reflect-label="Germany" ng-reflect-formatted-label="Germany"
-                        ng-reflect-is-active="false">
+                    <div>
                         <span tabindex="-1" class="" *ngIf="gn.name">
-                            <span class="legend-label-color" style="background-color: rgb(168, 56, 93);"> </span>
+                            <span class="legend-label-color" 
+                                [style.background-color] = "gn.color"> </span>
                             <span class="legend-label-text">
                                 {{gn.name}}
                             </span>

@@ -29,6 +29,7 @@
     </svg>
     <chart-legend
         *ngIf="groupName.length"
+        [groupName]="groupName"
         [options]="options"
         [series] = "series"    
     >

@@ -14,7 +14,8 @@ export class AppComponent implements OnInit{
     series: any;
         
     ngOnInit() {
-        setTimeout(() => { 
+        
+        //setTimeout(() => { 
             this.options = {
                 title: 'Monthly Average Rainfall',
                 subtitle: 'Source: WorldClimate.com',
@@ -46,6 +47,6 @@ export class AppComponent implements OnInit{
                 name: 'Berlin',
                 data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
             }]
-        },100)
+        //},100)
     }
 }

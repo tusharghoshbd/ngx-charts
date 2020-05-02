@@ -1,169 +1,29 @@
 import { range } from 'd3-array';
-import { scaleBand, scaleLinear, scaleOrdinal, scaleQuantile } from 'd3-scale';
-
+import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 
 export class ColorHelper {
-//   scale: any;
-//   scaleType: any;
-//   colorDomain: any[];
-//   domain: any;
-//   customColors: any;
 
-//   constructor(scheme, type, domain, customColors?) {
-//     if (typeof scheme === 'string') {
-//       scheme = colorSets.find(cs => {
-//         return cs.name === scheme;
-//       });
-//     }
-//     this.colorDomain = scheme.domain;
-//     this.scaleType = type;
-//     this.domain = domain;
-//     this.customColors = customColors;
+    options: any;
+    series: any;
 
-//     this.scale = this.generateColorScheme(scheme, type, this.domain);
-//   }
+    constructor(options, series) {
+        this.options=options;
+        this.series=series;
+    }
 
-//   generateColorScheme(scheme, type, domain) {
-//     if (typeof scheme === 'string') {
-//       scheme = colorSets.find(cs => {
-//         return cs.name === scheme;
-//       });
-//     }
-//       let colorScale;
-//       console.log(type)
-//       console.log(domain)
-//       console.log(scheme.domain)
-//     if (type === 'quantile') {
-//       colorScale = scaleQuantile()
-//         .range(scheme.domain)
-//         .domain(domain);
-//     } else if (type === 'ordinal') {
-//       colorScale = scaleOrdinal()
-//         .range(scheme.domain)
-//         .domain(domain);
-//     } else if (type === 'linear') {
-//       // linear schemes must have at least 2 colors
-//       const colorDomain = [...scheme.domain];
-//       if (colorDomain.length === 1) {
-//         colorDomain.push(colorDomain[0]);
-//         this.colorDomain = colorDomain;
-//         }
-        
+    generateColorScale() {
+        //let colorArr=["#a8385d", "#7aa3e5", "#a27ea8", "#aae3f5", "#adcded", "#a95963", "#8796c0", "#7ed3ed", "#50abcc", "#ad6886"];
+        //let colorArr=['#7cb5ec', '#434348','#90ed7d','#f7a35c','#8085E9','#F15C80','#E4D354','#2B908F','#F45B5B','#91E8E1'];
+        let colorArr=['#7cb5ec', '#434348', '#f7a35c', '#90ed7d', '#8085E9', '#F15C80', '#E4D354', '#2B908F', '#F45B5B', '#91E8E1'];
 
-//       const points = range(0, 1, 1.0 / colorDomain.length);
-//       colorScale = scaleLinear()
-//         .domain(points)
-//         .range(colorDomain);
-//     }
+        let groupDataArr=[];
+        for (let i=0; i<this.series.length; i++) {
+            groupDataArr.push(this.series[i].name);
+        }
+        return scaleOrdinal()
+            .range(colorArr)
+            .domain(groupDataArr);
+    }
 
-//     return colorScale;
-//   }
 
-//   getColor(value) {
-//     if (value === undefined || value === null) {
-//       throw new Error('Value can not be null');
-//     }
-//     if (this.scaleType === 'linear') {
-//       const valueScale = scaleLinear()
-//         .domain(this.domain)
-//         .range([0, 1]);
-    
-       
-//       return this.scale(valueScale(value));
-//     } else {
-//       if (typeof this.customColors === 'function') {
-//         return this.customColors(value);
-//       }
-
-//       const formattedValue = value.toString();
-//       let found: any; // todo type customColors
-//       if (this.customColors && this.customColors.length > 0) {
-//         found = this.customColors.find(mapping => {
-//           return mapping.name.toLowerCase() === formattedValue.toLowerCase();
-//         });
-//         }
-//         console.log(found, value);
-//       console.log("this.scale(value) "+this.scale(value))
-//       if (found) {
-//         return found.value;
-//       } else {
-//         return this.scale(value);
-//       }
-//     }
-//   }
-
-//   getLinearGradientStops(value, start) {
-//     if (start === undefined) {
-//       start = this.domain[0];
-//     }
-
-//     const valueScale = scaleLinear()
-//       .domain(this.domain)
-//       .range([0, 1]);
-
-//     const colorValueScale = scaleBand()
-//       .domain(this.colorDomain)
-//       .range([0, 1]);
-
-//     const endColor = this.getColor(value);
-
-//     // generate the stops
-//     const startVal = valueScale(start);
-//     const startColor = this.getColor(start);
-
-//     const endVal = valueScale(value);
-//     let i = 1;
-//     let currentVal = startVal;
-//     const stops = [];
-
-//     stops.push({
-//       color: startColor,
-//       offset: startVal,
-//       originalOffset: startVal,
-//       opacity: 1
-//     });
-
-//     while (currentVal < endVal && i < this.colorDomain.length) {
-//       const color = this.colorDomain[i];
-//       const offset = colorValueScale(color);
-//       if (offset <= startVal) {
-//         i++;
-//         continue;
-//       }
-
-//       if (offset.toFixed(4) >= (endVal - colorValueScale.bandwidth()).toFixed(4)) {
-//         break;
-//       }
-
-//       stops.push({
-//         color,
-//         offset,
-//         opacity: 1
-//       });
-//       currentVal = offset;
-//       i++;
-//     }
-
-//     if (stops[stops.length - 1].offset < 100) {
-//       stops.push({
-//         color: endColor,
-//         offset: endVal,
-//         opacity: 1
-//       });
-//     }
-
-//     if (endVal === startVal) {
-//       stops[0].offset = 0;
-//       stops[1].offset = 100;
-//     } else {
-//       // normalize the offsets into percentages
-//       if (stops[stops.length - 1].offset !== 100) {
-//         for (const s of stops) {
-//           s.offset = ((s.offset - startVal) / (endVal - startVal)) * 100;
-//         }
-//       }
-//     }
-
-//     return stops;
-//   }
 }

@@ -6,7 +6,8 @@ import { Component, OnInit, OnChanges, Input,AfterViewInit, ViewChild, Output, E
     styleUrls: ['./legend.component.css']
 })
 export class LegendComponent implements OnInit, OnChanges, AfterViewInit {
-   
+    
+    @Input() groupName: any;
     @Input() series: any;
     @Input() options: any;
     constructor() { }
@@ -16,7 +17,9 @@ export class LegendComponent implements OnInit, OnChanges, AfterViewInit {
         this.update();
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        console.log(this.groupName)
+    }
 
     ngAfterViewInit(): void {
     }
