@@ -18,7 +18,6 @@ export class LegendComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngOnInit() {
-        console.log(this.groupName)
     }
 
     ngAfterViewInit(): void {
