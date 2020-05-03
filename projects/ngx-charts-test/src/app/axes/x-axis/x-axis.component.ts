@@ -23,7 +23,7 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         // console.log("-----------------------")
-        // console.log(this.options)
+        //console.log(this.options)
         this.update();
     }
 
@@ -33,21 +33,32 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
         let xAxisHeight=parseInt(this.xAxisHeightEl.nativeElement.getBoundingClientRect().height, 10);
         if (xAxisHeight<50)
             xAxisHeight=50;
-        //console.log("xAxisHeight "+xAxisHeight);
         this.xAxisHeightChange.emit({ xAxisHeight });
-        //setTimeout(() => this.updateDims());
     }
 
     update() {
-        this.ticks=this.yScale.nice().ticks();
+        if (this.options.barType=="vertical") {
+            this.ticks=this.yScale.nice().ticks();
+        }
+        else if (this.options.barType=="horizontal") {
+            this.ticks=this.xScale.nice().ticks();
+        }
+        
     }
     xTransformRotate(item) { 
-        // let angle=315;
-        // console.log(this.categories.join(" ").length, this.xScale.bandwidth())
-        // if (this.categories.join(" ").length>this.options.plotBackground.width)
-        //     angle=0;
-        return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item) + (this.xScale.bandwidth()/2)+this.options.yAxis.width)+", "+(this.yScale(this.ticks[0])+20+this.options.header.height)+")";
+        if (this.options.barType=="vertical") {
+            return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item) + (this.xScale.bandwidth()/2)+this.options.yAxis.width)+", "+(this.yScale(this.ticks[0])+20+this.options.header.height)+")";
+        }
+        else {
+            return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item) + this.options.yAxis.width)+", "+(this.options.height - this.options.xAxis.height+20)+")";
+        }
+        
     }
+
+    pathDirection(tick) { 
+        return 'M '+(this.xScale(tick)+this.options.yAxis.width)+' '+(this.options.header.height)+' L '+(this.xScale(tick)+this.options.yAxis.width)+' '+(this.options.height - this.options.xAxis.height+20);
+    }
+
 
 
 

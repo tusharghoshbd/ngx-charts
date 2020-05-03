@@ -25,6 +25,7 @@ import { ColorHelper } from '../utils/color.helper';
 export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
 
     private customOptions={
+        barType: 'vertical',
         title: '',
         subtitle: '',
         height: 0,
@@ -38,6 +39,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         yAxis: {
             title: '',
             width: 0,
+            height:0,
             labelRotation:0
         },
         plotBackground: {
@@ -151,14 +153,26 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                 this.options.plotOptions.groupBarPadding--;
                 this.options.plotOptions.innerBarPadding = 2;
             }
-            this.xScale=this.getXScale();
-            this.xInnerScale=this.getXInnerScale();
+            if (this.options.barType=='vertical') {
+                this.xScale=this.getXScale();
+                this.xInnerScale=this.getXInnerScale();
+            }
+            else { 
+                this.xScale=this.getYScale();
+            }
+            
             countFlag=true;
              
-        } while (this.xInnerScale.bandwidth()<2);
+        } while (0);
+        // this.xInnerScale.bandwidth()<2
 
-        this.yScale=this.getYScale();
-
+        if (this.options.barType=='vertical') {
+            this.yScale=this.getYScale();
+        }
+        else { 
+            this.yScale=this.getXScale();
+        }
+        
         let colorHelper=new ColorHelper(this.options, this.series);
         this.colorScale=colorHelper.generateColorScale();
         
@@ -179,11 +193,21 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     }
 
     getXScale(): any {
-        const spacing= (this.categories.length/(this.options.width/this.options.plotOptions.groupBarPadding) ) ;
-        //console.log(spacing)
-        let width=this.options.width-this.options.yAxis.width;
+        
+        let spacing;
+        let range;
+        if (this.options.barType=='vertical') {
+            spacing=(this.categories.length/(this.options.width/this.options.plotOptions.groupBarPadding));
+            range=this.options.width-this.options.yAxis.width;
+        }
+        else { 
+            let length=this.options.height-this.options.header.height;
+            spacing=(this.categories.length/(this.options.plotBackground.height/this.options.plotOptions.groupBarPadding));
+            range=this.options.height-this.options.header.height-this.options.xAxis.height;
+        }
+        
         return scaleBand()
-            .range([0, width])
+            .range([0, range])
             .paddingInner(spacing)
             .paddingOuter(0.1)
             .domain(this.categories);
@@ -201,8 +225,6 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             .domain(groupDataArr);
     }
     
-
-
     getYScale(): any {
         let uniqueValue: any=new Set();
         this.series.map((item) => {
@@ -218,13 +240,22 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         max=max > 0 ? max:0;
         // console.log(max);
 
-        let height=this.options.height-this.options.xAxis.height-this.options.header.height;
+        let range = [];
+        if (this.options.barType=='vertical') {
+            let value=this.options.height-this.options.xAxis.height-this.options.header.height;
+            range=[value, 0];
+        }
+        else { 
+            let value=this.options.plotBackground.width-30;
+            range=[0, value];
+        }
+            
 
         // console.log(this.options.header.height, this.options.xAxis.height)
         // console.log(min, max, height);
 
         return scaleLinear()
-            .range([height, 0])
+            .range(range)
             .domain([min, max]);
         //return this.scale.nice().ticks();
     }
@@ -263,15 +294,17 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         });
     }
 
-    yAxisWidthChange({ yAxisWidth }) {
+    yAxisWidthChange({ yAxisWidth,yAxisHeight }) {
         //console.log("yAxisWidth "+yAxisWidth)
         this.options={
             ...this.options,
             yAxis: {
                 ...this.options.yAxis,
-                width: yAxisWidth
+                width: yAxisWidth,
+                height: yAxisHeight
             }
         }
+        console.log( this.options)
         this.update()
     }
 

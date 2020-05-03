@@ -8,15 +8,27 @@
                 {{options.yAxis ? options.yAxis.title : ""}}
             </text>
         </g>
-        <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true">
+        <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true"
+            *ngIf="options.barType == 'vertical'"
+            >
             <text x="30" style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="right"
                 *ngFor="let tick of ticks" [attr.y]="yScale(tick)+3+this.options.header.height" opacity="1">{{tick}}</text>
         </g>
+        <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true"
+            *ngIf="options.barType == 'horizontal'">
+            <text 
+                *ngFor="let item of categories; let i = index;let f = first;"
+                [attr.x] = "30"
+                [attr.y] = "yScale(item) + (yScale.bandwidth()/2)+options.header.height"
+                style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="right" 
+                 opacity="1">{{item}}</text>
+        </g> 
+
     </g>
-    <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
+    <!-- <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
         <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line"
             *ngFor="let tick of ticks" [attr.d]="pathDirection(tick)" opacity="1">
         </path>
-    </g>
+    </g> -->
 
 </svg>

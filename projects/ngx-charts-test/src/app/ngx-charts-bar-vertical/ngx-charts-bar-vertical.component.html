@@ -8,9 +8,20 @@
 
         <g header [options]="options" (headerHeightChange)="headerHeightChange($event)"></g>
 
-        <g y-axis [yScale]="yScale" [options]="options" (yAxisWidthChange)="yAxisWidthChange($event)"></g>
+        <g y-axis 
+            [xScale]="xScale" 
+            [yScale]="yScale" 
+            [options]="options" 
+            [categories]="categories" 
+            [series]="series"
+            (yAxisWidthChange)="yAxisWidthChange($event)"></g>
 
-        <g x-axis [xScale]="xScale" [yScale]="yScale" [options]="options" [categories]="categories" [series]="series"
+        <g x-axis 
+            [xScale]="xScale" 
+            [yScale]="yScale" 
+            [options]="options" 
+            [categories]="categories" 
+            [series]="series"
             (xAxisHeightChange)="xAxisHeightChange($event)"></g>
 
         <g data-z-index="0.1"

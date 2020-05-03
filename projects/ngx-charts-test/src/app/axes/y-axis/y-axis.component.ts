@@ -11,8 +11,12 @@ import { ClassGetter } from '@angular/compiler/src/output/output_ast';
     styleUrls: ["./y-axis.component.css"],
 })
 export class YAxisComponent implements OnInit, OnChanges {
+    @Input() xScale: any;
     @Input() yScale: any;
     @Input() options: any;
+
+    @Input() categories: any=[];
+    @Input() series: any=[];
 
     @ViewChild('yAxisWidthEl', {static:true}) yAxisWidthEl: ElementRef;
     @Output() yAxisWidthChange = new EventEmitter();
@@ -34,14 +38,19 @@ export class YAxisComponent implements OnInit, OnChanges {
     }
     ngAfterViewInit(): void {
         const yAxisWidth=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10)+20;
+        const yAxisHeight=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().height, 10)+300;
         // console.log("yAxisWidth :"+yAxisWidth)
-        this.yAxisWidthChange.emit({ yAxisWidth });
+        this.yAxisWidthChange.emit({ yAxisWidth,yAxisHeight });
         //setTimeout(() => this.updateDims());
     }
 
     update() {
-        this.ticks=this.yScale.nice().ticks();
-        //console.log(this.ticks)
+        if (this.options.barType=="vertical") {
+            this.ticks=this.yScale.nice().ticks();
+        }
+        else if (this.options.barType=="horizontal") {
+        }
+        
     }
 
     transform() {
