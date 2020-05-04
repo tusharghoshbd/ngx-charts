@@ -26,14 +26,14 @@ export class AppComponent implements OnInit{
                 title: 'Rainfall (mm)'
             },
             plotOptions: {
-                groupBarPadding: 50,
+                groupBarPadding: 8,
                 innerBarPadding: 5
             }
         };
         this.categories=['Africa', 'America', 'Asia', 'Europe', 'Oceania'];
             this.series=[{
                 name: 'Year 1800',
-                data: [107, 31, 635, 203, 1000]
+                data: [-107, 31, -635, 203, 990]
             }]
         //},100)
     }

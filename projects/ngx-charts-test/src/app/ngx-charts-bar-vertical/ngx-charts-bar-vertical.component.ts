@@ -203,7 +203,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         else { 
             let length=this.options.height-this.options.header.height;
             spacing=(this.categories.length/(this.options.plotBackground.height/this.options.plotOptions.groupBarPadding));
-            range=this.options.height-this.options.header.height-this.options.xAxis.height;
+            range=this.options.plotBackground.height;
         }
         
         return scaleBand()
@@ -276,22 +276,44 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
     createBar() {
         //console.log("this.xInnerScale.bandwidth() "+this.xInnerScale.bandwidth())
         this.bars=[];
-        this.categories.map((item, index) => {
-            for (let i=0; i<this.series.length; i++) { 
-                const bar: any={
-                    value: item,  //jan,feb
-                    data: this.series[i].data[index], //101,202
-                    group: this.series[i].name,
-                    color: this.colorScale(this.series[i].name),
-                    //formattedLabel,
-                    width: this.xInnerScale.bandwidth(),
-                    height:  this.series[i].data[index] > 0  ? (this.yScale(0)-this.yScale(this.series[i].data[index]) ) : (this.yScale(this.series[i].data[index]) - this.yScale(0) ),
-                    x: this.xInnerScale(this.series[i].name)+ this.xScale(item) ,
-                    y: this.series[i].data[index] > 0 ? this.yScale(this.series[i].data[index]) : this.yScale(0) ,
-                };
-                this.bars.push(bar);
-            }
-        });
+        if (this.options.barType=='vertical') {
+            this.categories.map((item, index) => {
+                for (let i=0; i<this.series.length; i++) { 
+                    const bar: any={
+                        value: item,  //jan,feb
+                        data: this.series[i].data[index], //101,202
+                        group: this.series[i].name,
+                        color: this.colorScale(this.series[i].name),
+                        //formattedLabel,
+                        width: this.xInnerScale.bandwidth(),
+                        height:  this.series[i].data[index] > 0  ? (this.yScale(0)-this.yScale(this.series[i].data[index]) ) : (this.yScale(this.series[i].data[index]) - this.yScale(0) ),
+                        x: this.xInnerScale(this.series[i].name)+ this.xScale(item) ,
+                        y: this.series[i].data[index] > 0 ? this.yScale(this.series[i].data[index]) : this.yScale(0) ,
+                    };
+                    this.bars.push(bar);
+                }
+            });
+        }
+        else { 
+
+            this.categories.map((item, index) => {
+                for (let i=0; i<this.series.length; i++) { 
+                    const bar: any={
+                        value: item,  //jan,feb
+                        data: this.series[i].data[index], //101,202
+                        group: this.series[i].name,
+                        color: this.colorScale(this.series[i].name),
+                        //formattedLabel,
+                        width: this.series[i].data[index] > 0  ? ( this.xScale(this.series[i].data[index]) - this.xScale(0) ) : ( this.xScale(0) - this.xScale(this.series[i].data[index])  ),
+                        height: this.yScale.bandwidth(),
+                        x: this.series[i].data[index] > 0 ? this.xScale(0)  : this.xScale(this.series[i].data[index]) ,
+                        y: this.yScale(item)  //this.xInnerScale(this.series[i].name)+ ,
+                    };
+                    this.bars.push(bar);
+                }
+            });
+        }
+        
     }
 
     yAxisWidthChange({ yAxisWidth,yAxisHeight }) {
@@ -304,7 +326,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                 height: yAxisHeight
             }
         }
-        console.log( this.options)
+        //console.log( this.options)
         this.update()
     }
 
@@ -329,6 +351,15 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         this.update()
     }
 
+
+    toolTipPlaccement(data) { 
+        if (this.options.barType=='vertical') {
+            return data>0? 'top':'bottom'
+        }
+        else { 
+            return data>0? 'right':'left'
+        }
+    }
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         //console.log("window:resize")

@@ -56,7 +56,7 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     pathDirection(tick) { 
-        return 'M '+(this.xScale(tick)+this.options.yAxis.width)+' '+(this.options.header.height)+' L '+(this.xScale(tick)+this.options.yAxis.width)+' '+(this.options.height - this.options.xAxis.height+20);
+        return 'M '+(this.xScale(tick)+this.options.yAxis.width)+' '+(this.options.header.height)+' L '+(this.xScale(tick)+this.options.yAxis.width)+' '+(this.options.height - this.options.xAxis.height);
     }
 
 
