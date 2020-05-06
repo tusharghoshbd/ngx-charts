@@ -30,7 +30,7 @@
                 opacity="1">{{tick}}</text>
         </g>
     </g>
-    <g class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
+    <g *ngIf="options.barType == 'horizontal'" class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">
         <path fill="none" stroke="#e6e6e6" stroke-width="1" data-z-index="1" class="highcharts-grid-line"
             *ngFor="let tick of ticks" [attr.d]="pathDirection(tick)" opacity="1">
         </path>

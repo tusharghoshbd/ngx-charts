@@ -24,6 +24,7 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
     ngOnChanges(changes: SimpleChanges): void {
         // console.log("-----------------------")
         //console.log(this.options)
+        //console.log(this.xScale)
         this.update();
     }
 
@@ -40,7 +41,7 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
         if (this.options.barType=="vertical") {
             this.ticks=this.yScale.nice().ticks();
         }
-        else if (this.options.barType=="horizontal") {
+        else {
             this.ticks=this.xScale.nice().ticks();
         }
         

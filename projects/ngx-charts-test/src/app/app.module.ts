@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import { ngxChartsBarVerticalModule } from './ngx-charts-bar-vertical/ngx-charts-bar-vertical.module';
+import { ngxChartsBarModule } from './ngx-charts-bar/ngx-charts-bar.module';
 
 import { AxesModule } from './axes/axes.module';
 import { HeaderModule } from './header/header.module';
@@ -17,7 +17,7 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
     ],
     imports: [
         BrowserModule,
-        ngxChartsBarVerticalModule,
+        ngxChartsBarModule,
         AxesModule,
         HeaderModule,
         LegendModule

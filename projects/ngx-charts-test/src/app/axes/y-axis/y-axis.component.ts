@@ -26,13 +26,13 @@ export class YAxisComponent implements OnInit, OnChanges {
     constructor() { }
 
     ngOnInit() {
-        // console.log(this.yScale)
+        //console.log(this.yScale)
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         // console.log(changes)
         // console.log("-------------------")
-        // console.log(this.yScale)
+        // console.log( JSON.stringify(this.yScale('Africa')))
         //console.log(this.yScale(-200))
         this.update();
     }
@@ -48,7 +48,8 @@ export class YAxisComponent implements OnInit, OnChanges {
         if (this.options.barType=="vertical") {
             this.ticks=this.yScale.nice().ticks();
         }
-        else if (this.options.barType=="horizontal") {
+        else {
+            //this.ticks=this.xScale.nice().ticks();
         }
         
     }
@@ -59,6 +60,11 @@ export class YAxisComponent implements OnInit, OnChanges {
     pathDirection(tick) { 
         //console.log(tick, this.yScale(tick))
         return 'M '+(this.options.yAxis.width)+' '+(this.yScale(tick)+this.options.header.height)+' L '+(this.options.width)+' '+(this.yScale(tick)+this.options.header.height);
+    }
+    calculateYTextPosition(item) { 
+        if (this.yScale(item))
+            return parseInt(this.yScale(item)+(this.yScale.bandwidth()/2)+this.options.header.height);
+        return this.options.header.height;
     }
 
     

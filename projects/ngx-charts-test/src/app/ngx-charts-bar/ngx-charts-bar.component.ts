@@ -15,14 +15,14 @@ import { scaleBand, scaleLinear } from "d3-scale";
 import { ColorHelper } from '../utils/color.helper';
 
 @Component({
-    selector: "ngx-charts-bar-vertical",
-    templateUrl: "./ngx-charts-bar-vertical.component.html",
-    styleUrls: ["./ngx-charts-bar-vertical.component.css"],
+    selector: "ngx-charts-bar",
+    templateUrl: "./ngx-charts-bar.component.html",
+    styleUrls: ["./ngx-charts-bar.component.css"],
     // changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
     
-export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
+export class ngxChartsBarComponent implements OnChanges, OnInit {
 
     private customOptions={
         barType: 'vertical',
@@ -202,7 +202,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         else { 
             let length=this.options.height-this.options.header.height;
             spacing=(this.categories.length/(this.options.plotBackground.height/this.options.plotOptions.groupBarPadding));
-            range=[this.options.plotBackground.height,0];
+            range=[0,this.options.plotBackground.height];
         }
         
         return scaleBand()
@@ -244,12 +244,11 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         });
 
         let min=Math.min(...uniqueValue);
-        min=min>0 ? 0:min;
-        // console.log(min);
+        min=min>0? 0:min;
+        
         let max=Math.max(0, ...uniqueValue);
-        max=max > 0 ? max:0;
-        // console.log(max);
-
+        max=max>0? max:0;
+        
         let range = [];
         if (this.options.barType=='vertical') {
             let value=this.options.height-this.options.xAxis.height-this.options.header.height;
@@ -259,10 +258,6 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             let value=this.options.plotBackground.width-30;
             range=[0, value];
         }
-            
-
-        // console.log(this.options.header.height, this.options.xAxis.height)
-        // console.log(min, max, height);
 
         return scaleLinear()
             .range(range)
@@ -316,7 +311,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                         width: this.series[i].data[index] > 0  ? ( this.xScale(this.series[i].data[index]) - this.xScale(0) ) : ( this.xScale(0) - this.xScale(this.series[i].data[index])  ),
                         height:this.innerScale.bandwidth(),
                         x: this.series[i].data[index] > 0 ? this.xScale(0)  : this.xScale(this.series[i].data[index]) ,
-                        y: this.innerScale(this.series[i].name)+ this.yScale(item)  //this.innerScale(this.series[i].name)+ ,
+                        y: this.innerScale(this.series[i].name)+ this.yScale(item)
                     };
                     this.bars.push(bar);
                 }
