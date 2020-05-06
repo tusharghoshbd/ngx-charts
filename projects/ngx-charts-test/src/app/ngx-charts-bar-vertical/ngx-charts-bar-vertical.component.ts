@@ -110,7 +110,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
 
     // scale: any;
     xScale: any;
-    xInnerScale: any;
+    innerScale: any;
     yScale: any;
     bars: any = [];
     groupName: any[] = [];
@@ -155,22 +155,21 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             }
             if (this.options.barType=='vertical') {
                 this.xScale=this.getXScale();
-                this.xInnerScale=this.getXInnerScale();
             }
             else { 
-                this.xScale=this.getYScale();
+                this.yScale=this.getXScale();
             }
-            
+            this.innerScale=this.getInnerScale();
             countFlag=true;
              
-        } while (0);
-        // this.xInnerScale.bandwidth()<2
+        } while (this.innerScale.bandwidth()<2);
+        // 
 
         if (this.options.barType=='vertical') {
             this.yScale=this.getYScale();
         }
         else { 
-            this.yScale=this.getXScale();
+            this.xScale=this.getYScale();
         }
         
         let colorHelper=new ColorHelper(this.options, this.series);
@@ -198,29 +197,40 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         let range;
         if (this.options.barType=='vertical') {
             spacing=(this.categories.length/(this.options.width/this.options.plotOptions.groupBarPadding));
-            range=this.options.width-this.options.yAxis.width;
+            range= [0, this.options.width-this.options.yAxis.width];
         }
         else { 
             let length=this.options.height-this.options.header.height;
             spacing=(this.categories.length/(this.options.plotBackground.height/this.options.plotOptions.groupBarPadding));
-            range=this.options.plotBackground.height;
+            range=[this.options.plotBackground.height,0];
         }
         
         return scaleBand()
-            .range([0, range])
+            .range(range)
             .paddingInner(spacing)
             .paddingOuter(0.1)
             .domain(this.categories);
     }
-    getXInnerScale(): any {
+    getInnerScale(): any {
+
         let groupDataArr=[];
         for (let i=0; i<this.series.length; i++) { 
             groupDataArr.push(this.series[i].name);
         }
-        const spacing= (this.series.length/(this.xScale.bandwidth()/this.options.plotOptions.innerBarPadding) ) ;
-        let width=this.xScale.bandwidth();
+
+        let spacing;
+        let range;
+        if (this.options.barType=='vertical') {
+            spacing=(this.series.length/(this.xScale.bandwidth()/this.options.plotOptions.innerBarPadding));
+            range=this.xScale.bandwidth();
+        }
+        else { 
+            spacing=(this.series.length/(this.yScale.bandwidth()/this.options.plotOptions.innerBarPadding));
+            range=this.yScale.bandwidth();
+        }
+
         return scaleBand()
-            .range([0, width])
+            .range([0, range])
             .paddingInner(spacing)
             .domain(groupDataArr);
     }
@@ -274,7 +284,7 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
         }
     }
     createBar() {
-        //console.log("this.xInnerScale.bandwidth() "+this.xInnerScale.bandwidth())
+        //console.log("this.innerScale.bandwidth() "+this.innerScale.bandwidth())
         this.bars=[];
         if (this.options.barType=='vertical') {
             this.categories.map((item, index) => {
@@ -285,9 +295,9 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                         group: this.series[i].name,
                         color: this.colorScale(this.series[i].name),
                         //formattedLabel,
-                        width: this.xInnerScale.bandwidth(),
+                        width: this.innerScale.bandwidth(),
                         height:  this.series[i].data[index] > 0  ? (this.yScale(0)-this.yScale(this.series[i].data[index]) ) : (this.yScale(this.series[i].data[index]) - this.yScale(0) ),
-                        x: this.xInnerScale(this.series[i].name)+ this.xScale(item) ,
+                        x: this.innerScale(this.series[i].name)+ this.xScale(item) ,
                         y: this.series[i].data[index] > 0 ? this.yScale(this.series[i].data[index]) : this.yScale(0) ,
                     };
                     this.bars.push(bar);
@@ -295,7 +305,6 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
             });
         }
         else { 
-
             this.categories.map((item, index) => {
                 for (let i=0; i<this.series.length; i++) { 
                     const bar: any={
@@ -305,9 +314,9 @@ export class ngxChartsBarVerticalComponent implements OnChanges, OnInit {
                         color: this.colorScale(this.series[i].name),
                         //formattedLabel,
                         width: this.series[i].data[index] > 0  ? ( this.xScale(this.series[i].data[index]) - this.xScale(0) ) : ( this.xScale(0) - this.xScale(this.series[i].data[index])  ),
-                        height: this.yScale.bandwidth(),
+                        height:this.innerScale.bandwidth(),
                         x: this.series[i].data[index] > 0 ? this.xScale(0)  : this.xScale(this.series[i].data[index]) ,
-                        y: this.yScale(item)  //this.xInnerScale(this.series[i].name)+ ,
+                        y: this.innerScale(this.series[i].name)+ this.yScale(item)  //this.innerScale(this.series[i].name)+ ,
                     };
                     this.bars.push(bar);
                 }
