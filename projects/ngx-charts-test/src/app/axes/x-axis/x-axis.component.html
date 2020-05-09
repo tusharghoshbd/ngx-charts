@@ -27,7 +27,7 @@
                 text-anchor="middle"
                 *ngFor="let tick of ticks" 
                 [attr.x] = 'xScale(tick) + options.yAxis.width'
-                [attr.y] = "options.height - options.xAxis.height+20"
+                [attr.y] = "options.height - 30"
                 [attr.transform]="xTransformRotate(tick)"
                 opacity="1">{{tick}}</text>
         </g>

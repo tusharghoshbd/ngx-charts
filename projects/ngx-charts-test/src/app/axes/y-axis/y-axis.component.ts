@@ -37,23 +37,26 @@ export class YAxisComponent implements OnInit, OnChanges {
         this.update();
     }
     ngAfterViewInit(): void {
-        const yAxisWidth=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10)+30;
-        const yAxisHeight=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().height, 10)+300;
-        // console.log("yAxisWidth :"+yAxisWidth)
-        this.yAxisWidthChange.emit({ yAxisWidth,yAxisHeight });
-        //setTimeout(() => this.updateDims());
+        setTimeout(() => {
+            const yAxisWidth=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10)+30;
+            const yAxisHeight=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().height, 10)+300;
+            if (yAxisHeight!==this.options.yAxis.height||yAxisWidth!==this.options.yAxis.width) {
+                this.yAxisWidthChange.emit({ yAxisWidth, yAxisHeight });
+            }
+            //setTimeout(() => this.updateDims());
+        }, 0);
     }
 
     update() {
         if (this.options.barType=="vertical") {
             this.ticks=this.yScale.nice().ticks();
-            console.log("update y ", this.ticks)
-            console.log("update y --  ", this.yScale(0));
+            //console.log("update y ", this.ticks)
+            //console.log("update y --  ", this.yScale(0));
         }
         else {
             //this.ticks=this.xScale.nice().ticks();
         }
-        
+        this.ngAfterViewInit();
     }
 
     transform() {

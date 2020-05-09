@@ -138,7 +138,7 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
     }
 
     update(): void {
-        console.log(this.options)
+        // console.log("ttttttt",this.options)
         const hostElem=this.chartElement.nativeElement;
         let dims=hostElem.parentNode!==null? hostElem.parentNode.getBoundingClientRect():{height:400, width:800};
         
@@ -206,9 +206,8 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
         else { 
             let length=this.options.height-this.options.header.height;
             spacing=(this.categories.length/(this.options.plotBackground.height/this.options.plotOptions.groupBarPadding));
-            range=[0,this.options.plotBackground.height];
+            range=[0, this.options.plotBackground.height];
         }
-        
         return scaleBand()
             .range(range)
             .paddingInner(spacing)
@@ -256,16 +255,16 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
         let range = [];
         if (this.options.barType=='vertical') {
             let value=this.options.plotBackground.height;
-            console.log("bar getYScale",value)
+            // console.log("bar getYScale",value)
             range=[value, 0];
-            console.log("bar getYScale - ", range)
+            // console.log("bar getYScale - ", range)
         }
         else { 
             let value=this.options.plotBackground.width-30;
             range=[0, value];
         }
 
-        console.log("bar getYScale --- ", range, min, max)
+        // console.log("bar getYScale --- ", range, min, max)
 
         return scaleLinear()
             .range(range)
@@ -285,7 +284,7 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
                 width: this.options.width-this.options.yAxis.width-this.options.padding
             }
         }
-        console.log(this.options)
+        // console.log("calPlotBackground", JSON.stringify(this.options));
     }
     createBar() {
         //console.log("this.innerScale.bandwidth() "+this.innerScale.bandwidth())
@@ -351,6 +350,7 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
                 height: xAxisHeight
             }
         }
+        //console.log("xAxisHeightChange", xAxisHeight, JSON.stringify(this.options.xAxis));
         this.update()
     }
     headerHeightChange({ headerHeight }) {
