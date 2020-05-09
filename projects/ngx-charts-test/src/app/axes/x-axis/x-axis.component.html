@@ -1,6 +1,6 @@
 
 <svg>
-    <g #xAxisHeightEl>
+    <g #xAxisHeightEl data-z-index="20" height="70"> 
         <g class="highcharts-axis highcharts-yaxis" data-z-index="2" aria-hidden="true" >
             <text [attr.x]="options.width/2" [attr.y]="options.height-10" text-anchor="middle" dominant-baseline="central"  style="margin-bottom: 50px; color:#666666;cursor:default;font-size:11px;fill:#666666;"
                 class="highcharts-axis-title"
@@ -14,9 +14,11 @@
             <text 
                 *ngFor="let item of categories; let i = index;let f = first;"
                 [attr.x] = 'xScale(item) + (xScale.bandwidth()/2)+options.yAxis.width'
-                [attr.y] = "yScale(ticks[0])+20+this.options.header.height"
-                style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="middle" 
-                [attr.transform]="xTransformRotate(item)"  opacity="1">{{item}}</text>
+                [attr.y] = "options.height-30"
+                [attr.transform]="xTransformRotate(item)"
+                [attr.text-anchor]="options.xAxis.labelAlign"
+                style="color:#666666;cursor:default;font-size:11px;fill:#666666;"
+                opacity="1">{{item}}</text>
         </g> 
 
         <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true"

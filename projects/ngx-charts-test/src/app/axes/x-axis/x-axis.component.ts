@@ -14,7 +14,7 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() categories: any=[];
     @Input() series: any=[];
 
-    @ViewChild('xAxisHeightEl', { static: true }) xAxisHeightEl: ElementRef;
+    @ViewChild('xAxisHeightEl', { read: ElementRef, static: false }) xAxisHeightEl: ElementRef;
     @Output() xAxisHeightChange=new EventEmitter();
 
     ticks: any[]=[];
@@ -31,10 +31,15 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
     ngOnInit() {}
 
     ngAfterViewInit(): void {
-        let xAxisHeight=parseInt(this.xAxisHeightEl.nativeElement.getBoundingClientRect().height, 10);
-        if (xAxisHeight<50)
-            xAxisHeight=50;
-        this.xAxisHeightChange.emit({ xAxisHeight });
+        setTimeout(() => {
+            // this.xAxisHeightEl.nativeElement.offsetHeight
+            let xAxisHeight=parseInt(this.xAxisHeightEl.nativeElement.getBoundingClientRect().height, 10)+10;
+            // if (xAxisHeight<50)
+            //     xAxisHeight=50;
+            //console.log("x height ", xAxisHeight)
+            this.xAxisHeightChange.emit({ xAxisHeight });
+        }, 0);
+        
     }
 
     update() {
@@ -48,7 +53,7 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
     }
     xTransformRotate(item) { 
         if (this.options.barType=="vertical") {
-            return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item) + (this.xScale.bandwidth()/2)+this.options.yAxis.width)+", "+(this.yScale(this.ticks[0])+20+this.options.header.height)+")";
+            return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item) + (this.xScale.bandwidth()/2)+this.options.yAxis.width)+", "+(this.options.height-20)+")";
         }
         else {
             return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item) + this.options.yAxis.width)+", "+(this.options.height - this.options.xAxis.height+20)+")";

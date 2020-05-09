@@ -37,7 +37,7 @@ export class YAxisComponent implements OnInit, OnChanges {
         this.update();
     }
     ngAfterViewInit(): void {
-        const yAxisWidth=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10)+20;
+        const yAxisWidth=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10)+30;
         const yAxisHeight=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().height, 10)+300;
         // console.log("yAxisWidth :"+yAxisWidth)
         this.yAxisWidthChange.emit({ yAxisWidth,yAxisHeight });
@@ -47,6 +47,8 @@ export class YAxisComponent implements OnInit, OnChanges {
     update() {
         if (this.options.barType=="vertical") {
             this.ticks=this.yScale.nice().ticks();
+            console.log("update y ", this.ticks)
+            console.log("update y --  ", this.yScale(0));
         }
         else {
             //this.ticks=this.xScale.nice().ticks();

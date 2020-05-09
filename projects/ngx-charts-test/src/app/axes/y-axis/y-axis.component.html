@@ -9,14 +9,14 @@
             </text>
         </g>
         <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true"
-            *ngIf="options.barType == 'vertical'"
-            >
-            <text x="30" 
+            *ngIf="options.barType == 'vertical'">
+            <text
                 style="color:#666666;cursor:default;font-size:11px;fill:#666666;" 
                 text-anchor="right"
                 *ngFor="let tick of ticks" 
-                [attr.y]="yScale(tick)+3+this.options.header.height" 
-                opacity="1">{{tick}}</text>
+                [attr.x]="30"
+                [attr.y]="yScale(tick)+this.options.header.height" 
+                opacity="1">{{tick}} </text>
         </g>
         <g class="highcharts-axis-labels highcharts-xaxis-labels" data-z-index="7" aria-hidden="true"
             *ngIf="options.barType == 'horizontal'">
@@ -25,7 +25,7 @@
                 [attr.x] = "30"
                 [attr.y] = "calculateYTextPosition(item)"
                 style="color:#666666;cursor:default;font-size:11px;fill:#666666;" text-anchor="right" 
-                 opacity="1">{{ item}}</text>
+                 opacity="1">{{item}}</text>
         </g> 
     </g>
     
