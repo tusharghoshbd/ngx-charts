@@ -18,7 +18,6 @@ export class AppComponent implements OnInit{
 
     
         this.optionsv={
-            barType : 'horizontal',
             title: 'Monthly Average Rainfall',
             subtitle: 'Source: WorldClimate.com',
             height: 400,
@@ -37,22 +36,25 @@ export class AppComponent implements OnInit{
             }
         };
         
-        setTimeout(() => { 
-            this.categoriesv=['Africa', 'America', 'Asia', 'Europe', 'Oceania'];
+        //setTimeout(() => { 
+            this.categoriesv=[2010,2011,2012,2013,2014,2015,2016,2027];
             this.seriesv=[{
-                name: 'Year 1800',
-                data: [107, 31, 635, 203, 2000]
+                name: 'Installation',
+                data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
             }, {
-                name: 'Year 1900',
-                data: [133, 156, 947, 408, 6]
+                name: 'Manufacturing',
+                data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
             }, {
-                name: 'Year 2000',
-                data: [814, 841, 3714, 727, 31]
+                name: 'Sales & Distribution',
+                data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
             }, {
-                name: 'Year 2016',
-                data: [1216, 1001, 4436, 738, 40]
+                name: 'Project Development',
+                data: [19771, 16005, 7988, 12169, 15112, 22452, 34400, 34227]
+            }, {
+                name: 'Other',
+                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
             }]
-        },1000)
+        //},1000)
 
 
 

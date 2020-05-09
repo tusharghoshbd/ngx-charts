@@ -1,0 +1,50 @@
+<div [style.width]="options.width+'px'" [style.border]="'1px solid #f3f3f3'">
+
+
+    <svg version="1.1" class="highcharts-root" [attr.padding]="options.padding" [attr.width]="options.width"
+        [attr.height]="options.height" [attr.viewBox]="'0 0 '+options.width +' '+ options.height"
+        aria-label="Interactive chart" [style.border]="'0px solid gray'" [style.padding]="options.padding"
+        aria-hidden="false">
+
+        <g header [options]="options" (headerHeightChange)="headerHeightChange($event)"></g>
+
+        <g y-axis 
+            [xScale]="xScale" 
+            [yScale]="yScale" 
+            [options]="options" 
+            [categories]="categories" 
+            [series]="series"
+            (yAxisWidthChange)="yAxisWidthChange($event)"></g>
+
+        <g x-axis 
+            [xScale]="xScale" 
+            [yScale]="yScale" 
+            [options]="options" 
+            [categories]="categories" 
+            [series]="series"
+            (xAxisHeightChange)="xAxisHeightChange($event)"></g>
+
+        <g data-z-index="0.1"
+            class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
+            <rect *ngFor="let bar of bars" 
+                [attr.x]="bar.x+this.options.yAxis.width"
+                [tooltip]="bar.value+', '+bar.group+', '+bar.data" 
+                [placement]="toolTipPlaccement(bar.data)" 
+                delay="10"
+                [attr.y]="bar.y+this.options.header.height" 
+                [attr.width]="bar.width" [attr.height]="bar.height"
+                [attr.fill]="bar.color" opacity="1" class="highcharts-point highcharts-color-0" tabindex="-1" role="img"
+                aria-label="1. Jan, 49.9. Tokyo."></rect>
+        </g>
+
+    </svg>
+    <chart-legend
+        *ngIf="groupName.length"
+        [groupName]="groupName"
+        [options]="options"
+        [series] = "series"    
+    >
+    </chart-legend>
+  
+</div>
+

@@ -1,7 +1,14 @@
 <div class="container">
     <br/>
     <br/>
-    <ngx-charts-bar
+    <ngx-charts-line
+        [categories]="categoriesv"
+        [series]="seriesv"
+        [options]="optionsv"
+    >
+    </ngx-charts-line>
+    <br>   
+    <!-- <ngx-charts-bar
         [categories]="categoriesv"
         [series]="seriesv"
         [options]="optionsv"
@@ -13,7 +20,7 @@
         [series]="series"
         [options]="options"
     >
-    </ngx-charts-bar>
+    </ngx-charts-bar> -->
     <br>
     <br>
 </div>

@@ -5,15 +5,13 @@ import { CommonModule } from "@angular/common";
 import { AxesModule } from '../axes/axes.module';
 import { HeaderModule } from '../header/header.module';
 import { LegendModule } from '../legend/legend.module';
+import { ngxChartsLineComponent } from "./ngx-charts-line.component";
 import { TooltipModule } from '../tooltip/tooltip.module';
 
-import { ngxChartsBarComponent } from "./ngx-charts-bar.component";
-
-
 @NgModule({
-    declarations: [ngxChartsBarComponent],
+    declarations: [ngxChartsLineComponent],
     imports: [CommonModule, AxesModule, HeaderModule,LegendModule, TooltipModule],
-    exports: [ngxChartsBarComponent],
+    exports: [ngxChartsLineComponent],
     providers: [],
 })
-export class ngxChartsBarModule { }
+export class ngxChartsLineModule { }
