@@ -114,7 +114,8 @@ export class ngxChartsLineComponent implements OnChanges, OnInit {
     xScale: any;
     innerScale: any;
     yScale: any;
-    bars: any = [];
+    lines: any=[];
+    lineCircle: any = [];
     groupName: any[] = [];
     groupBarPaddingBK: any;
     innerBarPaddingBK: any;
@@ -190,7 +191,7 @@ export class ngxChartsLineComponent implements OnChanges, OnInit {
                         color: this.colorScale(item.name)
                     });
             })
-            this.createBar();
+            this.createLine();
         });
         this.cdr.detectChanges();
     }
@@ -286,45 +287,32 @@ export class ngxChartsLineComponent implements OnChanges, OnInit {
         }
         // console.log("calPlotBackground", JSON.stringify(this.options));
     }
-    createBar() {
+    createLine() {
         //console.log("this.innerScale.bandwidth() "+this.innerScale.bandwidth())
-        this.bars=[];
-        if (this.options.barType=='vertical') {
-            this.categories.map((item, index) => {
-                for (let i=0; i<this.series.length; i++) { 
-                    const bar: any={
-                        value: item,  //jan,feb
-                        data: this.series[i].data[index], //101,202
-                        group: this.series[i].name,
-                        color: this.colorScale(this.series[i].name),
-                        //formattedLabel,
-                        width: this.innerScale.bandwidth(),
-                        height:  this.series[i].data[index] > 0  ? (this.yScale(0)-this.yScale(this.series[i].data[index]) ) : (this.yScale(this.series[i].data[index]) - this.yScale(0) ),
-                        x: this.innerScale(this.series[i].name)+ this.xScale(item) ,
-                        y: this.series[i].data[index] > 0 ? this.yScale(this.series[i].data[index]) : this.yScale(0) ,
-                    };
-                    this.bars.push(bar);
-                }
-            });
+        this.lines=[];
+        this.lineCircle=[];
+        for (let i=0; i<this.series.length; i++) { 
+            let line={points:"", color:""}
+            for (let j=0; j<this.categories.length; j++) { 
+                let x=this.xScale(this.categories[j])+(this.xScale.bandwidth()/2)+this.options.yAxis.width;
+                let y = this.yScale(this.series[i].data[j])+this.options.header.height
+                line.points+=(x +","+y+" ");
+                line.color=this.colorScale(this.series[i].name);
+                this.lineCircle.push({
+                    x,
+                    y,
+                    color: this.colorScale(this.series[i].name),
+                    value: this.categories[j],  //jan,feb
+                    data: this.series[i].data[j], //101,202
+                    group: this.series[i].name
+                });
+            }
+            this.lines.push(line);
         }
-        else { 
-            this.categories.map((item, index) => {
-                for (let i=0; i<this.series.length; i++) { 
-                    const bar: any={
-                        value: item,  //jan,feb
-                        data: this.series[i].data[index], //101,202
-                        group: this.series[i].name,
-                        color: this.colorScale(this.series[i].name),
-                        //formattedLabel,
-                        width: this.series[i].data[index] > 0  ? ( this.xScale(this.series[i].data[index]) - this.xScale(0) ) : ( this.xScale(0) - this.xScale(this.series[i].data[index])  ),
-                        height:this.innerScale.bandwidth(),
-                        x: this.series[i].data[index] > 0 ? this.xScale(0)  : this.xScale(this.series[i].data[index]) ,
-                        y: this.innerScale(this.series[i].name)+ this.yScale(item)
-                    };
-                    this.bars.push(bar);
-                }
-            });
-        }
+
+        // console.log(this.lineCircle);
+       
+       
         
     }
 
