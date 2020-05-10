@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 
 import { ngxChartsBarModule } from './ngx-charts-bar/ngx-charts-bar.module';
 import { ngxChartsLineModule } from './ngx-charts-line/ngx-charts-line.module';
+import { ngxChartsPieModule } from './ngx-charts-pie/ngx-charts-pie.module';
 
 import { AxesModule } from './axes/axes.module';
 import { HeaderModule } from './header/header.module';
@@ -18,6 +19,7 @@ import { LegendModule } from './legend/legend.module';
         BrowserModule,
         ngxChartsBarModule,
         ngxChartsLineModule,
+        ngxChartsPieModule,
         LegendModule,
         AxesModule,
         HeaderModule
