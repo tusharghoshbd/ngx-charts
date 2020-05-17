@@ -7,51 +7,31 @@
         aria-hidden="false"  >
 
         <g header [options]="options" (headerHeightChange)="headerHeightChange($event)"></g>
-
-        <!-- <g y-axis 
-            [xScale]="xScale" 
-            [yScale]="yScale" 
-            [options]="options" 
-            [categories]="categories" 
-            [series]="series"
-            (yAxisWidthChange)="yAxisWidthChange($event)"></g> -->
-
-        <!-- <g x-axis 
-            [xScale]="xScale" 
-            [yScale]="yScale" 
-            [options]="options" 
-            [categories]="categories" 
-            [series]="series"
-            (xAxisHeightChange)="xAxisHeightChange($event)"></g> -->
-
-        <!-- <g data-z-index="0.1">
-            <polyline  
-                *ngFor="let line of lines" 
-                [attr.points]="line.points"
-                [style.fill]="'none'"
-                [style.stroke]="line.color"
-                [style.stroke-width]="3" >
-            </polyline>
-            <circle 
-                *ngFor="let lc of lineCircle"
-                [tooltip]="lc.value+', '+lc.group+', '+lc.data" 
-                [placement]="toolTipPlaccement(lc.data)" 
-                [attr.cx]="lc.x" 
-                [attr.cy]="lc.y" 
-                [attr.r]="3" 
-                [attr.stroke]="lc.color" 
-                [attr.stroke-width]="3" 
-                [attr.fill]="lc.color">
-            </circle>
-        </g> -->
         <g  
-            [attr.transform]="translation" >
-            <path *ngFor="let pie of pies" 
+            [attr.transform]="translation" 
+            *ngFor="let pie of pies" >
+            <path  
                 [attr.d]="pie.path"
                 [style.fill]="pie.color"
                 [tooltip]="pie.data.name+', '+pie.data.data" 
                 [placement]="toolTipPlaccement(pie.data.data)" 
             ></path>
+
+            <!--label path  -->
+            <path  
+                [attr.d]="pie.labelPath"
+                [style.stroke]="pie.color"
+                fill="none"
+            ></path>
+
+            <text
+                [attr.x]="pie.pos[0]" 
+                [attr.y]="pie.pos[1]"
+                [style.shapeRendering]="'crispEdges'"
+            >
+                {{ pie.data.name }}
+            </text>
+
         </g>
     </svg>
     <chart-legend

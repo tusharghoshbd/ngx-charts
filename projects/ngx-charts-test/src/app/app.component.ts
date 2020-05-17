@@ -63,7 +63,7 @@ export class AppComponent implements OnInit{
                 name: 'Other',
                 data: 20
             }]
-        }, 3000)
+        },0)
         
         // *********************************************
 

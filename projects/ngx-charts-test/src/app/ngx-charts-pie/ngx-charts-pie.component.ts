@@ -236,32 +236,31 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
         //console.log("this.innerScale.bandwidth() "+this.innerScale.bandwidth())
         this.pies=[];
         for (let i=0; i<this.pieGenerator.length; i++) {
-            this.pies.push({
+            let factor = 1.5;
+            let tempObj={
                 path: this.calcArc.startAngle(this.pieGenerator[i].startAngle).endAngle(this.pieGenerator[i].endAngle)(),
                 color: this.colorScale(this.pieGenerator[i].data.name),
-                data:this.pieGenerator[i].data
-            });
-
-            // for (let j=0; j<this.categories.length; j++) {
-            //     let x=this.xScale(this.categories[j])+(this.xScale.bandwidth()/2)+this.options.yAxis.width;
-            //     let y=this.yScale(this.series[i].data[j])+this.options.header.height
-            //     line.points+=(x+","+y+" ");
-            //     line.color=this.colorScale(this.series[i].name);
-            //     this.lineCircle.push({
-            //         x,
-            //         y,
-            //         color: this.colorScale(this.series[i].name),
-            //         value: this.categories[j],  //jan,feb
-            //         data: this.series[i].data[j], //101,202
-            //         group: this.series[i].name
-            //     });
-            // }
+                data: this.pieGenerator[i].data,
+                pos: this.calcArc.centroid(this.pieGenerator[i]),
+                labelPath: ""
+            };
+            tempObj["pos"][0]=factor*this.options.plotOptions.outerRadius*(this.midAngle(this.pieGenerator[i])<Math.PI? 1:-1);
+            
+            //create a line path
+            const innerPos=this.calcArc.centroid(this.pieGenerator[i]);
+            let scale = tempObj["pos"][1] / innerPos[1];
+            if (tempObj["pos"][1] === 0 || innerPos[1] === 0) {
+                scale = 1;
+            }
+            const outerPos = [scale * innerPos[0], scale * innerPos[1]];
+            tempObj.labelPath = `M${innerPos}L${outerPos}L${tempObj["pos"]}`;
+            
+            this.pies.push(tempObj);
         }
-
-        console.log(this.pies);
-
-
-
+        console.log("all pies : ",this.pies);
+    }
+    midAngle(d): number {
+        return d.startAngle + (d.endAngle - d.startAngle) / 2;
     }
 
     yAxisWidthChange({ yAxisWidth, yAxisHeight }) {
