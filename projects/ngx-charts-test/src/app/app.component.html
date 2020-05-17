@@ -4,16 +4,14 @@
     <div class="row">
         <div class=" col-md-6">
             <ngx-charts-pie
-                [categories]="categoriesp"
                 [series]="seriesp"
                 [options]="optionsp"
             ></ngx-charts-pie>
         </div>
         <div class="col col-md-6">
             <ngx-charts-pie
-                [categories]="categoriesp"
-                [series]="seriesp"
-                [options]="optionsp"
+                [series]="seriesd"
+                [options]="optionsd"
             ></ngx-charts-pie>
         </div>
     </div>
@@ -21,7 +19,7 @@
 
     <br/>
     <br/>
-    <!-- <ngx-charts-line
+    <ngx-charts-line
         [categories]="categoriesl"
         [series]="seriesl"
         [options]="optionsl"
@@ -42,5 +40,5 @@
     >
     </ngx-charts-bar>
     <br>
-    <br> -->
+    <br>
 </div>
