@@ -51,8 +51,8 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
             width: 0
         },
         plotOptions: {
-            outerRadius:80,
-            innerRadius:0
+            outerRadius: 80,
+            innerRadius: 0
         },
         header: {
             height: 0,
@@ -151,9 +151,9 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
         this.options.width=!this.options.width? dims.width-this.strToNumber(style.paddingLeft)-this.strToNumber(style.paddingRight):dims.width-this.strToNumber(style.paddingLeft)-this.strToNumber(style.paddingRight);
 
         this.calPlotBackground();
-        const xOffset = this.options.width / 2;
-        const yOffset = this.options.header.height + (this.options.plotBackground.height / 2);
-        this.translation = `translate(${xOffset}, ${yOffset})`;
+        const xOffset=this.options.width/2;
+        const yOffset=this.options.header.height+(this.options.plotBackground.height/2);
+        this.translation=`translate(${xOffset}, ${yOffset})`;
         this.calcArc=this.calculateArc();
         this.pieGenerator=this.pieGeneratorFunc();
 
@@ -203,10 +203,10 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
         this.cdr.detectChanges();
     }
 
-    pieGeneratorFunc() { 
-       return  pie()
-        .value(d => d.data)
-        .sort(null)(this.series);
+    pieGeneratorFunc() {
+        return pie()
+            .value(d => d.data)
+            .sort(null)(this.series);
     }
 
     calculateArc(): any {
@@ -217,6 +217,14 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
             .innerRadius(innerRadius)
             .outerRadius(outerRadius)
             .cornerRadius(cornerRadius);
+    }
+
+    outerArc(): any {
+        const factor=1.2;
+        let outerRadius=this.options.plotOptions.outerRadius;
+        return arc()
+            .innerRadius(outerRadius*factor)
+            .outerRadius(outerRadius*factor);
     }
 
     calPlotBackground() {
@@ -236,31 +244,32 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
         //console.log("this.innerScale.bandwidth() "+this.innerScale.bandwidth())
         this.pies=[];
         for (let i=0; i<this.pieGenerator.length; i++) {
-            let factor = 1.5;
+            let factor=1.2;
             let tempObj={
                 path: this.calcArc.startAngle(this.pieGenerator[i].startAngle).endAngle(this.pieGenerator[i].endAngle)(),
                 color: this.colorScale(this.pieGenerator[i].data.name),
                 data: this.pieGenerator[i].data,
-                pos: this.calcArc.centroid(this.pieGenerator[i]),
-                labelPath: ""
+                pos: this.outerArc().centroid(this.pieGenerator[i]),
+                labelPath: "",
+                textAnchor: this.midAngle(this.pieGenerator[i])<Math.PI? 'start':'end'
             };
             tempObj["pos"][0]=factor*this.options.plotOptions.outerRadius*(this.midAngle(this.pieGenerator[i])<Math.PI? 1:-1);
-            
+
             //create a line path
             const innerPos=this.calcArc.centroid(this.pieGenerator[i]);
-            let scale = tempObj["pos"][1] / innerPos[1];
-            if (tempObj["pos"][1] === 0 || innerPos[1] === 0) {
-                scale = 1;
+            let scale=tempObj["pos"][1]/innerPos[1];
+            if (tempObj["pos"][1]===0||innerPos[1]===0) {
+                scale=1;
             }
-            const outerPos = [scale * innerPos[0], scale * innerPos[1]];
-            tempObj.labelPath = `M${innerPos}L${outerPos}L${tempObj["pos"]}`;
-            
+            const outerPos=[scale*innerPos[0], scale*innerPos[1]];
+            tempObj.labelPath=`M${innerPos}L${outerPos}L${tempObj["pos"]}`;
+
             this.pies.push(tempObj);
         }
-        console.log("all pies : ",this.pies);
+        // console.log("all pies : ", this.pies);
     }
     midAngle(d): number {
-        return d.startAngle + (d.endAngle - d.startAngle) / 2;
+        return d.startAngle+(d.endAngle-d.startAngle)/2;
     }
 
     yAxisWidthChange({ yAxisWidth, yAxisHeight }) {
@@ -308,16 +317,30 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
             return data>0? 'right':'left'
         }
     }
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        //console.log("window:resize")
-        setTimeout(() => this.update());
+
+
+    trimLabel(s, max=16): string {
+        if (typeof s!=='string') {
+            if (typeof s==='number') {
+                return s+'';
+            } else {
+                return '';
+            }
+        }
+
+        s=s.trim();
+        if (s.length<=max) {
+            return s;
+        } else {
+            return `${s.slice(0, max)}...`;
+        }
     }
 
 
-
-
-
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        setTimeout(() => this.update());
+    }
 
     private strToNumber(str) {
         let numberPattern=/\d+/g;

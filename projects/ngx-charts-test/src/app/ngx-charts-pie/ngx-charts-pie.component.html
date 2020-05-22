@@ -27,9 +27,10 @@
             <text
                 [attr.x]="pie.pos[0]" 
                 [attr.y]="pie.pos[1]"
+                [style.textAnchor]="pie.textAnchor"
                 [style.shapeRendering]="'crispEdges'"
             >
-                {{ pie.data.name }}
+                {{ trimLabel(pie.data.name) }}
             </text>
 
         </g>

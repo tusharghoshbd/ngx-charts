@@ -41,8 +41,8 @@ export class AppComponent implements OnInit{
                 title: 'Rainfall (mm)'
             },
             plotOptions: {
-                outerRadius:120,
-                innerRadius:80
+                outerRadius:80,
+                innerRadius:60
             }
         };
         
@@ -81,7 +81,7 @@ export class AppComponent implements OnInit{
                 title: 'Rainfall (mm)'
             },
             plotOptions: {
-                outerRadius:120,
+                outerRadius:80,
                 innerRadius:0
             }
         };
