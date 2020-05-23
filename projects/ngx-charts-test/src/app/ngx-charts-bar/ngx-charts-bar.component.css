@@ -60,3 +60,43 @@
   .ng-tooltip-show {
     opacity: 1;
   }
+
+  /* .horizontal_bar{
+    animation: horizontal_bar_frames 1s backwards; 
+  }
+  
+  @keyframes horizontal_bar_frames {
+    0% {
+        width: 0;
+      }
+      100% {
+      }
+  } */
+
+  .horizontal_bar{
+    animation: horizontal_bar_frames 1s linear; 
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes horizontal_bar_frames {
+    from {
+        width: 0; 
+    }
+    to {
+        
+    }
+  }
+
+  .vertical_bar{
+    animation: vertical_bar_frames 0.5s linear; 
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes vertical_bar_frames {
+    from {
+      height: 0; 
+    }
+    to {
+        /* height: 0;  */
+    }
+  }

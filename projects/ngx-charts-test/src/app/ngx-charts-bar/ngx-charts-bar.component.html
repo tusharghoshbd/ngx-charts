@@ -24,19 +24,18 @@
             [series]="series"
             (xAxisHeightChange)="xAxisHeightChange($event)"></g>
 
-        <g data-z-index="0.1"
-            class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 highcharts-tracker">
+        <g data-z-index="0.1" >
             <rect *ngFor="let bar of bars" 
+                [attr.class]="bar.className"
                 [attr.x]="bar.x+this.options.yAxis.width"
                 [tooltip]="bar.value+', '+bar.group+', '+bar.data" 
                 [placement]="toolTipPlaccement(bar.data)" 
                 delay="10"
                 [attr.y]="bar.y+this.options.header.height" 
                 [attr.width]="bar.width" [attr.height]="bar.height"
-                [attr.fill]="bar.color" opacity="1" class="highcharts-point highcharts-color-0" tabindex="-1" role="img"
+                [attr.fill]="bar.color" opacity="1"  tabindex="-1" role="img"
                 aria-label="1. Jan, 49.9. Tokyo."></rect>
         </g>
-
     </svg>
     <chart-legend
         *ngIf="groupName.length"

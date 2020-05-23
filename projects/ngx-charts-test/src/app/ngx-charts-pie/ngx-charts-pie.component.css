@@ -60,3 +60,41 @@
   .ng-tooltip-show {
     opacity: 1;
   }
+
+  .pie{
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: pie_frames 1s linear; 
+    animation-delay: 1.3s;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes pie_frames {
+    from {
+        /* d:0 */
+    }
+    to {
+        /* d:"M4.898587196589413e-15,-80A80,80,0,1,1,-7.859091780091121,79.61303082028786L0,0Z"; */
+        stroke-dashoffset: 0;
+    }
+  }
+
+  .pieSlice{
+    animation: pieSlice_frames 1.5s; 
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes pieSlice_frames {
+    0% { 
+        transform: rotate(0deg); 
+    }
+    100% { 
+        transform: rotate(360deg); 
+    }
+    /* from {
+    }
+    to {
+        d:"M4.898587196589413e-15,-80A80,80,0,1,1,-7.859091780091121,79.61303082028786L0,0Z";
+        stroke-dashoffset: 0; 
+    } */
+  }

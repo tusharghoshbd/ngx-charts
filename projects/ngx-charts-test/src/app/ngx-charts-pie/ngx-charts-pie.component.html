@@ -11,6 +11,7 @@
             [attr.transform]="translation" 
             *ngFor="let pie of pies" >
             <path  
+                class="pieSlice"
                 [attr.d]="pie.path"
                 [style.fill]="pie.color"
                 [tooltip]="pie.data.name+', '+pie.data.data" 
@@ -19,6 +20,7 @@
 
             <!--label path  -->
             <path  
+                class="pie"
                 [attr.d]="pie.labelPath"
                 [style.stroke]="pie.color"
                 fill="none"
