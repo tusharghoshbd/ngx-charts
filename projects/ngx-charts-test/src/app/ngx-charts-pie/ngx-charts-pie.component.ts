@@ -13,6 +13,7 @@ import {
 
 import { scaleBand, scaleLinear } from "d3-scale";
 import { ColorHelper } from '../utils/color.helper';
+import { trimLabel } from '../utils/trim-label.helper';
 import { arc, pie } from 'd3-shape';
 
 @Component({
@@ -36,13 +37,17 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
             title: '',
             height: 0,
             labelRotation: 0,
-            labelAlign: 'left'
+            labelAlign: 'left',
+            labelEllipsis: false,
+            labelEllipsisSize:16
         },
         yAxis: {
             title: '',
             width: 0,
             height: 0,
-            labelRotation: 0
+            labelRotation: 0,
+            labelEllipsis: false,
+            labelEllipsisSize:16
         },
         plotBackground: {
             x: 0,
@@ -50,9 +55,15 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
             height: 0,
             width: 0
         },
+        legend: {
+            labelEllipsis: false,
+            labelEllipsisSize:16
+        },
         plotOptions: {
             outerRadius: 80,
-            innerRadius: 0
+            innerRadius: 0,
+            labelEllipsis: false,
+            labelEllipsisSize:16
         },
         header: {
             height: 0,
@@ -65,12 +76,14 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
     @Input() set options(obj: any) {
         let xAxis=obj.xAxis;
         let yAxis=obj.yAxis;
+        let legend=obj.legend;
         let plotBackground=obj.plotBackground;
         let plotOptions=obj.plotOptions;
         let header=obj.header;
 
         delete obj['xAxis'];
         delete obj['yAxis'];
+        delete obj['legend'];
         delete obj['plotBackground'];
         delete obj['plotOptions'];
         delete obj['header'];
@@ -85,6 +98,10 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
             yAxis: {
                 ...this.customOptions.yAxis,
                 ...yAxis
+            },
+            legend:{ 
+                ...this.customOptions.legend,
+                ...legend
             },
             plotBackground: {
                 ...this.customOptions.plotBackground,
@@ -123,10 +140,12 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
     calcArc: any;
     pieGenerator: any;
     translation: string="";
-
+    trimLabel: any;
     constructor(
         private chartElement: ElementRef,
-        private cdr: ChangeDetectorRef) { }
+        private cdr: ChangeDetectorRef) { 
+            this.trimLabel = trimLabel;
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         // this.groupBarPaddingBK=this.options.plotOptions.groupBarPadding;
@@ -317,25 +336,6 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
             return data>0? 'right':'left'
         }
     }
-
-
-    trimLabel(s, max=16): string {
-        if (typeof s!=='string') {
-            if (typeof s==='number') {
-                return s+'';
-            } else {
-                return '';
-            }
-        }
-
-        s=s.trim();
-        if (s.length<=max) {
-            return s;
-        } else {
-            return `${s.slice(0, max)}...`;
-        }
-    }
-
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {

@@ -18,7 +18,7 @@
                 [attr.transform]="xTransformRotate(item)"
                 [attr.text-anchor]="options.xAxis.labelAlign"
                 style="color:#666666;cursor:default;font-size:11px;fill:#666666;"
-                opacity="1">{{item}}</text>
+                opacity="1">{{ options.xAxis.labelEllipsis ? trimLabel(item,  options.xAxis.labelEllipsisSize) :item}}</text>
         </g> 
 
         <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true"
@@ -29,7 +29,7 @@
                 [attr.x] = 'xScale(tick) + options.yAxis.width'
                 [attr.y] = "options.height - 30"
                 [attr.transform]="xTransformRotate(tick)"
-                opacity="1">{{tick}}</text>
+                opacity="1">{{ options.xAxis.labelEllipsis ? trimLabel(tick,  options.xAxis.labelEllipsisSize) :tick}}</text>
         </g>
     </g>
     <g *ngIf="options.barType == 'horizontal'" class="highcharts-grid highcharts-yaxis-grid" data-z-index="1" aria-hidden="true">

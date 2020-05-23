@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, Input, AfterViewInit, ViewChild, Output, EventEmitter, ElementRef, SimpleChanges } from '@angular/core';
 
+import { trimLabel } from '../../utils/trim-label.helper';
+
 @Component({
     selector: 'g[x-axis]',
     templateUrl: './x-axis.component.html',
@@ -18,12 +20,14 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
     @Output() xAxisHeightChange=new EventEmitter();
 
     ticks: any[]=[];
-
-    constructor() { }
+    trimLabel: any;
+    constructor() {
+        this.trimLabel=trimLabel;
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         // console.log("-----------------------")
-        // console.log(this.options)
+        console.log(this.options)
         //console.log(this.xScale)
         this.update();
     }

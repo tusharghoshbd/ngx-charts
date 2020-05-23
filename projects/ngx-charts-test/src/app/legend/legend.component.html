@@ -9,7 +9,7 @@
                         <span class="legend-label-color" 
                             [style.background-color] = "gn.color"> </span>
                         <span class="legend-label-text">
-                            {{gn.name}}
+                            {{ options.legend.labelEllipsis ? trimLabel(gn.name,  options.legend.labelEllipsisSize) :gn.name}}
                         </span>
                     </div>
                 </li>

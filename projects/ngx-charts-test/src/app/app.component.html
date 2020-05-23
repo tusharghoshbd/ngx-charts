@@ -1,31 +1,9 @@
 <div class="container">
-    <br/>
-    <br/>
-    <div class="row">
-        <div class=" col-md-6">
-            <ngx-charts-pie
-                [series]="seriesp"
-                [options]="optionsp"
-            ></ngx-charts-pie>
-        </div>
-        <div class="col col-md-6">
-            <ngx-charts-pie
-                [series]="seriesd"
-                [options]="optionsd"
-            ></ngx-charts-pie>
-        </div>
-    </div>
+  
     
-
+ 
     <br/>
-    <br/>
-    <ngx-charts-line
-        [categories]="categoriesl"
-        [series]="seriesl"
-        [options]="optionsl"
-    >
-    </ngx-charts-line>
-    <br>   
+      
     <ngx-charts-bar
         [categories]="categoriesv"
         [series]="seriesv"
@@ -40,5 +18,30 @@
     >
     </ngx-charts-bar>
     <br>
+    <br/>
+    <ngx-charts-line
+        [categories]="categoriesl"
+        [series]="seriesl"
+        [options]="optionsl"
+    >
+    </ngx-charts-line>
+    <br> 
     <br>
+    
+     <div class="row">
+         <div class=" col-md-6">
+             <ngx-charts-pie
+                 [series]="seriesp"
+                 [options]="optionsp"
+             ></ngx-charts-pie>
+         </div>
+         <div class="col col-md-6">
+             <ngx-charts-pie
+                 [series]="seriesd"
+                 [options]="optionsd"
+             ></ngx-charts-pie>
+         </div>
+     </div>
+     <br/>
+    <br/>
 </div>

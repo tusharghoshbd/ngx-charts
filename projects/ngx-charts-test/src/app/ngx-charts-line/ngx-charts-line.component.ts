@@ -36,13 +36,21 @@ export class ngxChartsLineComponent implements OnChanges, OnInit {
             title: '',
             height: 0,
             labelRotation: 0,
-            labelAlign: 'left'
+            labelAlign: 'left',
+            labelEllipsis: false,
+            labelEllipsisSize:16
         },
         yAxis: {
             title: '',
             width: 0,
             height:0,
-            labelRotation:0
+            labelRotation: 0,
+            labelEllipsis: false,
+            labelEllipsisSize:16
+        },
+        legend: {
+            labelEllipsis: false,
+            labelEllipsisSize:16
         },
         plotBackground: {
             x: 0,
@@ -65,12 +73,14 @@ export class ngxChartsLineComponent implements OnChanges, OnInit {
     @Input() set options(obj: any) {
         let xAxis=obj.xAxis;
         let yAxis=obj.yAxis;
+        let legend=obj.legend;
         let plotBackground=obj.plotBackground;
         let plotOptions=obj.plotOptions;
         let header=obj.header;
 
         delete obj['xAxis'];
         delete obj['yAxis'];
+        delete obj['legend'];
         delete obj['plotBackground'];
         delete obj['plotOptions'];
         delete obj['header'];
@@ -86,6 +96,10 @@ export class ngxChartsLineComponent implements OnChanges, OnInit {
                 ...this.customOptions.yAxis,
                 ...yAxis
             },
+            legend:{ 
+                ...this.customOptions.legend,
+                ...legend
+            },
             plotBackground: {
                 ...this.customOptions.plotBackground,
                 ...plotBackground
@@ -93,13 +107,13 @@ export class ngxChartsLineComponent implements OnChanges, OnInit {
             plotOptions: {
                 ...this.customOptions.plotOptions,
                 ...plotOptions
-                
             },
             header: {
                 ...this.customOptions.header,
                 ...header
             }
         };
+        this._options['barType']='vertical';
     }
     get options(): any {
         return this._options;

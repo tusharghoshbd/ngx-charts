@@ -14,6 +14,7 @@ import { select } from 'd3-selection';
 import { transition } from 'd3-transition';
 import { scaleBand, scaleLinear } from "d3-scale";
 import { ColorHelper } from '../utils/color.helper';
+import { trimLabel } from '../utils/trim-label.helper';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 
 @Component({
@@ -37,13 +38,21 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
             title: '',
             height: 0,
             labelRotation: 0,
-            labelAlign: 'left'
+            labelAlign: 'left',
+            labelEllipsis: false,
+            labelEllipsisSize:16
         },
         yAxis: {
             title: '',
             width: 0,
             height: 0,
-            labelRotation: 0
+            labelRotation: 0,
+            labelEllipsis: false,
+            labelEllipsisSize:16
+        },
+        legend: {
+            labelEllipsis: false,
+            labelEllipsisSize:16
         },
         plotBackground: {
             x: 0,
@@ -66,12 +75,14 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
     @Input() set options(obj: any) {
         let xAxis=obj.xAxis;
         let yAxis=obj.yAxis;
+        let legend=obj.legend;
         let plotBackground=obj.plotBackground;
         let plotOptions=obj.plotOptions;
         let header=obj.header;
 
         delete obj['xAxis'];
         delete obj['yAxis'];
+        delete obj['legend'];
         delete obj['plotBackground'];
         delete obj['plotOptions'];
         delete obj['header'];
@@ -87,6 +98,10 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
                 ...this.customOptions.yAxis,
                 ...yAxis
             },
+            legend:{ 
+                ...this.customOptions.legend,
+                ...legend
+            },
             plotBackground: {
                 ...this.customOptions.plotBackground,
                 ...plotBackground
@@ -94,13 +109,13 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
             plotOptions: {
                 ...this.customOptions.plotOptions,
                 ...plotOptions
-
             },
             header: {
                 ...this.customOptions.header,
                 ...header
             }
         };
+        console.log(this._options)
     }
     get options(): any {
         return this._options;
@@ -121,12 +136,12 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
     groupBarPaddingBK: any;
     innerBarPaddingBK: any;
     colorScale: any;
-
+    trimLabel: any;
     constructor(element: ElementRef,
         private chartElement: ElementRef,
         private cdr: ChangeDetectorRef) {
         this.element=element.nativeElement;
-        //console.log(this.element);
+        this.trimLabel = trimLabel;
     }
 
     ngOnChanges(changes: SimpleChanges): void {

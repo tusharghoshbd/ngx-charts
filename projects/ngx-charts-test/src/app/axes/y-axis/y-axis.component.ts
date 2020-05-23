@@ -4,7 +4,7 @@ import {
     Output,EventEmitter
 } from "@angular/core";
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
-
+import { trimLabel } from '../../utils/trim-label.helper';
 @Component({
     selector: "g[y-axis]",
     templateUrl: "./y-axis.component.html",
@@ -23,7 +23,10 @@ export class YAxisComponent implements OnInit, OnChanges {
 
     ticks: any[]=[];
     
-    constructor() { }
+    trimLabel: any;
+    constructor() {
+        this.trimLabel=trimLabel;
+    }
 
     ngOnInit() {
         //console.log(this.yScale)

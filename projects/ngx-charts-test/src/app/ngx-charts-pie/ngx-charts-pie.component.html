@@ -32,7 +32,7 @@
                 [style.textAnchor]="pie.textAnchor"
                 [style.shapeRendering]="'crispEdges'"
             >
-                {{ trimLabel(pie.data.name) }}
+                {{   options.plotOptions.labelEllipsis ? trimLabel(pie.data.name, options.plotOptions.labelEllipsisSize) :  pie.data.name}}
             </text>
 
         </g>
