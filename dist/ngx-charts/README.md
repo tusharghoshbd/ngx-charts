@@ -11,7 +11,7 @@ Building this library is inspired by jQuery Highchart and @swimlane/ngx-charts.
 
 [Demo example](https://tusharghoshbd.github.io/ngx-charts/#)
 
-[Demo in stackblitz](https://stackblitz.com/edit/tusharghoshdbd-ngx-charts)
+[Demo in stackblitz](https://stackblitz.com/edit/tusharghoshbd-ngx-charts)
 
 ## Installation
 

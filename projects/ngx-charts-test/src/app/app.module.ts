@@ -8,7 +8,7 @@ import { BarComponent } from './bar/bar.component';
 import { PieComponent } from './pie/pie.component';
 import { LineComponent } from './line/line.component';
 
-import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsPieModule } from 'ngx-charts';
+import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsPieModule } from '@tusharghoshbd/ngx-charts';
 
 @NgModule({
     declarations: [

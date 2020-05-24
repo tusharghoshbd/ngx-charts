@@ -1,25 +1,28 @@
 {
     "name": "@tusharghoshbd/ngx-charts",
     "version": "1.0.0",
-    "description": "Ngx charts is an angular library for presenting data in different chart.",
+    "description": "Ngx charts is an angular library for presenting data in chart.",
     "main": "dist/ngx-charts",
     "author": "tusharghoshbd",
     "license": "MIT",
     "repository": {
       "type": "git",
-      "url": "https://github.com/tusharghoshbd/ngx-chartx"
+      "url": "https://github.com/tusharghoshbd/ngx-charts"
     },
     "keywords": [
-      "ngx chartx",
+      "ngx charts",
       "Highchart",
-      "Angular chartx",
-      "Easy chartx",
+      "Angular charts",
+      "Easy charts",
       "ng chart",
       "Angular",
       "angular 8",
       "angular 9",
       "ng 7 ng 8 ng 9",
-      "ngx"   
+      "ngx",
+      "Bar",
+      "Line",
+      "Pie"  
     ],
     "peerDependencies": {
         "@angular/common": "^8.1.3",
