@@ -38,5 +38,6 @@ export declare class ngxChartsBarComponent implements OnChanges, OnInit {
     }): void;
     toolTipPlaccement(data: any): "left" | "right" | "top" | "bottom";
     onResize(event: any): void;
+    getViewBox(): string;
     private strToNumber;
 }

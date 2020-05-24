@@ -1,8 +1,8 @@
-# Ngx Chartx
+# Ngx Charts
 
 **Ngx Charts** is an angular library for presenting data in chart. This library is easy to integrate in your angular component. This library supports Horizontal Bar, Vertical Bar, Pie, Donuts and Line chart. In this libray use D3 to calculate math, scale, axis and shape. You can also customize this library as your requirements.
 
-Building this library is inspired by jQuery Highchart and @swimlane/ngx-chartx.
+Building this library is inspired by jQuery Highchart and @swimlane/ngx-charts.
 
 
 ## Demo

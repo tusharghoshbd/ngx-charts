@@ -409,8 +409,13 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
         setTimeout(() => this.update());
     }
 
-
-
+    getViewBox() {
+        if (this.options.width>0&&this.options.height>0)
+            return '0 0 '+this.options.width+' '+this.options.height;
+        else
+            return '0 0 0 0';
+    }
+    
 
 
 

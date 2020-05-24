@@ -8,6 +8,20 @@ import { AppService } from '../app.service';
 
 export class InstallationComponent implements OnInit  {
     
+    import=`import { 
+            ngxChartsBarModule, 
+            ngxChartsLineModule, 
+            ngxChartsPieModule
+        } from '@tusharghoshbd/ngx-charts';
+
+        @NgModule({
+        imports:[ 
+                    ... 
+                    ngxChartsBarModule, 
+                    ngxChartsLineModule, 
+                    ngxChartsPieModule
+                ]
+        })`;
 
     constructor() { }
     ngOnInit(): void {

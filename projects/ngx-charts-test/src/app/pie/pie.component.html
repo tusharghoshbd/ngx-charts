@@ -1,8 +1,36 @@
 
-    <div class="row">
-        <div class=" col-md-12">
-             <h1>Ngx Charts pie</h1>
+<ul class="nav nav-tabs">
+    <li [class.active]="tab.pie"><a data-toggle="tab" href="#pie" (click)="pieTabSelect()">Pie Chart</a></li>
+    <li [class.active]="tab.donut"><a data-toggle="tab" href="#donut" (click)="donutTabSelect()">Donut Chart</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="home" class="tab-pane fade in active" 
+        [class.in]="tab.pie" 
+        [class.active]="tab.pie"
+        *ngIf="tab.pie">
+        <div class="row">
+            <div class="col col-md-12">
+                <ngx-charts-pie
+                    [series]="seriesp"
+                    [options]="optionsp"
+                ></ngx-charts-pie>
+            </div>
         </div>
+        <br/>
     </div>
-    <br/>
-    <br/>
+    <div id="menu1" class="tab-pane fade in active" 
+        [class.in]="tab.donut" 
+        [class.active]="tab.donut"
+        *ngIf="tab.donut">
+        <div class="row">
+            <div class="col col-md-12">
+                <ngx-charts-pie
+                    [series]="seriesd"
+                    [options]="optionsd"
+                ></ngx-charts-pie>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>
