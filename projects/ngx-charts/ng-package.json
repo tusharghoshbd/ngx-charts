@@ -3,5 +3,11 @@
   "dest": "../../dist/ngx-charts",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "d3-scale",
+    "d3-selection",
+    "d3-shape",
+    "d3-transition"
+  ]
 }

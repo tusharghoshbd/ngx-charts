@@ -2,27 +2,28 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { InstallationComponent } from './installation/installation.component';
+import { BarComponent } from './bar/bar.component';
+import { PieComponent } from './pie/pie.component';
+import { LineComponent } from './line/line.component';
 
-import { ngxChartsBarModule } from './ngx-charts-bar/ngx-charts-bar.module';
-import { ngxChartsLineModule } from './ngx-charts-line/ngx-charts-line.module';
-import { ngxChartsPieModule } from './ngx-charts-pie/ngx-charts-pie.module';
-
-import { AxesModule } from './axes/axes.module';
-import { HeaderModule } from './header/header.module';
-import { LegendModule } from './legend/legend.module';
+import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsPieModule } from 'ngx-charts';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        HomeComponent,
+        InstallationComponent,
+        BarComponent,
+        PieComponent,
+        LineComponent
     ],
     imports: [
         BrowserModule,
         ngxChartsBarModule,
         ngxChartsLineModule,
-        ngxChartsPieModule,
-        LegendModule,
-        AxesModule,
-        HeaderModule
+        ngxChartsPieModule
     ],
     providers: [],
     bootstrap: [AppComponent]

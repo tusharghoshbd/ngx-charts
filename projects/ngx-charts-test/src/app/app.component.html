@@ -1,47 +1,35 @@
-<div class="container">
   
-    
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" 
+            (click)="toggleNavbarCollapse()"
+            data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+        <a class="navbar-brand" href="#">NgxCharts</a>
+      </div>
+      <div class="collapse navbar-collapse"
+        [class.in]="navbarCollapse"  id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li [class.active]="navBarShow.home"><a href="#" (click)="clickMenuShow('home')">Home</a></li>
+          <li [class.active]="navBarShow.installation"><a href="#" (click)="clickMenuShow('installation')">Installation</a></li>
+          <li [class.active]="navBarShow.bar" ><a href="#" (click)="clickMenuShow('bar')">Bar</a></li>
+          <li [class.active]="navBarShow.pie"><a href="#" (click)="clickMenuShow('pie')">Pie</a></li>
+          <li [class.active]="navBarShow.line"><a href="#" (click)="clickMenuShow('line')">Line</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container">
+        <app-home  *ngIf="navBarShow.home" ></app-home>
+        <app-installation *ngIf="navBarShow.installation"></app-installation>
+        <app-bar  *ngIf="navBarShow.bar" ></app-bar>
+        <app-pie  *ngIf="navBarShow.pie" ></app-pie>
+        <app-line  *ngIf="navBarShow.line" ></app-line>
+  </div>
+  
  
-    <br/>
-      
-    <ngx-charts-bar
-        [categories]="categoriesv"
-        [series]="seriesv"
-        [options]="optionsv"
-    >
-    </ngx-charts-bar>
-    <br>    
-    <ngx-charts-bar
-        [categories]="categoriesh"
-        [series]="seriesh"
-        [options]="optionsh"
-    >
-    </ngx-charts-bar>
-    <br>
-    <br/>
-    <ngx-charts-line
-        [categories]="categoriesl"
-        [series]="seriesl"
-        [options]="optionsl"
-    >
-    </ngx-charts-line>
-    <br> 
-    <br>
-    
-     <div class="row">
-         <div class=" col-md-6">
-             <ngx-charts-pie
-                 [series]="seriesp"
-                 [options]="optionsp"
-             ></ngx-charts-pie>
-         </div>
-         <div class="col col-md-6">
-             <ngx-charts-pie
-                 [series]="seriesd"
-                 [options]="optionsd"
-             ></ngx-charts-pie>
-         </div>
-     </div>
-     <br/>
-    <br/>
-</div>
