@@ -7,8 +7,9 @@ import { InstallationComponent } from './installation/installation.component';
 import { BarComponent } from './bar/bar.component';
 import { PieComponent } from './pie/pie.component';
 import { LineComponent } from './line/line.component';
+import { ComboComponent } from './combo/combo.component';
 
-import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsPieModule } from '@tusharghoshbd/ngx-charts';
+import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsComboModule, ngxChartsPieModule } from 'ngx-charts';
 
 @NgModule({
     declarations: [
@@ -17,12 +18,14 @@ import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsPieModule } from '@tu
         InstallationComponent,
         BarComponent,
         PieComponent,
-        LineComponent
+        LineComponent,
+        ComboComponent
     ],
     imports: [
         BrowserModule,
         ngxChartsBarModule,
         ngxChartsLineModule,
+        ngxChartsComboModule,
         ngxChartsPieModule
     ],
     providers: [],
