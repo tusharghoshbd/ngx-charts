@@ -62,8 +62,8 @@ export class YAxisComponent implements OnInit, OnChanges {
         this.ngAfterViewInit();
     }
 
-    transform() {
-        return "rotate(270, 10, "+this.options.height/2+")";
+    transform(x) {
+        return "rotate(270, "+x+", "+this.options.height/2+")";
     }
     pathDirection(tick) { 
         //console.log(tick, this.yScale(tick))

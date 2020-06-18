@@ -14,7 +14,7 @@ export declare class YAxisComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void;
     ngAfterViewInit(): void;
     update(): void;
-    transform(): string;
+    transform(x: any): string;
     pathDirection(tick: any): string;
     calculateYTextPosition(item: any): any;
 }
