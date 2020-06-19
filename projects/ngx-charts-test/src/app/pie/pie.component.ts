@@ -33,11 +33,9 @@ export class PieComponent implements OnInit  {
             plotOptions: {
                 outerRadius: 80,
                 innerRadius: 0,
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             },
         };

@@ -2,12 +2,15 @@ import { OnInit, OnChanges, SimpleChanges, ElementRef, EventEmitter } from "@ang
 export declare class YAxisComponent implements OnInit, OnChanges {
     xScale: any;
     yScale: any;
+    yRightScale: any;
     options: any;
     categories: any;
     series: any;
     yAxisWidthEl: ElementRef;
+    yAxisRightWidthEl: ElementRef;
     yAxisWidthChange: EventEmitter<{}>;
     ticks: any[];
+    rightTicks: any[];
     trimLabel: any;
     constructor();
     ngOnInit(): void;

@@ -10,6 +10,7 @@ export declare class ngxChartsComboComponent implements OnChanges, OnInit {
     xScale: any;
     innerScale: any;
     yScale: any;
+    yRightScale: any;
     lines: any;
     bars: any;
     lineCircle: any;
@@ -24,12 +25,14 @@ export declare class ngxChartsComboComponent implements OnChanges, OnInit {
     getXScale(): any;
     getInnerScale(): any;
     getYScale(): any;
+    getYRightScale(): any;
     calPlotBackground(): void;
     createLine(): void;
     createBar(): void;
-    yAxisWidthChange({ yAxisWidth, yAxisHeight }: {
+    yAxisWidthChange({ yAxisWidth, yAxisHeight, yAxisRightWidth }: {
         yAxisWidth: any;
         yAxisHeight: any;
+        yAxisRightWidth: any;
     }): void;
     xAxisHeightChange({ xAxisHeight }: {
         xAxisHeight: any;

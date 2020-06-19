@@ -12,7 +12,7 @@
             *ngIf="options.barType == 'vertical'">
             <text
                 style="color:#666666;cursor:default;font-size:11px;fill:#666666;" 
-                text-anchor="right"
+                text-anchor="start"
                 *ngFor="let tick of ticks" 
                 [attr.x]="30"
                 [attr.y]="yScale(tick)+this.options.header.height" 
@@ -30,24 +30,24 @@
     </g>
 
     <g #yAxisRightWidthEl>
-        <g class="highcharts-axis highcharts-yaxis" data-z-index="2" aria-hidden="true">
+        <g *ngIf= "yRightScale" class="highcharts-axis highcharts-yaxis" data-z-index="2" aria-hidden="true" >
             <text 
-                [attr.x]="options.plotBackground.width+options.yAxis.width - 10" 
+                [attr.x]="options.width - 10" 
                 [attr.y]="options.height/2" text-anchor="middle" dominant-baseline="central" 
                 style="color:#666666;cursor:default;font-size:11px;fill:#666666;" 
                 class="highcharts-axis-title"
-                [attr.transform]="transform(options.plotBackground.width+options.yAxis.width - 10)">
-                {{options.yAxis ? options.yAxis.title : ""}}
+                [attr.transform]="transform(options.width  - 10)">
+                {{options.yAxis ? options.yAxis.rightTitle : ""}}
             </text>
         </g>
-        <g class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true"
-            *ngIf="options.barType == 'vertical'">
+        <g  class="highcharts-axis-labels highcharts-yaxis-labels" data-z-index="7" aria-hidden="true"
+            *ngIf="options.barType == 'vertical' && yRightScale">
             <text
                 style="color:#666666;cursor:default;font-size:11px;fill:#666666;" 
-                text-anchor="left"
-                *ngFor="let tick of ticks" 
-                [attr.x]="options.plotBackground.width+options.yAxis.width - 30"
-                [attr.y]="yScale(tick)+this.options.header.height" 
+                text-anchor="end"
+                *ngFor="let tick of rightTicks" 
+                [attr.x]="options.width - 30"
+                [attr.y]="yRightScale(tick)+this.options.header.height" 
                 opacity="1">{{ options.yAxis.labelEllipsis ? trimLabel(tick,  options.yAxis.labelEllipsisSize) :tick}} </text>
         </g>
     </g>

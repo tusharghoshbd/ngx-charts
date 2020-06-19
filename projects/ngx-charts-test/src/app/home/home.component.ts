@@ -45,12 +45,10 @@ export class HomeComponent implements OnInit  {
                 title: 'Continent population no',
                 labelRotation: 0,
                 labelAlign: 'middle',
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             },
             yAxis: {
                 title: 'Continent name',
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             },
             plotOptions: {
@@ -58,7 +56,6 @@ export class HomeComponent implements OnInit  {
                 innerBarPadding: 2
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 10
             }
         };
@@ -103,7 +100,6 @@ export class HomeComponent implements OnInit  {
                 innerBarPadding: 2
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             }
         };
@@ -154,18 +150,15 @@ export class HomeComponent implements OnInit  {
                 title: 'Year name',
                 labelRotation: 0,
                 labelAlign: 'middle', // left, middle, right,
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             },
             yAxis: {
                 title: 'Rainfall (mm)',
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             },
             plotOptions: {
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             }
         };
@@ -202,7 +195,6 @@ export class HomeComponent implements OnInit  {
                 innerRadius: 60
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             }
         };
@@ -236,11 +228,9 @@ export class HomeComponent implements OnInit  {
             plotOptions: {
                 outerRadius: 80,
                 innerRadius: 0,
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             },
         };
@@ -275,18 +265,16 @@ export class HomeComponent implements OnInit  {
                 title: 'Year name',
                 labelRotation: 0,
                 labelAlign: 'middle', // left, middle, right,
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             },
             yAxis: {
-                title: 'Rainfall (mm)',
-                labelEllipsis: true,
+                leftTitle: 'Rainfall (mm)',
+                rightTitle: 'Yearly Sales (Taka)',
                 labelEllipsisSize: 8
             },
             plotOptions: {
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             }
         };
@@ -295,13 +283,13 @@ export class HomeComponent implements OnInit  {
             this.categoriesCombo=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             this.seriesCombo=[{
                 name: 'Installation',
-                type: 'column',
+                type: 'verticalBar',
                 data: [49.9, 71.5, 155.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
             },
             {
                 name: 'Manufacturing',
                 type: 'line',
-                data: [49.9, 150.5, 125.4, 129.2, 144.0, 56.0, 135.6, 168.5, 26.4, 194.1, 95.6, 84.4]
+                data: [30000, 100000.5, 50000.4, 20000.2, 40000.0, 60000.0, 50000.6, 80000.5, 20000.4, 90000.1, 50000.6, 40000.4]
                 }
             ]
         }, 0)

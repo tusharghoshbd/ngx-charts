@@ -13,15 +13,18 @@ import { trimLabel } from '../../utils/trim-label.helper';
 export class YAxisComponent implements OnInit, OnChanges {
     @Input() xScale: any;
     @Input() yScale: any;
+    @Input() yRightScale: any;
     @Input() options: any;
 
     @Input() categories: any=[];
     @Input() series: any=[];
 
-    @ViewChild('yAxisWidthEl', {static:true}) yAxisWidthEl: ElementRef;
+    @ViewChild('yAxisWidthEl', { static: true }) yAxisWidthEl: ElementRef;
+    @ViewChild('yAxisRightWidthEl', {static:true}) yAxisRightWidthEl: ElementRef;
     @Output() yAxisWidthChange = new EventEmitter();
 
     ticks: any[]=[];
+    rightTicks: any[]=[];
     
     trimLabel: any;
     constructor() {
@@ -40,11 +43,15 @@ export class YAxisComponent implements OnInit, OnChanges {
         this.update();
     }
     ngAfterViewInit(): void {
+        
         setTimeout(() => {
             const yAxisWidth=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10)+30;
             const yAxisHeight=parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().height, 10)+300;
+
+            const yAxisRightWidth=parseInt(this.yAxisRightWidthEl.nativeElement.getBoundingClientRect().width, 10)+30;
+
             if (yAxisHeight!==this.options.yAxis.height||yAxisWidth!==this.options.yAxis.width) {
-                this.yAxisWidthChange.emit({ yAxisWidth, yAxisHeight });
+                this.yAxisWidthChange.emit({ yAxisWidth, yAxisHeight, yAxisRightWidth });
             }
             //setTimeout(() => this.updateDims());
         }, 0);
@@ -53,8 +60,8 @@ export class YAxisComponent implements OnInit, OnChanges {
     update() {
         if (this.options.barType=="vertical") {
             this.ticks=this.yScale.nice().ticks();
-            //console.log("update y ", this.ticks)
-            //console.log("update y --  ", this.yScale(0));
+            if(this.yRightScale)
+                this.rightTicks=this.yRightScale.nice().ticks();
         }
         else {
             //this.ticks=this.xScale.nice().ticks();
@@ -67,7 +74,7 @@ export class YAxisComponent implements OnInit, OnChanges {
     }
     pathDirection(tick) { 
         //console.log(tick, this.yScale(tick))
-        return 'M '+(this.options.yAxis.width)+' '+(this.yScale(tick)+this.options.header.height)+' L '+(this.options.width)+' '+(this.yScale(tick)+this.options.header.height);
+        return 'M '+(this.options.yAxis.width)+' '+(this.yScale(tick)+this.options.header.height)+' L '+(this.options.plotBackground.width + this.options.yAxis.width)+' '+(this.yScale(tick)+this.options.header.height);
     }
     calculateYTextPosition(item) { 
         if (this.yScale(item))

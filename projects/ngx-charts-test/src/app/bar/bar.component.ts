@@ -35,12 +35,10 @@ export class BarComponent implements OnInit  {
                 title: 'Continent population no',
                 labelRotation: 0,
                 labelAlign: 'middle',
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             },
             yAxis: {
                 title: 'Continent name',
-                labelEllipsis: true,
                 labelEllipsisSize: 16
             },
             plotOptions: {
@@ -48,7 +46,6 @@ export class BarComponent implements OnInit  {
                 innerBarPadding: 2
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 10
             }
         };

@@ -156,6 +156,7 @@ class YAxisComponent {
         this.series = [];
         this.yAxisWidthChange = new EventEmitter();
         this.ticks = [];
+        this.rightTicks = [];
         this.trimLabel = trimLabel;
     }
     /**
@@ -187,8 +188,10 @@ class YAxisComponent {
             const yAxisWidth = parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().width, 10) + 30;
             /** @type {?} */
             const yAxisHeight = parseInt(this.yAxisWidthEl.nativeElement.getBoundingClientRect().height, 10) + 300;
+            /** @type {?} */
+            const yAxisRightWidth = parseInt(this.yAxisRightWidthEl.nativeElement.getBoundingClientRect().width, 10) + 30;
             if (yAxisHeight !== this.options.yAxis.height || yAxisWidth !== this.options.yAxis.width) {
-                this.yAxisWidthChange.emit({ yAxisWidth, yAxisHeight });
+                this.yAxisWidthChange.emit({ yAxisWidth, yAxisHeight, yAxisRightWidth });
             }
             //setTimeout(() => this.updateDims());
         }), 0);
@@ -199,8 +202,8 @@ class YAxisComponent {
     update() {
         if (this.options.barType == "vertical") {
             this.ticks = this.yScale.nice().ticks();
-            //console.log("update y ", this.ticks)
-            //console.log("update y --  ", this.yScale(0));
+            if (this.yRightScale)
+                this.rightTicks = this.yRightScale.nice().ticks();
         }
         else {
             //this.ticks=this.xScale.nice().ticks();
@@ -220,7 +223,7 @@ class YAxisComponent {
      */
     pathDirection(tick) {
         //console.log(tick, this.yScale(tick))
-        return 'M ' + (this.options.yAxis.width) + ' ' + (this.yScale(tick) + this.options.header.height) + ' L ' + (this.options.width) + ' ' + (this.yScale(tick) + this.options.header.height);
+        return 'M ' + (this.options.yAxis.width) + ' ' + (this.yScale(tick) + this.options.header.height) + ' L ' + (this.options.plotBackground.width + this.options.yAxis.width) + ' ' + (this.yScale(tick) + this.options.header.height);
     }
     /**
      * @param {?} item
@@ -235,7 +238,7 @@ class YAxisComponent {
 YAxisComponent.decorators = [
     { type: Component, args: [{
                 selector: "g[y-axis]",
-                template: "<svg>\n    <g #yAxisWidthEl>\n        <g class=\"highcharts-axis highcharts-yaxis\" data-z-index=\"2\" aria-hidden=\"true\">\n            <text x=\"10\" [attr.y]=\"options.height/2\" text-anchor=\"middle\" dominant-baseline=\"central\" \n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" \n                class=\"highcharts-axis-title\"\n                [attr.transform]=\"transform(10)\">\n                {{options.yAxis ? options.yAxis.title : \"\"}}\n            </text>\n        </g>\n        <g class=\"highcharts-axis-labels highcharts-yaxis-labels\" data-z-index=\"7\" aria-hidden=\"true\"\n            *ngIf=\"options.barType == 'vertical'\">\n            <text\n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" \n                text-anchor=\"right\"\n                *ngFor=\"let tick of ticks\" \n                [attr.x]=\"30\"\n                [attr.y]=\"yScale(tick)+this.options.header.height\" \n                opacity=\"1\">{{ options.yAxis.labelEllipsis ? trimLabel(tick,  options.yAxis.labelEllipsisSize) :tick}} </text>\n        </g>\n        <g class=\"highcharts-axis-labels highcharts-xaxis-labels\" data-z-index=\"7\" aria-hidden=\"true\"\n            *ngIf=\"options.barType == 'horizontal'\">\n            <text \n                *ngFor=\"let item of categories; let i = index;\"\n                [attr.x] = \"30\"\n                [attr.y] = \"calculateYTextPosition(item)\"\n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" text-anchor=\"right\" \n                 opacity=\"1\">{{ options.yAxis.labelEllipsis ? trimLabel(item,  options.yAxis.labelEllipsisSize) :item}}</text>\n        </g> \n    </g>\n\n    <g #yAxisRightWidthEl>\n        <g class=\"highcharts-axis highcharts-yaxis\" data-z-index=\"2\" aria-hidden=\"true\">\n            <text \n                [attr.x]=\"options.plotBackground.width+options.yAxis.width - 10\" \n                [attr.y]=\"options.height/2\" text-anchor=\"middle\" dominant-baseline=\"central\" \n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" \n                class=\"highcharts-axis-title\"\n                [attr.transform]=\"transform(options.plotBackground.width+options.yAxis.width - 10)\">\n                {{options.yAxis ? options.yAxis.title : \"\"}}\n            </text>\n        </g>\n        <g class=\"highcharts-axis-labels highcharts-yaxis-labels\" data-z-index=\"7\" aria-hidden=\"true\"\n            *ngIf=\"options.barType == 'vertical'\">\n            <text\n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" \n                text-anchor=\"left\"\n                *ngFor=\"let tick of ticks\" \n                [attr.x]=\"options.plotBackground.width+options.yAxis.width - 30\"\n                [attr.y]=\"yScale(tick)+this.options.header.height\" \n                opacity=\"1\">{{ options.yAxis.labelEllipsis ? trimLabel(tick,  options.yAxis.labelEllipsisSize) :tick}} </text>\n        </g>\n    </g>\n    \n    <g *ngIf=\"options.barType == 'vertical'\" class=\"highcharts-grid highcharts-yaxis-grid\" data-z-index=\"1\" aria-hidden=\"true\">\n        <path fill=\"none\" stroke=\"#e6e6e6\" stroke-width=\"1\" data-z-index=\"1\" class=\"highcharts-grid-line\"\n            *ngFor=\"let tick of ticks\" [attr.d]=\"pathDirection(tick)\" opacity=\"1\">\n        </path>\n    </g>\n\n</svg>",
+                template: "<svg>\n    <g #yAxisWidthEl>\n        <g class=\"highcharts-axis highcharts-yaxis\" data-z-index=\"2\" aria-hidden=\"true\">\n            <text x=\"10\" [attr.y]=\"options.height/2\" text-anchor=\"middle\" dominant-baseline=\"central\" \n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" \n                class=\"highcharts-axis-title\"\n                [attr.transform]=\"transform(10)\">\n                {{options.yAxis ? options.yAxis.title : \"\"}}\n            </text>\n        </g>\n        <g class=\"highcharts-axis-labels highcharts-yaxis-labels\" data-z-index=\"7\" aria-hidden=\"true\"\n            *ngIf=\"options.barType == 'vertical'\">\n            <text\n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" \n                text-anchor=\"start\"\n                *ngFor=\"let tick of ticks\" \n                [attr.x]=\"30\"\n                [attr.y]=\"yScale(tick)+this.options.header.height\" \n                opacity=\"1\">{{ options.yAxis.labelEllipsis ? trimLabel(tick,  options.yAxis.labelEllipsisSize) :tick}} </text>\n        </g>\n        <g class=\"highcharts-axis-labels highcharts-xaxis-labels\" data-z-index=\"7\" aria-hidden=\"true\"\n            *ngIf=\"options.barType == 'horizontal'\">\n            <text \n                *ngFor=\"let item of categories; let i = index;\"\n                [attr.x] = \"30\"\n                [attr.y] = \"calculateYTextPosition(item)\"\n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" text-anchor=\"right\" \n                 opacity=\"1\">{{ options.yAxis.labelEllipsis ? trimLabel(item,  options.yAxis.labelEllipsisSize) :item}}</text>\n        </g> \n    </g>\n\n    <g #yAxisRightWidthEl>\n        <g *ngIf= \"yRightScale\" class=\"highcharts-axis highcharts-yaxis\" data-z-index=\"2\" aria-hidden=\"true\" >\n            <text \n                [attr.x]=\"options.width - 10\" \n                [attr.y]=\"options.height/2\" text-anchor=\"middle\" dominant-baseline=\"central\" \n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" \n                class=\"highcharts-axis-title\"\n                [attr.transform]=\"transform(options.width  - 10)\">\n                {{options.yAxis ? options.yAxis.rightTitle : \"\"}}\n            </text>\n        </g>\n        <g  class=\"highcharts-axis-labels highcharts-yaxis-labels\" data-z-index=\"7\" aria-hidden=\"true\"\n            *ngIf=\"options.barType == 'vertical' && yRightScale\">\n            <text\n                style=\"color:#666666;cursor:default;font-size:11px;fill:#666666;\" \n                text-anchor=\"end\"\n                *ngFor=\"let tick of rightTicks\" \n                [attr.x]=\"options.width - 30\"\n                [attr.y]=\"yRightScale(tick)+this.options.header.height\" \n                opacity=\"1\">{{ options.yAxis.labelEllipsis ? trimLabel(tick,  options.yAxis.labelEllipsisSize) :tick}} </text>\n        </g>\n    </g>\n    \n    <g *ngIf=\"options.barType == 'vertical'\" class=\"highcharts-grid highcharts-yaxis-grid\" data-z-index=\"1\" aria-hidden=\"true\">\n        <path fill=\"none\" stroke=\"#e6e6e6\" stroke-width=\"1\" data-z-index=\"1\" class=\"highcharts-grid-line\"\n            *ngFor=\"let tick of ticks\" [attr.d]=\"pathDirection(tick)\" opacity=\"1\">\n        </path>\n    </g>\n\n</svg>",
                 styles: [""]
             }] }
 ];
@@ -244,10 +247,12 @@ YAxisComponent.ctorParameters = () => [];
 YAxisComponent.propDecorators = {
     xScale: [{ type: Input }],
     yScale: [{ type: Input }],
+    yRightScale: [{ type: Input }],
     options: [{ type: Input }],
     categories: [{ type: Input }],
     series: [{ type: Input }],
     yAxisWidthEl: [{ type: ViewChild, args: ['yAxisWidthEl', { static: true },] }],
+    yAxisRightWidthEl: [{ type: ViewChild, args: ['yAxisRightWidthEl', { static: true },] }],
     yAxisWidthChange: [{ type: Output }]
 };
 if (false) {
@@ -255,6 +260,8 @@ if (false) {
     YAxisComponent.prototype.xScale;
     /** @type {?} */
     YAxisComponent.prototype.yScale;
+    /** @type {?} */
+    YAxisComponent.prototype.yRightScale;
     /** @type {?} */
     YAxisComponent.prototype.options;
     /** @type {?} */
@@ -264,9 +271,13 @@ if (false) {
     /** @type {?} */
     YAxisComponent.prototype.yAxisWidthEl;
     /** @type {?} */
+    YAxisComponent.prototype.yAxisRightWidthEl;
+    /** @type {?} */
     YAxisComponent.prototype.yAxisWidthChange;
     /** @type {?} */
     YAxisComponent.prototype.ticks;
+    /** @type {?} */
+    YAxisComponent.prototype.rightTicks;
     /** @type {?} */
     YAxisComponent.prototype.trimLabel;
 }
@@ -713,10 +724,13 @@ class ngxChartsBarComponent {
     set options(obj) {
         /** @type {?} */
         let xAxis = obj.xAxis;
+        xAxis['labelEllipsis'] = (obj.xAxis.labelEllipsisSize != undefined && obj.xAxis.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let yAxis = obj.yAxis;
+        yAxis['labelEllipsis'] = (obj.yAxis.labelEllipsisSize != undefined && obj.yAxis.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let legend = obj.legend;
+        legend['labelEllipsis'] = (obj.legend.labelEllipsisSize != undefined && obj.legend.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let plotBackground = obj.plotBackground;
         /** @type {?} */
@@ -995,7 +1009,7 @@ class ngxChartsBarComponent {
      * @param {?} __0
      * @return {?}
      */
-    yAxisWidthChange({ yAxisWidth, yAxisHeight }) {
+    yAxisWidthChange({ yAxisWidth, yAxisHeight, yAxisRightWidth }) {
         //console.log("yAxisWidth "+yAxisWidth)
         this.options = Object.assign({}, this.options, { yAxis: Object.assign({}, this.options.yAxis, { width: yAxisWidth, height: yAxisHeight }) });
         //console.log( this.options)
@@ -1214,10 +1228,13 @@ class ngxChartsLineComponent {
     set options(obj) {
         /** @type {?} */
         let xAxis = obj.xAxis;
+        xAxis['labelEllipsis'] = (obj.xAxis.labelEllipsisSize != undefined && obj.xAxis.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let yAxis = obj.yAxis;
+        yAxis['labelEllipsis'] = (obj.yAxis.labelEllipsisSize != undefined && obj.yAxis.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let legend = obj.legend;
+        legend['labelEllipsis'] = (obj.legend.labelEllipsisSize != undefined && obj.legend.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let plotBackground = obj.plotBackground;
         /** @type {?} */
@@ -1674,10 +1691,12 @@ class ngxChartsPieComponent {
         let yAxis = obj.yAxis;
         /** @type {?} */
         let legend = obj.legend;
+        legend['labelEllipsis'] = (obj.legend.labelEllipsisSize != undefined && obj.legend.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let plotBackground = obj.plotBackground;
         /** @type {?} */
         let plotOptions = obj.plotOptions;
+        plotOptions['labelEllipsis'] = (obj.plotOptions.labelEllipsisSize != undefined && obj.plotOptions.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let header = obj.header;
         delete obj['xAxis'];
@@ -2046,7 +2065,9 @@ class ngxChartsComboComponent {
             },
             yAxis: {
                 title: '',
+                rightTitle: '',
                 width: 0,
+                rightWidth: 0,
                 height: 0,
                 labelRotation: 0,
                 labelEllipsis: false,
@@ -2086,10 +2107,14 @@ class ngxChartsComboComponent {
     set options(obj) {
         /** @type {?} */
         let xAxis = obj.xAxis;
+        xAxis['labelEllipsis'] = (obj.xAxis.labelEllipsisSize != undefined && obj.xAxis.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let yAxis = obj.yAxis;
+        yAxis['labelEllipsis'] = (obj.yAxis.labelEllipsisSize != undefined && obj.yAxis.labelEllipsisSize > 0) ? true : false;
+        yAxis['title'] = yAxis.leftTitle;
         /** @type {?} */
         let legend = obj.legend;
+        legend['labelEllipsis'] = (obj.legend.labelEllipsisSize != undefined && obj.legend.labelEllipsisSize > 0) ? true : false;
         /** @type {?} */
         let plotBackground = obj.plotBackground;
         /** @type {?} */
@@ -2158,7 +2183,7 @@ class ngxChartsComboComponent {
                 this.xScale = this.getXScale();
             }
             else {
-                this.yScale = this.getXScale();
+                // this.yScale=this.getXScale();
             }
             this.innerScale = this.getInnerScale();
             countFlag = true;
@@ -2166,9 +2191,10 @@ class ngxChartsComboComponent {
         // 
         if (this.options.barType == 'vertical') {
             this.yScale = this.getYScale();
+            this.yRightScale = this.getYRightScale();
         }
         else {
-            this.xScale = this.getYScale();
+            // this.xScale=this.getYScale();
         }
         /** @type {?} */
         let colorHelper = new ColorHelper(this.options, this.series);
@@ -2208,10 +2234,9 @@ class ngxChartsComboComponent {
             range = [0, this.options.plotBackground.width];
         }
         else {
-            /** @type {?} */
-            let length = this.options.height - this.options.header.height;
-            spacing = (this.categories.length / (this.options.plotBackground.height / this.options.plotOptions.groupBarPadding));
-            range = [0, this.options.plotBackground.height];
+            // let length=this.options.height-this.options.header.height;
+            // spacing=(this.categories.length/(this.options.plotBackground.height/this.options.plotOptions.groupBarPadding));
+            // range=[0, this.options.plotBackground.height];
         }
         return scaleBand()
             .range(range)
@@ -2226,7 +2251,7 @@ class ngxChartsComboComponent {
         /** @type {?} */
         let groupDataArr = [];
         for (let i = 0; i < this.series.length; i++) {
-            if (this.series[i].type == "column") {
+            if (this.series[i].type == "verticalBar") {
                 groupDataArr.push(this.series[i].name);
             }
         }
@@ -2237,7 +2262,7 @@ class ngxChartsComboComponent {
         /** @type {?} */
         let length = 0;
         for (let i = 0; i < this.series.length; i++) {
-            if (this.series[i].type == "column") {
+            if (this.series[i].type == "verticalBar") {
                 length++;
             }
         }
@@ -2246,8 +2271,8 @@ class ngxChartsComboComponent {
             range = this.xScale.bandwidth();
         }
         else {
-            spacing = (length / (this.yScale.bandwidth() / this.options.plotOptions.innerBarPadding));
-            range = this.yScale.bandwidth();
+            // spacing=(length/(this.yScale.bandwidth()/this.options.plotOptions.innerBarPadding));
+            // range=this.yScale.bandwidth();
         }
         return scaleBand()
             .range([0, range])
@@ -2265,13 +2290,15 @@ class ngxChartsComboComponent {
          * @return {?}
          */
         (item) => {
-            item.data.map((/**
-             * @param {?} value
-             * @return {?}
-             */
-            (value) => {
-                uniqueValue.add(value);
-            }));
+            if (item.type == "verticalBar") {
+                item.data.map((/**
+                 * @param {?} value
+                 * @return {?}
+                 */
+                (value) => {
+                    uniqueValue.add(value);
+                }));
+            }
         }));
         /** @type {?} */
         let min = Math.min(...uniqueValue);
@@ -2284,15 +2311,12 @@ class ngxChartsComboComponent {
         if (this.options.barType == 'vertical') {
             /** @type {?} */
             let value = this.options.plotBackground.height;
-            // console.log("bar getYScale",value)
             range = [value, 0];
-            // console.log("bar getYScale - ", range)
         }
-        else {
-            /** @type {?} */
-            let value = this.options.plotBackground.width - 30;
-            range = [0, value];
-        }
+        // else {
+        //     let value=this.options.plotBackground.width-30;
+        //     range=[0, value];
+        // }
         // console.log("bar getYScale --- ", range, min, max)
         return scaleLinear()
             .range(range)
@@ -2302,8 +2326,51 @@ class ngxChartsComboComponent {
     /**
      * @return {?}
      */
+    getYRightScale() {
+        /** @type {?} */
+        let uniqueValue = new Set();
+        this.series.map((/**
+         * @param {?} item
+         * @return {?}
+         */
+        (item) => {
+            if (item.type == "line" || item.type == undefined) {
+                item.data.map((/**
+                 * @param {?} value
+                 * @return {?}
+                 */
+                (value) => {
+                    uniqueValue.add(value);
+                }));
+            }
+        }));
+        /** @type {?} */
+        let min = Math.min(...uniqueValue);
+        min = min > 0 ? 0 : min;
+        /** @type {?} */
+        let max = Math.max(0, ...uniqueValue);
+        max = max > 0 ? max : 0;
+        /** @type {?} */
+        let range = [];
+        if (this.options.barType == 'vertical') {
+            /** @type {?} */
+            let value = this.options.plotBackground.height;
+            range = [value, 0];
+        }
+        // else {
+        //     let value=this.options.plotBackground.width-30;
+        //     range=[0, value];
+        // }
+        // console.log("bar getYScale --- ", range, min, max)
+        return scaleLinear()
+            .range(range)
+            .domain([min, max]);
+    }
+    /**
+     * @return {?}
+     */
     calPlotBackground() {
-        this.options = Object.assign({}, this.options, { plotBackground: Object.assign({}, this.options.plotBackground, { x: 0, y: 0, height: this.options.height - this.options.xAxis.height - this.options.header.height - this.options.padding, width: this.options.width - this.options.yAxis.width - this.options.padding }) });
+        this.options = Object.assign({}, this.options, { plotBackground: Object.assign({}, this.options.plotBackground, { x: 0, y: 0, height: this.options.height - this.options.xAxis.height - this.options.header.height - this.options.padding, width: this.options.width - this.options.yAxis.width - this.options.padding - this.options.yAxis.rightWidth }) });
         // console.log("calPlotBackground", JSON.stringify(this.options));
     }
     /**
@@ -2321,7 +2388,7 @@ class ngxChartsComboComponent {
                     /** @type {?} */
                     let x = this.xScale(this.categories[j]) + (this.xScale.bandwidth() / 2) + this.options.yAxis.width;
                     /** @type {?} */
-                    let y = this.yScale(this.series[i].data[j]) + this.options.header.height;
+                    let y = this.yRightScale(this.series[i].data[j]) + this.options.header.height;
                     line.points += (x + "," + y + " ");
                     line.color = this.colorScale(this.series[i].name);
                     this.lineCircle.push({
@@ -2351,7 +2418,7 @@ class ngxChartsComboComponent {
          */
         (item, index) => {
             for (let i = 0; i < this.series.length; i++) {
-                if (this.series[i].type == "column") {
+                if (this.series[i].type == "verticalBar") {
                     /** @type {?} */
                     const bar = {
                         value: item,
@@ -2370,13 +2437,14 @@ class ngxChartsComboComponent {
                 }
             }
         }));
+        // console.log("this.bars=[] ", this.bars)
     }
     /**
      * @param {?} __0
      * @return {?}
      */
-    yAxisWidthChange({ yAxisWidth, yAxisHeight }) {
-        this.options = Object.assign({}, this.options, { yAxis: Object.assign({}, this.options.yAxis, { width: yAxisWidth, height: yAxisHeight }) });
+    yAxisWidthChange({ yAxisWidth, yAxisHeight, yAxisRightWidth }) {
+        this.options = Object.assign({}, this.options, { yAxis: Object.assign({}, this.options.yAxis, { width: yAxisWidth, height: yAxisHeight, rightWidth: yAxisRightWidth }) });
         this.update();
     }
     /**
@@ -2435,7 +2503,7 @@ class ngxChartsComboComponent {
 ngxChartsComboComponent.decorators = [
     { type: Component, args: [{
                 selector: "ngx-charts-combo",
-                template: "<div [style.width]=\"options.width+'px'\" [style.border]=\"'1px solid #f3f3f3'\">\r\n    \r\n    <svg version=\"1.1\" class=\"highcharts-root\" [attr.padding]=\"options.padding\" [attr.width]=\"options.width\"\r\n        [attr.height]=\"options.height\" [attr.viewBox]=\"'0 0 '+options.width +' '+ options.height\"\r\n        aria-label=\"Interactive chart\" [style.border]=\"'0px solid gray'\" [style.padding]=\"options.padding\"\r\n        aria-hidden=\"false\">\r\n\r\n        <g header [options]=\"options\" (headerHeightChange)=\"headerHeightChange($event)\"></g>\r\n\r\n        <g y-axis \r\n            [xScale]=\"xScale\" \r\n            [yScale]=\"yScale\" \r\n            [options]=\"options\" \r\n            [categories]=\"categories\" \r\n            [series]=\"series\"\r\n            (yAxisWidthChange)=\"yAxisWidthChange($event)\"></g>\r\n\r\n        <g x-axis \r\n            [xScale]=\"xScale\" \r\n            [yScale]=\"yScale\" \r\n            [options]=\"options\" \r\n            [categories]=\"categories\" \r\n            [series]=\"series\"\r\n            (xAxisHeightChange)=\"xAxisHeightChange($event)\"></g>\r\n            \r\n        <g data-z-index=\"0.1\" >\r\n            <rect *ngFor=\"let bar of bars\" \r\n                [attr.class]=\"bar.className\"\r\n                [attr.x]=\"bar.x+this.options.yAxis.width\"\r\n                [tooltip]=\"bar.value+', '+bar.group+', '+bar.data\" \r\n                [placement]=\"toolTipPlaccement(bar.data)\" \r\n                delay=\"10\"\r\n                [attr.y]=\"bar.y+this.options.header.height\" \r\n                [attr.width]=\"bar.width\" [attr.height]=\"bar.height\"\r\n                [attr.fill]=\"bar.color\" opacity=\"1\"  tabindex=\"-1\" role=\"img\"\r\n                aria-label=\"1. Jan, 49.9. Tokyo.\"></rect>\r\n        </g>\r\n        <g data-z-index=\"0.1\">\r\n            <polyline  \r\n                class=\"line\"\r\n                *ngFor=\"let line of lines\" \r\n                [attr.points]=\"line.points\"\r\n                [style.fill]=\"'none'\"\r\n                [style.stroke]=\"line.color\"\r\n                [style.stroke-width]=\"3\" >\r\n            </polyline>\r\n            <circle \r\n                *ngFor=\"let lc of lineCircle\"\r\n                [tooltip]=\"lc.value+', '+lc.group+', '+lc.data\" \r\n                [placement]=\"toolTipPlaccement(lc.data)\" \r\n                [attr.cx]=\"lc.x\" \r\n                [attr.cy]=\"lc.y\" \r\n                [attr.r]=\"3\" \r\n                [attr.stroke]=\"lc.color\" \r\n                [attr.stroke-width]=\"3\" \r\n                [attr.fill]=\"lc.color\">\r\n            </circle>\r\n        </g>\r\n\r\n    </svg>\r\n    <chart-legend\r\n        *ngIf=\"groupName.length\"\r\n        [groupName]=\"groupName\"\r\n        [options]=\"options\"\r\n        [series] = \"series\"    \r\n    >\r\n    </chart-legend>\r\n  \r\n</div>\r\n\r\n",
+                template: "<div [style.width]=\"options.width+'px'\" [style.border]=\"'1px solid #f3f3f3'\">\r\n    \r\n    <svg version=\"1.1\" class=\"highcharts-root\" [attr.padding]=\"options.padding\" [attr.width]=\"options.width\"\r\n        [attr.height]=\"options.height\" [attr.viewBox]=\"'0 0 '+options.width +' '+ options.height\"\r\n        aria-label=\"Interactive chart\" [style.border]=\"'0px solid gray'\" [style.padding]=\"options.padding\"\r\n        aria-hidden=\"false\">\r\n\r\n        <g header [options]=\"options\" (headerHeightChange)=\"headerHeightChange($event)\"></g>\r\n\r\n        <g y-axis \r\n            [xScale]=\"xScale\" \r\n            [yScale]=\"yScale\" \r\n            [yRightScale]= \"yRightScale\"\r\n            [options]=\"options\" \r\n            [categories]=\"categories\" \r\n            [series]=\"series\"\r\n            (yAxisWidthChange)=\"yAxisWidthChange($event)\"></g>\r\n\r\n        <g x-axis \r\n            [xScale]=\"xScale\" \r\n            [yScale]=\"yScale\" \r\n            [options]=\"options\" \r\n            [categories]=\"categories\" \r\n            [series]=\"series\"\r\n            (xAxisHeightChange)=\"xAxisHeightChange($event)\"></g>\r\n            \r\n        <g data-z-index=\"0.1\" >\r\n            <rect *ngFor=\"let bar of bars\" \r\n                [attr.class]=\"bar.className\"\r\n                [attr.x]=\"bar.x+this.options.yAxis.width\"\r\n                [tooltip]=\"bar.value+', '+bar.group+', '+bar.data\" \r\n                [placement]=\"toolTipPlaccement(bar.data)\" \r\n                delay=\"10\"\r\n                [attr.y]=\"bar.y+this.options.header.height\" \r\n                [attr.width]=\"bar.width\" [attr.height]=\"bar.height\"\r\n                [attr.fill]=\"bar.color\" opacity=\"1\"  tabindex=\"-1\" role=\"img\"\r\n                aria-label=\"1. Jan, 49.9. Tokyo.\"></rect>\r\n        </g>\r\n        <g data-z-index=\"0.1\">\r\n            <polyline  \r\n                class=\"line\"\r\n                *ngFor=\"let line of lines\" \r\n                [attr.points]=\"line.points\"\r\n                [style.fill]=\"'none'\"\r\n                [style.stroke]=\"line.color\"\r\n                [style.stroke-width]=\"3\" >\r\n            </polyline>\r\n            <circle \r\n                *ngFor=\"let lc of lineCircle\"\r\n                [tooltip]=\"lc.value+', '+lc.group+', '+lc.data\" \r\n                [placement]=\"toolTipPlaccement(lc.data)\" \r\n                [attr.cx]=\"lc.x\" \r\n                [attr.cy]=\"lc.y\" \r\n                [attr.r]=\"3\" \r\n                [attr.stroke]=\"lc.color\" \r\n                [attr.stroke-width]=\"3\" \r\n                [attr.fill]=\"lc.color\">\r\n            </circle>\r\n        </g>\r\n\r\n    </svg>\r\n    <chart-legend\r\n        *ngIf=\"groupName.length\"\r\n        [groupName]=\"groupName\"\r\n        [options]=\"options\"\r\n        [series] = \"series\"    \r\n    >\r\n    </chart-legend>\r\n  \r\n</div>\r\n\r\n",
                 // changeDetection: ChangeDetectionStrategy.OnPush,
                 encapsulation: ViewEncapsulation.None,
                 styles: [".tooltip-example{text-align:center;padding:0 50px}.tooltip-example [tooltip]{display:inline-block;margin:50px 20px;width:180px;height:50px;border:1px solid gray;border-radius:5px;line-height:50px;text-align:center}.ng-tooltip{position:absolute;max-width:150px;font-size:14px;text-align:center;color:#fafae3;padding:3px 8px;background:#282a36;border-radius:4px;z-index:1000;opacity:0}.ng-tooltip:after{content:\"\";position:absolute;border-style:solid}.ng-tooltip-top:after{top:100%;left:50%;margin-left:-5px;border-width:5px;border-color:#000 transparent transparent}.ng-tooltip-bottom:after{bottom:100%;left:50%;margin-left:-5px;border-width:5px;border-color:transparent transparent #000}.ng-tooltip-left:after{top:50%;left:100%;margin-top:-5px;border-width:5px;border-color:transparent transparent transparent #000}.ng-tooltip-right:after{top:50%;right:100%;margin-top:-5px;border-width:5px;border-color:transparent #000 transparent transparent}.ng-tooltip-show{opacity:1}.line{stroke-dasharray:2000;stroke-dashoffset:2000;-webkit-animation:2s linear forwards line_frames;animation:2s linear forwards line_frames}@-webkit-keyframes line_frames{to{stroke-dashoffset:0}}@keyframes line_frames{to{stroke-dashoffset:0}}"]
@@ -2473,6 +2541,8 @@ if (false) {
     ngxChartsComboComponent.prototype.innerScale;
     /** @type {?} */
     ngxChartsComboComponent.prototype.yScale;
+    /** @type {?} */
+    ngxChartsComboComponent.prototype.yRightScale;
     /** @type {?} */
     ngxChartsComboComponent.prototype.lines;
     /** @type {?} */

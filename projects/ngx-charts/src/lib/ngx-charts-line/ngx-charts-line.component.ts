@@ -72,8 +72,14 @@ export class ngxChartsLineComponent implements OnChanges, OnInit {
 
     @Input() set options(obj: any) {
         let xAxis=obj.xAxis;
+        xAxis['labelEllipsis']=(obj.xAxis.labelEllipsisSize!=undefined&&obj.xAxis.labelEllipsisSize>0)? true:false;
+
         let yAxis=obj.yAxis;
+        yAxis['labelEllipsis']=(obj.yAxis.labelEllipsisSize!=undefined&&obj.yAxis.labelEllipsisSize>0)? true:false;
+
         let legend=obj.legend;
+        legend['labelEllipsis']=(obj.legend.labelEllipsisSize!=undefined&&obj.legend.labelEllipsisSize>0)? true:false;
+        
         let plotBackground=obj.plotBackground;
         let plotOptions=obj.plotOptions;
         let header=obj.header;

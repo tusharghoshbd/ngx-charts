@@ -26,18 +26,15 @@ export class LineComponent implements OnInit  {
                 title: 'Year name',
                 labelRotation: 0,
                 labelAlign: 'middle', // left, middle, right,
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             },
             yAxis: {
                 title: 'Rainfall (mm)',
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             },
             plotOptions: {
             },
             legend: {
-                labelEllipsis: true,
                 labelEllipsisSize: 8
             }
         };

@@ -26,9 +26,10 @@ export declare class ngxChartsBarComponent implements OnChanges, OnInit {
     getYScale(): any;
     calPlotBackground(): void;
     createBar(): void;
-    yAxisWidthChange({ yAxisWidth, yAxisHeight }: {
+    yAxisWidthChange({ yAxisWidth, yAxisHeight, yAxisRightWidth }: {
         yAxisWidth: any;
         yAxisHeight: any;
+        yAxisRightWidth: any;
     }): void;
     xAxisHeightChange({ xAxisHeight }: {
         xAxisHeight: any;

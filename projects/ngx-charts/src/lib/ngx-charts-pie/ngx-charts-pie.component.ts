@@ -76,9 +76,13 @@ export class ngxChartsPieComponent implements OnChanges, OnInit {
     @Input() set options(obj: any) {
         let xAxis=obj.xAxis;
         let yAxis=obj.yAxis;
+
         let legend=obj.legend;
+        legend['labelEllipsis']=(obj.legend.labelEllipsisSize!=undefined&&obj.legend.labelEllipsisSize>0)? true:false;
+        
         let plotBackground=obj.plotBackground;
         let plotOptions=obj.plotOptions;
+        plotOptions['labelEllipsis']=(obj.plotOptions.labelEllipsisSize!=undefined&&obj.plotOptions.labelEllipsisSize>0)? true:false;
         let header=obj.header;
 
         delete obj['xAxis'];

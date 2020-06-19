@@ -40,7 +40,9 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
         },
         yAxis: {
             title: '',
+            rightTitle:'',
             width: 0,
+            rightWidth: 0,
             height: 0,
             labelRotation: 0,
             labelEllipsis: false,
@@ -70,8 +72,15 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
 
     @Input() set options(obj: any) {
         let xAxis=obj.xAxis;
+        xAxis['labelEllipsis']=(obj.xAxis.labelEllipsisSize!=undefined&&obj.xAxis.labelEllipsisSize>0)? true:false;
+
         let yAxis=obj.yAxis;
+        yAxis['labelEllipsis']=(obj.yAxis.labelEllipsisSize!=undefined&&obj.yAxis.labelEllipsisSize>0)? true:false;
+        yAxis['title']=yAxis.leftTitle
+
         let legend=obj.legend;
+        legend['labelEllipsis']=(obj.legend.labelEllipsisSize!=undefined&&obj.legend.labelEllipsisSize>0)? true:false;
+        
         let plotBackground=obj.plotBackground;
         let plotOptions=obj.plotOptions;
         let header=obj.header;
@@ -126,6 +135,7 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
     xScale: any;
     innerScale: any;
     yScale: any;
+    yRightScale: any;
     lines: any=[];
     bars: any=[];
     lineCircle: any=[];
@@ -175,7 +185,7 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
                 this.xScale=this.getXScale();
             }
             else {
-                this.yScale=this.getXScale();
+                // this.yScale=this.getXScale();
             }
             this.innerScale=this.getInnerScale();
             countFlag=true;
@@ -184,9 +194,10 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
 
         if (this.options.barType=='vertical') {
             this.yScale=this.getYScale();
+            this.yRightScale=this.getYRightScale();
         }
         else {
-            this.xScale=this.getYScale();
+            // this.xScale=this.getYScale();
         }
 
         let colorHelper=new ColorHelper(this.options, this.series);
@@ -217,9 +228,9 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
             range=[0, this.options.plotBackground.width];
         }
         else {
-            let length=this.options.height-this.options.header.height;
-            spacing=(this.categories.length/(this.options.plotBackground.height/this.options.plotOptions.groupBarPadding));
-            range=[0, this.options.plotBackground.height];
+            // let length=this.options.height-this.options.header.height;
+            // spacing=(this.categories.length/(this.options.plotBackground.height/this.options.plotOptions.groupBarPadding));
+            // range=[0, this.options.plotBackground.height];
         }
         return scaleBand()
             .range(range)
@@ -231,16 +242,16 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
 
         let groupDataArr=[];
         for (let i=0; i<this.series.length; i++) {
-            if (this.series[i].type=="column") {
+            if (this.series[i].type=="verticalBar") {
                 groupDataArr.push(this.series[i].name);
             }
         }
 
         let spacing;
-        let range; 
-        let length = 0;
-        for (let i=0; i<this.series.length; i++) { 
-            if (this.series[i].type=="column") { 
+        let range;
+        let length=0;
+        for (let i=0; i<this.series.length; i++) {
+            if (this.series[i].type=="verticalBar") {
                 length++;
             }
         }
@@ -249,8 +260,8 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
             range=this.xScale.bandwidth();
         }
         else {
-            spacing=(length/(this.yScale.bandwidth()/this.options.plotOptions.innerBarPadding));
-            range=this.yScale.bandwidth();
+            // spacing=(length/(this.yScale.bandwidth()/this.options.plotOptions.innerBarPadding));
+            // range=this.yScale.bandwidth();
         }
 
         return scaleBand()
@@ -262,9 +273,11 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
     getYScale(): any {
         let uniqueValue: any=new Set();
         this.series.map((item) => {
-            item.data.map((value) => {
-                uniqueValue.add(value);
-            });
+            if (item.type=="verticalBar") {
+                item.data.map((value) => {
+                    uniqueValue.add(value);
+                });
+            }
         });
 
         let min=Math.min(...uniqueValue);
@@ -276,14 +289,12 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
         let range=[];
         if (this.options.barType=='vertical') {
             let value=this.options.plotBackground.height;
-            // console.log("bar getYScale",value)
             range=[value, 0];
-            // console.log("bar getYScale - ", range)
         }
-        else {
-            let value=this.options.plotBackground.width-30;
-            range=[0, value];
-        }
+        // else {
+        //     let value=this.options.plotBackground.width-30;
+        //     range=[0, value];
+        // }
 
         // console.log("bar getYScale --- ", range, min, max)
 
@@ -291,6 +302,38 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
             .range(range)
             .domain([min, max]);
         //return this.scale.nice().ticks();
+    }
+    getYRightScale() {
+        let uniqueValue: any=new Set();
+        this.series.map((item) => {
+            if (item.type=="line"||item.type==undefined) {
+                item.data.map((value) => {
+                    uniqueValue.add(value);
+                });
+            }
+        });
+
+        let min=Math.min(...uniqueValue);
+        min=min>0? 0:min;
+
+        let max=Math.max(0, ...uniqueValue);
+        max=max>0? max:0;
+
+        let range=[];
+        if (this.options.barType=='vertical') {
+            let value=this.options.plotBackground.height;
+            range=[value, 0];
+        }
+        // else {
+        //     let value=this.options.plotBackground.width-30;
+        //     range=[0, value];
+        // }
+
+        // console.log("bar getYScale --- ", range, min, max)
+
+        return scaleLinear()
+            .range(range)
+            .domain([min, max]);
     }
 
 
@@ -302,7 +345,7 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
                 x: 0,
                 y: 0,
                 height: this.options.height-this.options.xAxis.height-this.options.header.height-this.options.padding,
-                width: this.options.width-this.options.yAxis.width-this.options.padding
+                width: this.options.width-this.options.yAxis.width-this.options.padding-this.options.yAxis.rightWidth
             }
         }
         // console.log("calPlotBackground", JSON.stringify(this.options));
@@ -312,11 +355,11 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
         this.lines=[];
         this.lineCircle=[];
         for (let i=0; i<this.series.length; i++) {
-            if (this.series[i].type=="line"||this.series[i].type==undefined) { 
+            if (this.series[i].type=="line"||this.series[i].type==undefined) {
                 let line={ points: "", color: "" }
                 for (let j=0; j<this.categories.length; j++) {
                     let x=this.xScale(this.categories[j])+(this.xScale.bandwidth()/2)+this.options.yAxis.width;
-                    let y=this.yScale(this.series[i].data[j])+this.options.header.height
+                    let y=this.yRightScale(this.series[i].data[j])+this.options.header.height
                     line.points+=(x+","+y+" ");
                     line.color=this.colorScale(this.series[i].name);
                     this.lineCircle.push({
@@ -336,7 +379,7 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
         this.bars=[];
         this.categories.map((item, index) => {
             for (let i=0; i<this.series.length; i++) {
-                if (this.series[i].type=="column") {
+                if (this.series[i].type=="verticalBar") {
                     const bar: any={
                         value: item,  //jan,feb
                         data: this.series[i].data[index], //101,202
@@ -352,15 +395,17 @@ export class ngxChartsComboComponent implements OnChanges, OnInit {
                 }
             }
         });
+        // console.log("this.bars=[] ", this.bars)
     }
 
-    yAxisWidthChange({ yAxisWidth, yAxisHeight }) {
+    yAxisWidthChange({ yAxisWidth, yAxisHeight, yAxisRightWidth }) {
         this.options={
             ...this.options,
             yAxis: {
                 ...this.options.yAxis,
                 width: yAxisWidth,
-                height: yAxisHeight
+                height: yAxisHeight,
+                rightWidth: yAxisRightWidth
             }
         }
         this.update()
