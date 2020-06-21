@@ -1,7 +1,7 @@
 
 <ul class="nav nav-tabs">
-    <li [class.active]="tab.horizontal"><a data-toggle="tab" href="#horizontal" (click)="horizontalTabSelect()">Horizontal Bar</a></li>
-    <li [class.active]="tab.vertical"><a data-toggle="tab" href="#vertical" (click)="verticalTabSelect()">Vertical Bar</a></li>
+    <li [class.active]="tab.horizontal"><a data-toggle="tab" href="#horizontal" (click)="horizontalTabSelect()">Horizontal Stacked</a></li>
+    <li [class.active]="tab.vertical"><a data-toggle="tab" href="#vertical" (click)="verticalTabSelect()">Vertical Stackted</a></li>
 </ul>
 
 <div class="tab-content">
@@ -18,6 +18,18 @@
                 >
                 </ngx-charts-stacked>
                 <br/>
+                <p><b>Html: </b> </p>
+                <pre>
+                    <code>
+                    {{ htmlHstack }}
+                    </code>
+                </pre>
+                <p><br/><b>Ts: </b></p>
+                <pre>
+                    <code>
+                    {{ tsHstack }}
+                    </code>
+                </pre>
             </div>
         </div>
         <br/>
@@ -34,6 +46,19 @@
                     [options]="optionsVStacked"
                 >
                 </ngx-charts-stacked>
+                <br/>
+                <p><b>Html: </b> </p>
+                <pre>
+                    <code>
+                    {{ htmlVstack }}
+                    </code>
+                </pre>
+                <p><br/><b>Ts: </b></p>
+                <pre>
+                    <code>
+                    {{ tsVstack }}
+                    </code>
+                </pre>
             </div>
         </div>
         <br/>

@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+pre {
+    display: block;
+    padding: 0px;
+    margin: 0 0 0px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
