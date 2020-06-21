@@ -5,6 +5,7 @@ export declare class TooltipDirective {
     tooltipTitle: string;
     placement: string;
     delay: number;
+    tooltipColor: number;
     tooltip: HTMLElement;
     offset: number;
     constructor(el: ElementRef, renderer: Renderer2);

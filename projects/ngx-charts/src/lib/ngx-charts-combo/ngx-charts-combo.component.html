@@ -29,6 +29,7 @@
                 [attr.class]="bar.className"
                 [attr.x]="bar.x+this.options.yAxis.width"
                 [tooltip]="bar.value+', '+bar.group+', '+bar.data" 
+                [tooltipColor]="bar.color"
                 [placement]="toolTipPlaccement(bar.data)" 
                 delay="10"
                 [attr.y]="bar.y+this.options.header.height" 
@@ -48,6 +49,7 @@
             <circle 
                 *ngFor="let lc of lineCircle"
                 [tooltip]="lc.value+', '+lc.group+', '+lc.data" 
+                [tooltipColor]="lc.color"
                 [placement]="toolTipPlaccement(lc.data)" 
                 [attr.cx]="lc.x" 
                 [attr.cy]="lc.y" 

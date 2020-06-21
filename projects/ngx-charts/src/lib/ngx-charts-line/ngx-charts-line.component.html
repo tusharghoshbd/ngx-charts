@@ -35,6 +35,7 @@
             <circle 
                 *ngFor="let lc of lineCircle"
                 [tooltip]="lc.value+', '+lc.group+', '+lc.data" 
+                [tooltipColor]="lc.color"
                 [placement]="toolTipPlaccement(lc.data)" 
                 [attr.cx]="lc.x" 
                 [attr.cy]="lc.y" 
