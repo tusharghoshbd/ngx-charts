@@ -9,7 +9,7 @@ import { PieComponent } from './pie/pie.component';
 import { LineComponent } from './line/line.component';
 import { ComboComponent } from './combo/combo.component';
 
-import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsComboModule, ngxChartsPieModule } from 'ngx-charts';
+import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsComboModule, ngxChartsPieModule, ngxChartsStackedModule } from 'ngx-charts';
 
 @NgModule({
     declarations: [
@@ -26,7 +26,8 @@ import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsComboModule, ngxChart
         ngxChartsBarModule,
         ngxChartsLineModule,
         ngxChartsComboModule,
-        ngxChartsPieModule
+        ngxChartsPieModule,
+        ngxChartsStackedModule
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 
-    <div class="row">
+     <div class="row">
         <div class=" col-md-6">
             <ngx-charts-bar
                 [categories]="categoriesh"
@@ -9,12 +9,33 @@
             </ngx-charts-bar>
         </div>
         <div class="col col-md-6">
+            <ngx-charts-stacked
+                [categories]="categoriesHStacked"
+                [series]="seriesHStacked"
+                [options]="optionsHStacked"
+            >
+            </ngx-charts-stacked>
+            
+        </div>
+    </div>
+       <br/>
+     <div class="row">
+        <div class=" col-md-6">
             <ngx-charts-bar
                 [categories]="categoriesv"
                 [series]="seriesv"
                 [options]="optionsv"
             >
             </ngx-charts-bar>
+           
+        </div>
+        <div class="col col-md-6">
+            <ngx-charts-stacked
+                [categories]="categoriesVStacked"
+                [series]="seriesVStacked"
+                [options]="optionsVStacked"
+            >
+            </ngx-charts-stacked>
         </div>
     </div>
     <br/>
@@ -57,3 +78,5 @@
     </div>
     <br/>
     <br/>
+
+   

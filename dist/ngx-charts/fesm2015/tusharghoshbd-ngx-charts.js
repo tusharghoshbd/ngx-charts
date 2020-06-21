@@ -201,7 +201,8 @@ class YAxisComponent {
      */
     update() {
         if (this.options.barType == "vertical") {
-            this.ticks = this.yScale.nice().ticks();
+            if (this.yScale)
+                this.ticks = this.yScale.nice().ticks();
             if (this.yRightScale)
                 this.rightTicks = this.yRightScale.nice().ticks();
         }
@@ -1083,7 +1084,7 @@ ngxChartsBarComponent.decorators = [
                 template: "<div [style.width]=\"options.width+'px'\" [style.border]=\"'1px solid #f3f3f3'\">\r\n\r\n    <svg version=\"1.1\" class=\"highcharts-root\" [attr.padding]=\"options.padding\" [attr.width]=\"options.width\"\r\n        [attr.height]=\"options.height\" [attr.viewBox]=\"getViewBox()\"\r\n        aria-label=\"Interactive chart\" [style.border]=\"'0px solid gray'\" [style.padding]=\"options.padding\"\r\n        aria-hidden=\"false\">\r\n\r\n        <g header [options]=\"options\" (headerHeightChange)=\"headerHeightChange($event)\"></g>\r\n\r\n        <g y-axis \r\n            [xScale]=\"xScale\" \r\n            [yScale]=\"yScale\" \r\n            [options]=\"options\" \r\n            [categories]=\"categories\" \r\n            [series]=\"series\"\r\n            (yAxisWidthChange)=\"yAxisWidthChange($event)\"></g>\r\n\r\n        <g x-axis \r\n            [xScale]=\"xScale\" \r\n            [yScale]=\"yScale\" \r\n            [options]=\"options\" \r\n            [categories]=\"categories\" \r\n            [series]=\"series\"\r\n            (xAxisHeightChange)=\"xAxisHeightChange($event)\"></g>\r\n\r\n        <g data-z-index=\"0.1\" >\r\n            <rect *ngFor=\"let bar of bars\" \r\n                [attr.class]=\"bar.className\"\r\n                [attr.x]=\"bar.x+this.options.yAxis.width\"\r\n                [tooltip]=\"bar.value+', '+bar.group+', '+bar.data\" \r\n                [placement]=\"toolTipPlaccement(bar.data)\" \r\n                delay=\"10\"\r\n                [attr.y]=\"bar.y+this.options.header.height\" \r\n                [attr.width]=\"bar.width\" [attr.height]=\"bar.height\"\r\n                [attr.fill]=\"bar.color\" opacity=\"1\"  tabindex=\"-1\" role=\"img\"\r\n                aria-label=\"1. Jan, 49.9. Tokyo.\"></rect>\r\n        </g>\r\n    </svg>\r\n    <chart-legend\r\n        *ngIf=\"groupName.length\"\r\n        [groupName]=\"groupName\"\r\n        [options]=\"options\"\r\n        [series] = \"series\"    \r\n    >\r\n    </chart-legend>\r\n  \r\n</div>\r\n\r\n",
                 // changeDetection: ChangeDetectionStrategy.OnPush,
                 encapsulation: ViewEncapsulation.None,
-                styles: [".tooltip-example{text-align:center;padding:0 50px}.tooltip-example [tooltip]{display:inline-block;margin:50px 20px;width:180px;height:50px;border:1px solid gray;border-radius:5px;line-height:50px;text-align:center}.ng-tooltip{position:absolute;max-width:150px;font-size:14px;text-align:center;color:#fafae3;padding:3px 8px;background:#282a36;border-radius:4px;z-index:1000;opacity:0}.ng-tooltip:after{content:\"\";position:absolute;border-style:solid}.ng-tooltip-top:after{top:100%;left:50%;margin-left:-5px;border-width:5px;border-color:#000 transparent transparent}.ng-tooltip-bottom:after{bottom:100%;left:50%;margin-left:-5px;border-width:5px;border-color:transparent transparent #000}.ng-tooltip-left:after{top:50%;left:100%;margin-top:-5px;border-width:5px;border-color:transparent transparent transparent #000}.ng-tooltip-right:after{top:50%;right:100%;margin-top:-5px;border-width:5px;border-color:transparent #000 transparent transparent}.ng-tooltip-show{opacity:1}.horizontal_bar{-webkit-animation:1s linear forwards horizontal_bar_frames;animation:1s linear forwards horizontal_bar_frames}@-webkit-keyframes horizontal_bar_frames{from{width:0}}@keyframes horizontal_bar_frames{from{width:0}}.vertical_bar{-webkit-animation:.5s linear forwards vertical_bar_frames;animation:.5s linear forwards vertical_bar_frames}@-webkit-keyframes vertical_bar_frames{from{height:0}}@keyframes vertical_bar_frames{from{height:0}}"]
+                styles: [".tooltip-example{text-align:center;padding:0 50px}.tooltip-example [tooltip]{display:inline-block;margin:50px 20px;width:180px;height:50px;border:1px solid gray;border-radius:5px;line-height:50px;text-align:center}.ng-tooltip{position:absolute;max-width:150px;font-size:14px;text-align:center;color:#fafae3;padding:3px 8px;background:#282a36;border-radius:4px;z-index:1000;opacity:0}.ng-tooltip:after{content:\"\";position:absolute;border-style:solid}.ng-tooltip-top:after{top:100%;left:50%;margin-left:-5px;border-width:5px;border-color:#000 transparent transparent}.ng-tooltip-bottom:after{bottom:100%;left:50%;margin-left:-5px;border-width:5px;border-color:transparent transparent #000}.ng-tooltip-left:after{top:50%;left:100%;margin-top:-5px;border-width:5px;border-color:transparent transparent transparent #000}.ng-tooltip-right:after{top:50%;right:100%;margin-top:-5px;border-width:5px;border-color:transparent #000 transparent transparent}.ng-tooltip-show{opacity:1}.horizontal_bar{-webkit-animation:1s linear forwards horizontal_bar_frames;animation:1s linear forwards horizontal_bar_frames}@-webkit-keyframes horizontal_bar_frames{from{width:0}}@keyframes horizontal_bar_frames{from{width:0}}.vertical_bar{-webkit-animation:1s linear forwards vertical_bar_frames;animation:1s linear forwards vertical_bar_frames}@-webkit-keyframes vertical_bar_frames{from{height:0}}@keyframes vertical_bar_frames{from{height:0}}"]
             }] }
 ];
 /** @nocollapse */
@@ -1156,6 +1157,556 @@ ngxChartsBarModule.decorators = [
                 declarations: [ngxChartsBarComponent],
                 imports: [CommonModule, AxesModule, HeaderModule, LegendModule, TooltipModule],
                 exports: [ngxChartsBarComponent],
+                providers: [],
+            },] }
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class ngxChartsStackedComponent {
+    /**
+     * @param {?} element
+     * @param {?} chartElement
+     * @param {?} cdr
+     */
+    constructor(element, chartElement, cdr) {
+        this.chartElement = chartElement;
+        this.cdr = cdr;
+        this.customOptions = {
+            barType: 'vertical',
+            title: '',
+            subtitle: '',
+            height: 0,
+            width: 0,
+            padding: 5,
+            xAxis: {
+                title: '',
+                height: 0,
+                labelRotation: 0,
+                labelAlign: 'left',
+                labelEllipsis: false,
+                labelEllipsisSize: 16
+            },
+            yAxis: {
+                title: '',
+                width: 0,
+                height: 0,
+                labelRotation: 0,
+                labelEllipsis: false,
+                labelEllipsisSize: 16
+            },
+            legend: {
+                labelEllipsis: false,
+                labelEllipsisSize: 16
+            },
+            plotBackground: {
+                x: 0,
+                y: 0,
+                height: 0,
+                width: 0
+            },
+            plotOptions: {
+                groupBarPadding: 20,
+                innerBarPadding: 3
+            },
+            header: {
+                height: 0,
+                width: 0
+            }
+        };
+        this._options = {};
+        this._series = [];
+        this.categories = [];
+        this.bars = [];
+        this.groupName = [];
+        this.element = element.nativeElement;
+        this.trimLabel = trimLabel;
+    }
+    /**
+     * @param {?} obj
+     * @return {?}
+     */
+    set options(obj) {
+        /** @type {?} */
+        let xAxis = obj.xAxis;
+        xAxis['labelEllipsis'] = (obj.xAxis.labelEllipsisSize != undefined && obj.xAxis.labelEllipsisSize > 0) ? true : false;
+        /** @type {?} */
+        let yAxis = obj.yAxis;
+        yAxis['labelEllipsis'] = (obj.yAxis.labelEllipsisSize != undefined && obj.yAxis.labelEllipsisSize > 0) ? true : false;
+        /** @type {?} */
+        let legend = obj.legend;
+        legend['labelEllipsis'] = (obj.legend.labelEllipsisSize != undefined && obj.legend.labelEllipsisSize > 0) ? true : false;
+        /** @type {?} */
+        let plotBackground = obj.plotBackground;
+        /** @type {?} */
+        let plotOptions = obj.plotOptions;
+        /** @type {?} */
+        let header = obj.header;
+        delete obj['xAxis'];
+        delete obj['yAxis'];
+        delete obj['legend'];
+        delete obj['plotBackground'];
+        delete obj['plotOptions'];
+        delete obj['header'];
+        this._options = Object.assign({}, this.customOptions, obj, { xAxis: Object.assign({}, this.customOptions.xAxis, xAxis), yAxis: Object.assign({}, this.customOptions.yAxis, yAxis), legend: Object.assign({}, this.customOptions.legend, legend), plotBackground: Object.assign({}, this.customOptions.plotBackground, plotBackground), plotOptions: Object.assign({}, this.customOptions.plotOptions, plotOptions), header: Object.assign({}, this.customOptions.header, header) });
+        // console.log(this._options)
+    }
+    /**
+     * @return {?}
+     */
+    get options() {
+        return this._options;
+    }
+    // @Input() series: any=[];
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    set series(data) {
+        this._series = data;
+        for (let i = 0; i < data.length; i++) {
+            for (let j = 0; j < data[i].data.length; j++) {
+                this._series[i].data[j] = this._series[i].data[j] < 0 ? 0 : this._series[i].data[j];
+            }
+        }
+    }
+    ;
+    /**
+     * @return {?}
+     */
+    get series() {
+        return this._series;
+    }
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        this.groupBarPaddingBK = this.options.plotOptions.groupBarPadding;
+        this.innerBarPaddingBK = this.options.plotOptions.innerBarPadding;
+        setTimeout((/**
+         * @return {?}
+         */
+        () => this.update()));
+    }
+    /**
+     * @return {?}
+     */
+    ngOnInit() {
+        this.options.width = this.options.width;
+        this.options.height = this.options.height;
+        this.update();
+    }
+    /**
+     * @return {?}
+     */
+    update() {
+        // console.log("ttttttt",this.options)
+        /** @type {?} */
+        const hostElem = this.chartElement.nativeElement;
+        /** @type {?} */
+        let dims = hostElem.parentNode !== null ? hostElem.parentNode.getBoundingClientRect() : { height: 400, width: 800 };
+        /** @type {?} */
+        var style = hostElem.parentNode.currentStyle || window.getComputedStyle(hostElem.parentNode);
+        this.options.height = !this.options.height ? dims.height - this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight) : this.options.height;
+        this.options.width = !this.options.width ? dims.width - this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight) : dims.width - this.strToNumber(style.paddingLeft) - this.strToNumber(style.paddingRight);
+        this.calPlotBackground();
+        /** @type {?} */
+        let countFlag = false;
+        this.options.plotOptions.groupBarPadding = this.groupBarPaddingBK;
+        this.options.plotOptions.innerBarPadding = this.innerBarPaddingBK;
+        do {
+            if (countFlag == true) {
+                this.options.plotOptions.groupBarPadding--;
+                this.options.plotOptions.innerBarPadding = 2;
+            }
+            if (this.options.barType == 'vertical') {
+                this.xScale = this.getXScale();
+            }
+            else {
+                this.yScale = this.getXScale();
+            }
+            this.innerScale = this.getInnerScale();
+            countFlag = true;
+        } while (this.innerScale.bandwidth() < 2);
+        // 
+        if (this.options.barType == 'vertical') {
+            this.yScale = this.getYScale();
+        }
+        else {
+            this.xScale = this.getYScale();
+        }
+        /** @type {?} */
+        let colorHelper = new ColorHelper(this.options, this.series);
+        this.colorScale = colorHelper.generateColorScale();
+        setTimeout((/**
+         * @return {?}
+         */
+        () => {
+            this.groupName = [];
+            this.series.map((/**
+             * @param {?} item
+             * @return {?}
+             */
+            item => {
+                if (item.name)
+                    this.groupName.push({
+                        name: item.name,
+                        color: this.colorScale(item.name)
+                    });
+            }));
+            this.createBar();
+            //setTimeout(() => {
+            // for (let i=0; i<this.bars.length; i++) {
+            //     console.log(this.bars[i].className)
+            //     transition(select(this.element)).select('.bar02').transition()
+            //         .duration(500)
+            //         .attr('width', this.bars[i].width);
+            // }
+            //},1000)
+        }));
+        this.cdr.detectChanges();
+    }
+    /**
+     * @return {?}
+     */
+    getXScale() {
+        /** @type {?} */
+        let spacing;
+        /** @type {?} */
+        let range;
+        if (this.options.barType == 'vertical') {
+            spacing = (this.categories.length / (this.options.plotBackground.width / this.options.plotOptions.groupBarPadding));
+            range = [0, this.options.plotBackground.width];
+        }
+        else {
+            /** @type {?} */
+            let length = this.options.height - this.options.header.height;
+            spacing = (this.categories.length / (this.options.plotBackground.height / this.options.plotOptions.groupBarPadding));
+            range = [0, this.options.plotBackground.height];
+        }
+        return scaleBand()
+            .range(range)
+            .paddingInner(spacing)
+            .paddingOuter(0.1)
+            .domain(this.categories);
+    }
+    /**
+     * @return {?}
+     */
+    getInnerScale() {
+        /** @type {?} */
+        let groupDataArr = ['All'];
+        // for (let i=0; i<this.series.length; i++) {
+        //     groupDataArr.push(this.series[i].name);
+        // }
+        /** @type {?} */
+        let spacing;
+        /** @type {?} */
+        let range;
+        if (this.options.barType == 'vertical') {
+            spacing = (this.series.length / (this.xScale.bandwidth() / this.options.plotOptions.innerBarPadding));
+            range = this.xScale.bandwidth();
+        }
+        else {
+            spacing = (this.series.length / (this.yScale.bandwidth() / this.options.plotOptions.innerBarPadding));
+            range = this.yScale.bandwidth();
+        }
+        return scaleBand()
+            .range([0, range])
+            .paddingInner(spacing)
+            .domain(groupDataArr);
+    }
+    /**
+     * @return {?}
+     */
+    getYScale() {
+        /** @type {?} */
+        let uniqueValue = new Set();
+        if (this.series.length != 0) {
+            for (let i = 0; i < this.series[0].data.length; i++) {
+                /** @type {?} */
+                let sum = 0;
+                for (let j = 0; j < this.series.length; j++) {
+                    sum += this.series[j].data[i];
+                }
+                uniqueValue.add(sum);
+            }
+        }
+        // this.series.map((item) => {
+        //     item.data.map((value) => {
+        //         uniqueValue.add(value);
+        //     });
+        // });
+        /** @type {?} */
+        let min = Math.min(...uniqueValue);
+        min = min > 0 ? 0 : min;
+        /** @type {?} */
+        let max = Math.max(0, ...uniqueValue);
+        max = max > 0 ? max : 0;
+        /** @type {?} */
+        let range = [];
+        if (this.options.barType == 'vertical') {
+            /** @type {?} */
+            let value = this.options.plotBackground.height;
+            // console.log("bar getYScale",value)
+            range = [value, 0];
+            // console.log("bar getYScale - ", range)
+        }
+        else {
+            /** @type {?} */
+            let value = this.options.plotBackground.width - 30;
+            range = [0, value];
+        }
+        // console.log("bar getYScale --- ", range, min, max)
+        return scaleLinear()
+            .range(range)
+            .domain([min, max]);
+        //return this.scale.nice().ticks();
+    }
+    /**
+     * @return {?}
+     */
+    calPlotBackground() {
+        this.options = Object.assign({}, this.options, { plotBackground: Object.assign({}, this.options.plotBackground, { x: 0, y: 0, height: this.options.height - this.options.xAxis.height - this.options.header.height - this.options.padding, width: this.options.width - this.options.yAxis.width - this.options.padding }) });
+        // console.log("calPlotBackground", JSON.stringify(this.options));
+    }
+    /**
+     * @return {?}
+     */
+    createBar() {
+        //console.log("this.innerScale.bandwidth() "+this.innerScale.bandwidth())
+        this.bars = [];
+        if (this.options.barType == 'vertical') {
+            this.categories.map((/**
+             * @param {?} item
+             * @param {?} index
+             * @return {?}
+             */
+            (item, index) => {
+                /** @type {?} */
+                let prevY = 0;
+                for (let i = 0; i < this.series.length; i++) {
+                    /** @type {?} */
+                    const bar = {
+                        value: item,
+                        //jan,feb
+                        data: this.series[i].data[index],
+                        //101,202
+                        group: this.series[i].name,
+                        color: this.colorScale(this.series[i].name),
+                        //formattedLabel,
+                        width: this.innerScale.bandwidth(),
+                        height: this.series[i].data[index] > 0 ? (this.yScale(0) - this.yScale(this.series[i].data[index])) : (this.yScale(this.series[i].data[index]) - this.yScale(0)),
+                        x: this.innerScale('All') + this.xScale(item),
+                        //y: prevHeight + ( this.series[i].data[index]>0? this.yScale(this.series[i].data[index]):this.yScale(0) ),
+                        className: "vertical_bar"
+                    };
+                    if (i == 0) {
+                        bar['y'] = this.series[i].data[index] > 0 ? this.yScale(this.series[i].data[index]) : this.yScale(0);
+                    }
+                    else {
+                        bar['y'] = prevY - bar.height;
+                    }
+                    prevY = bar.y;
+                    this.bars.push(bar);
+                }
+            }));
+        }
+        else {
+            this.categories.map((/**
+             * @param {?} item
+             * @param {?} index
+             * @return {?}
+             */
+            (item, index) => {
+                /** @type {?} */
+                let prevX = 0;
+                for (let i = 0; i < this.series.length; i++) {
+                    /** @type {?} */
+                    const bar = {
+                        value: item,
+                        //jan,feb
+                        data: this.series[i].data[index],
+                        //101,202
+                        group: this.series[i].name,
+                        color: this.colorScale(this.series[i].name),
+                        //formattedLabel,
+                        width: this.series[i].data[index] > 0 ? (this.xScale(this.series[i].data[index]) - this.xScale(0)) : (this.xScale(0) - this.xScale(this.series[i].data[index])),
+                        height: this.innerScale.bandwidth(),
+                        // x: this.series[i].data[index]>0? this.xScale(0):this.xScale(this.series[i].data[index]),
+                        y: this.innerScale('All') + this.yScale(item),
+                        className: "horizontal_bar"
+                    };
+                    if (i == 0) {
+                        bar['x'] = this.series[i].data[index] > 0 ? this.xScale(0) : this.xScale(this.series[i].data[index]);
+                    }
+                    else {
+                        bar['x'] = prevX;
+                    }
+                    prevX = bar.x + bar.width;
+                    this.bars.push(bar);
+                }
+            }));
+        }
+    }
+    /**
+     * @param {?} __0
+     * @return {?}
+     */
+    yAxisWidthChange({ yAxisWidth, yAxisHeight, yAxisRightWidth }) {
+        //console.log("yAxisWidth "+yAxisWidth)
+        this.options = Object.assign({}, this.options, { yAxis: Object.assign({}, this.options.yAxis, { width: yAxisWidth, height: yAxisHeight }) });
+        //console.log( this.options)
+        this.update();
+    }
+    /**
+     * @param {?} __0
+     * @return {?}
+     */
+    xAxisHeightChange({ xAxisHeight }) {
+        this.options = Object.assign({}, this.options, { xAxis: Object.assign({}, this.options.xAxis, { height: xAxisHeight }) });
+        //console.log("xAxisHeightChange", xAxisHeight, JSON.stringify(this.options.xAxis));
+        this.update();
+    }
+    /**
+     * @param {?} __0
+     * @return {?}
+     */
+    headerHeightChange({ headerHeight }) {
+        this.options = Object.assign({}, this.options, { header: Object.assign({}, this.options.header, { height: headerHeight }) });
+        this.update();
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    toolTipPlaccement(data) {
+        if (this.options.barType == 'vertical') {
+            return data > 0 ? 'top' : 'bottom';
+        }
+        else {
+            return data > 0 ? 'right' : 'left';
+        }
+    }
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    onResize(event) {
+        //console.log("window:resize")
+        setTimeout((/**
+         * @return {?}
+         */
+        () => this.update()));
+    }
+    /**
+     * @return {?}
+     */
+    getViewBox() {
+        if (this.options.width > 0 && this.options.height > 0)
+            return '0 0 ' + this.options.width + ' ' + this.options.height;
+        else
+            return '0 0 0 0';
+    }
+    /**
+     * @private
+     * @param {?} str
+     * @return {?}
+     */
+    strToNumber(str) {
+        /** @type {?} */
+        let numberPattern = /\d+/g;
+        /** @type {?} */
+        let num = str.match(numberPattern).join('');
+        return parseFloat(num);
+    }
+}
+ngxChartsStackedComponent.decorators = [
+    { type: Component, args: [{
+                selector: "ngx-charts-stacked",
+                template: "<div [style.width]=\"options.width+'px'\" [style.border]=\"'1px solid #f3f3f3'\">\r\n\r\n    <svg version=\"1.1\" class=\"highcharts-root\" [attr.padding]=\"options.padding\" [attr.width]=\"options.width\"\r\n        [attr.height]=\"options.height\" [attr.viewBox]=\"getViewBox()\"\r\n        aria-label=\"Interactive chart\" [style.border]=\"'0px solid gray'\" [style.padding]=\"options.padding\"\r\n        aria-hidden=\"false\">\r\n\r\n        <g header [options]=\"options\" (headerHeightChange)=\"headerHeightChange($event)\"></g>\r\n\r\n        <g y-axis \r\n            [xScale]=\"xScale\" \r\n            [yScale]=\"yScale\" \r\n            [options]=\"options\" \r\n            [categories]=\"categories\" \r\n            [series]=\"series\"\r\n            (yAxisWidthChange)=\"yAxisWidthChange($event)\"></g>\r\n\r\n        <g x-axis \r\n            [xScale]=\"xScale\" \r\n            [yScale]=\"yScale\" \r\n            [options]=\"options\" \r\n            [categories]=\"categories\" \r\n            [series]=\"series\"\r\n            (xAxisHeightChange)=\"xAxisHeightChange($event)\"></g>\r\n\r\n        <g data-z-index=\"0.1\" >\r\n            <rect *ngFor=\"let bar of bars\" \r\n                [attr.class]=\"bar.className\"\r\n                [attr.x]=\"bar.x+this.options.yAxis.width\"\r\n                [tooltip]=\"bar.value+', '+bar.group+', '+bar.data\" \r\n                [placement]=\"toolTipPlaccement(bar.data)\" \r\n                delay=\"10\"\r\n                [attr.y]=\"bar.y+this.options.header.height\" \r\n                [attr.width]=\"bar.width\" [attr.height]=\"bar.height\"\r\n                [attr.fill]=\"bar.color\" opacity=\"1\"  tabindex=\"-1\" role=\"img\"\r\n                aria-label=\"1. Jan, 49.9. Tokyo.\"></rect>\r\n        </g>\r\n    </svg>\r\n    <chart-legend\r\n        *ngIf=\"groupName.length\"\r\n        [groupName]=\"groupName\"\r\n        [options]=\"options\"\r\n        [series] = \"series\"    \r\n    >\r\n    </chart-legend>\r\n  \r\n</div>\r\n\r\n",
+                // changeDetection: ChangeDetectionStrategy.OnPush,
+                encapsulation: ViewEncapsulation.None,
+                styles: [".tooltip-example{text-align:center;padding:0 50px}.tooltip-example [tooltip]{display:inline-block;margin:50px 20px;width:180px;height:50px;border:1px solid gray;border-radius:5px;line-height:50px;text-align:center}.ng-tooltip{position:absolute;max-width:150px;font-size:14px;text-align:center;color:#fafae3;padding:3px 8px;background:#282a36;border-radius:4px;z-index:1000;opacity:0}.ng-tooltip:after{content:\"\";position:absolute;border-style:solid}.ng-tooltip-top:after{top:100%;left:50%;margin-left:-5px;border-width:5px;border-color:#000 transparent transparent}.ng-tooltip-bottom:after{bottom:100%;left:50%;margin-left:-5px;border-width:5px;border-color:transparent transparent #000}.ng-tooltip-left:after{top:50%;left:100%;margin-top:-5px;border-width:5px;border-color:transparent transparent transparent #000}.ng-tooltip-right:after{top:50%;right:100%;margin-top:-5px;border-width:5px;border-color:transparent #000 transparent transparent}.ng-tooltip-show{opacity:1}.horizontal_bar{-webkit-animation:1s linear forwards horizontal_bar_frames;animation:1s linear forwards horizontal_bar_frames}@-webkit-keyframes horizontal_bar_frames{from{width:0}}@keyframes horizontal_bar_frames{from{width:0}}.vertical_bar{-webkit-animation:1s linear forwards vertical_bar_frames;animation:1s linear forwards vertical_bar_frames}@-webkit-keyframes vertical_bar_frames{from{height:0}}@keyframes vertical_bar_frames{from{height:0}}"]
+            }] }
+];
+/** @nocollapse */
+ngxChartsStackedComponent.ctorParameters = () => [
+    { type: ElementRef },
+    { type: ElementRef },
+    { type: ChangeDetectorRef }
+];
+ngxChartsStackedComponent.propDecorators = {
+    options: [{ type: Input }],
+    categories: [{ type: Input }],
+    series: [{ type: Input }],
+    onResize: [{ type: HostListener, args: ['window:resize', ['$event'],] }]
+};
+if (false) {
+    /**
+     * @type {?}
+     * @private
+     */
+    ngxChartsStackedComponent.prototype.customOptions;
+    /**
+     * @type {?}
+     * @private
+     */
+    ngxChartsStackedComponent.prototype._options;
+    /**
+     * @type {?}
+     * @private
+     */
+    ngxChartsStackedComponent.prototype._series;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.categories;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.element;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.xScale;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.innerScale;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.yScale;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.bars;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.groupName;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.groupBarPaddingBK;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.innerBarPaddingBK;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.colorScale;
+    /** @type {?} */
+    ngxChartsStackedComponent.prototype.trimLabel;
+    /**
+     * @type {?}
+     * @private
+     */
+    ngxChartsStackedComponent.prototype.chartElement;
+    /**
+     * @type {?}
+     * @private
+     */
+    ngxChartsStackedComponent.prototype.cdr;
+    /* Skipping unhandled member: ;*/
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+class ngxChartsStackedModule {
+}
+ngxChartsStackedModule.decorators = [
+    { type: NgModule, args: [{
+                declarations: [ngxChartsStackedComponent],
+                imports: [CommonModule, AxesModule, HeaderModule, LegendModule, TooltipModule],
+                exports: [ngxChartsStackedComponent],
                 providers: [],
             },] }
 ];
@@ -2594,5 +3145,5 @@ ngxChartsComboModule.decorators = [
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { ngxChartsBarModule, ngxChartsComboModule, ngxChartsLineModule, ngxChartsPieModule, ngxChartsBarComponent as ɵa, AxesModule as ɵb, XAxisComponent as ɵc, YAxisComponent as ɵd, HeaderModule as ɵe, HeaderComponent as ɵf, LegendModule as ɵg, LegendComponent as ɵh, TooltipModule as ɵi, TooltipDirective as ɵj, ngxChartsLineComponent as ɵk, ngxChartsPieComponent as ɵl, ngxChartsComboComponent as ɵm };
+export { ngxChartsBarModule, ngxChartsComboModule, ngxChartsLineModule, ngxChartsPieModule, ngxChartsStackedModule, ngxChartsBarComponent as ɵa, AxesModule as ɵb, XAxisComponent as ɵc, YAxisComponent as ɵd, HeaderModule as ɵe, HeaderComponent as ɵf, LegendModule as ɵg, LegendComponent as ɵh, TooltipModule as ɵi, TooltipDirective as ɵj, ngxChartsStackedComponent as ɵk, ngxChartsLineComponent as ɵl, ngxChartsPieComponent as ɵm, ngxChartsComboComponent as ɵn };
 //# sourceMappingURL=tusharghoshbd-ngx-charts.js.map

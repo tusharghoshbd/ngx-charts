@@ -2,11 +2,11 @@ import { Component, ViewChild, TemplateRef, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html'
+    selector: 'app-home',
+    templateUrl: './home.component.html'
 })
 
-export class HomeComponent implements OnInit  {
+export class HomeComponent implements OnInit {
     optionsp: any={};
     categoriesp: any=[];
     seriesp: any=[];
@@ -31,9 +31,17 @@ export class HomeComponent implements OnInit  {
     categoriesCombo: any=[];
     seriesCombo: any=[];
 
+    optionsVStacked: any={};
+    categoriesVStacked: any=[];
+    seriesVStacked: any=[];
+
+    optionsHStacked: any={};
+    categoriesHStacked: any=[];
+    seriesHStacked: any=[];
+
     constructor() { }
     ngOnInit(): void {
-       
+
         // *********************************** horizontal chart************************************************8
         this.optionsh={
             barType: 'horizontal',
@@ -79,7 +87,7 @@ export class HomeComponent implements OnInit  {
             }];
         }, 0)
 
-        
+
         //***************************vertical chart******************************
         this.optionsv={
             barType: 'vertical',
@@ -289,15 +297,104 @@ export class HomeComponent implements OnInit  {
             {
                 name: 'Manufacturing',
                 type: 'line',
-                data: [30000, 100000.5, 50000.4, 20000.2, 40000.0, 60000.0, 50000.6, 80000.5, 20000.4, 90000.1, 50000.6, 40000.4]
+                data: [3000, 10000.5, 5000.4, 2000.2, 4000.0, 6000.0, 5000.6, 8000.5, 2000.4, 9000.1, 5000.6, 4000.4]
+            }
+            ]
+        }, 0)
+
+
+
+
+        //**************************Stacked vertical chart*************************************
+        this.optionsVStacked={
+            barType: 'vertical',
+            title: 'Title of the stacked chart bar',
+            subtitle: 'Subtitle of the stacked chart bar',
+            height: 400,
+            //width: 700,
+            xAxis: {
+                title: 'Fruits name',
+                labelRotation: 0,
+                labelAlign: 'middle', // left, middle, right,
+                labelEllipsisSize: 8
+            },
+            yAxis: {
+                title: 'Number of fruits'
+            },
+            plotOptions: {
+                groupBarPadding: 40
+            },
+            legend: {
+                labelEllipsisSize: 8
+            }
+        };
+
+        setTimeout(() => {
+            this.categoriesVStacked=['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas'];
+            this.seriesVStacked=[{
+                name: 'John',
+                data: [5, 3, 4, 7, 2]
+            },
+                {
+                name: 'Jane',
+                data: [2, 2, 3, 2, 1]
+            }, {
+                name: 'Joe',
+                data: [3, 4, 4, 2, 5]
+                },
+                {
+                    name: 'Cris',
+                    data: [5, 3, 4, 7, 2]
                 }
             ]
         }, 0)
 
-       
+
+         //**************************Stacked horizontal chart*************************************
+         this.optionsHStacked={
+            barType: 'horizontal',
+            title: 'Title of the stacked chart bar',
+            subtitle: 'Subtitle of the stacked chart bar',
+            height: 400,
+            //width: 700,
+            xAxis: {
+                title: 'Number of fruits',
+                labelRotation: 0,
+                labelAlign: 'middle', // left, middle, right,
+                labelEllipsisSize: 8
+            },
+            yAxis: {
+                title: 'Fruits name'
+            },
+            plotOptions: {
+                groupBarPadding: 20
+            },
+            legend: {
+                labelEllipsisSize: 8
+            }
+        };
+
+        setTimeout(() => {
+            this.categoriesHStacked=['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas'];
+            this.seriesHStacked=[{
+                name: 'John',
+                data: [5, 3, 4, 7, 2]
+            },
+                {
+                name: 'Jane',
+                data: [2, 2, 3, 2, 1]
+            }, {
+                name: 'Joe',
+                data: [3, 4, 4, 2, 5]
+                },
+                {
+                    name: 'Cris',
+                    data: [5, 3, 4, 7, 2]
+                }
+            ]
+        }, 0)
+
+
     }
 
-
-    
-   
 }

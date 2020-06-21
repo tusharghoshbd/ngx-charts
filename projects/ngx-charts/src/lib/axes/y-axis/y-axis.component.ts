@@ -59,6 +59,7 @@ export class YAxisComponent implements OnInit, OnChanges {
 
     update() {
         if (this.options.barType=="vertical") {
+            if(this.yScale)
             this.ticks=this.yScale.nice().ticks();
             if(this.yRightScale)
                 this.rightTicks=this.yRightScale.nice().ticks();
