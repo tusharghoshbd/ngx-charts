@@ -1,0 +1,41 @@
+
+<ul class="nav nav-tabs">
+    <li [class.active]="tab.horizontal"><a data-toggle="tab" href="#horizontal" (click)="horizontalTabSelect()">Horizontal Bar</a></li>
+    <li [class.active]="tab.vertical"><a data-toggle="tab" href="#vertical" (click)="verticalTabSelect()">Vertical Bar</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="home" class="tab-pane fade in active" 
+        [class.in]="tab.horizontal" 
+        [class.active]="tab.horizontal"
+        *ngIf="tab.horizontal">
+        <div class="row">
+            <div class="col col-md-12">
+                <ngx-charts-stacked
+                    [categories]="categoriesHStacked"
+                    [series]="seriesHStacked"
+                    [options]="optionsHStacked"
+                >
+                </ngx-charts-stacked>
+                <br/>
+            </div>
+        </div>
+        <br/>
+    </div>
+    <div id="menu1" class="tab-pane fade in active" 
+        [class.in]="tab.vertical" 
+        [class.active]="tab.vertical"
+        *ngIf="tab.vertical">
+        <div class="row">
+            <div class="col col-md-12">
+                <ngx-charts-stacked
+                    [categories]="categoriesVStacked"
+                    [series]="seriesVStacked"
+                    [options]="optionsVStacked"
+                >
+                </ngx-charts-stacked>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

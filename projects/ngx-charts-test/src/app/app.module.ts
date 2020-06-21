@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { InstallationComponent } from './installation/installation.component';
 import { BarComponent } from './bar/bar.component';
+import { StackedComponent } from './stacked/stacked.component';
 import { PieComponent } from './pie/pie.component';
 import { LineComponent } from './line/line.component';
 import { ComboComponent } from './combo/combo.component';
@@ -17,6 +18,7 @@ import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsComboModule, ngxChart
         HomeComponent,
         InstallationComponent,
         BarComponent,
+        StackedComponent,
         PieComponent,
         LineComponent,
         ComboComponent

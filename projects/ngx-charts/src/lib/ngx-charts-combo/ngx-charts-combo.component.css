@@ -76,3 +76,18 @@
         stroke-dashoffset: 0;
     }
   }
+
+  
+  .vertical_bar{
+    animation: vertical_bar_frames 1s linear; 
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes vertical_bar_frames {
+    from {
+      height: 0; 
+    }
+    to {
+        /* height: 0;  */
+    }
+  }

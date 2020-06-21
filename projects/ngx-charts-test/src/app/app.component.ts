@@ -7,14 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   navbarCollapse: boolean=false;
-  navBarShow={ home: false, installation: false, bar: false, pie: false, line: false, combo:false }
+  navBarShow={ home: false, installation: false, bar: false, stacked:false, pie: false, line: false, combo:false }
 
   ngOnInit() {
     this.clickMenuShow('home');
   }
 
   clickMenuShow(menuName) {
-    this.navBarShow={ home: false, installation: false, bar: false, pie: false, line: false, combo:false }
+    this.navBarShow={ home: false, installation: false, bar: false, stacked:false, pie: false, line: false, combo:false }
     this.navBarShow[menuName]=true;
   }
 
