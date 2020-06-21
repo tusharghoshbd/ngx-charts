@@ -338,6 +338,7 @@ export class ngxChartsBarComponent implements OnChanges, OnInit {
                         y: this.series[i].data[index]>0? this.yScale(this.series[i].data[index]):this.yScale(0),
                         className: "vertical_bar"
                     };
+                    
                     this.bars.push(bar);
                 }
             });

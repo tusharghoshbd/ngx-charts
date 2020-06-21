@@ -58,8 +58,12 @@ export class XAxisComponent implements OnInit, OnChanges, AfterViewInit {
         this.ngAfterViewInit();
     }
     xTransformRotate(item) {
-        if (this.options.barType=="vertical") {
-            return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item)+(this.xScale.bandwidth()/2)+this.options.yAxis.width)+", "+(this.options.height-20)+")";
+        if (this.options.barType=="vertical"&&this.xScale) {
+            let midRotation=(this.xScale(item)+(this.xScale.bandwidth()/2)+this.options.yAxis.width);
+            if (!isNaN(midRotation))
+                return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item)+(this.xScale.bandwidth()/2)+this.options.yAxis.width)+", "+(this.options.height-20)+")";
+            else
+                return "rotate(0,0,0)";
         }
         else {
             return "rotate("+this.options.xAxis.labelRotation+", "+(this.xScale(item)+this.options.yAxis.width)+", "+(this.options.height-this.options.xAxis.height+20)+")";

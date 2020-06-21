@@ -13,7 +13,7 @@
             *ngIf="options.barType == 'vertical'">
             <text 
                 *ngFor="let item of categories; let i = index;let f = first;"
-                [attr.x] = 'xScale(item) + (xScale.bandwidth()/2)+options.yAxis.width'
+                [attr.x] = " xScale(item) != undefined  ? xScale(item) + (xScale.bandwidth()/2)+options.yAxis.width : 0"
                 [attr.y] = "options.height-30"
                 [attr.transform]="xTransformRotate(item)"
                 [attr.text-anchor]="options.xAxis.labelAlign"
