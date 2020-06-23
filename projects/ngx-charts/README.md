@@ -7,11 +7,11 @@ Building this library is inspired by jQuery Highchart and @swimlane/ngx-charts.
 
 ## Demo
 
-![](https://media2.giphy.com/media/ft5jOe21QwSVtUiRW5/giphy.gif)
+![](https://media0.giphy.com/media/VDf9eg0RCngyIb3FEj/giphy.gif)
 
-[Demo example](https://tusharghoshbd.github.io/ngx-charts/#)
+[Demo and Documentation](https://tusharghoshbd.github.io/ngx-charts/#)
 
-[Demo in stackblitz](https://stackblitz.com/edit/tusharghoshbd-ngx-charts)
+[Live code in stackblitz](https://stackblitz.com/edit/tusharghoshbd-ngx-charts)
 
 ## Installation
 
@@ -21,6 +21,8 @@ npm i @tusharghoshbd/ngx-charts
 
 
 ## Usage
+
+Here is given the example of bar chart. For more information please demo and documentation.
 
 #### Html file
 ```html
@@ -50,12 +52,10 @@ ngOnInit(): void {
           title: 'Continent population no',
           labelRotation: 0,
           labelAlign: 'middle',
-          labelEllipsis: true,
           labelEllipsisSize: 16
        },
        yAxis: {
           title: 'Continent name',
-          labelEllipsis: true,
           labelEllipsisSize: 16
        },
        plotOptions: {
@@ -63,7 +63,6 @@ ngOnInit(): void {
           innerBarPadding: 2
        },
        legend: {
-          labelEllipsis: true,
           labelEllipsisSize: 10
        }
    };
@@ -101,9 +100,12 @@ import { ngxChartsBarModule} from '@tusharghoshbd/ngx-charts';
 * Responsive
 * Horizontal bar chart
 * Vertical bar chart
+* Stacked horizontal chart
+* Stacked vertical chart
 * Pie chart
 * Donuts chart
 * Line chart
+* Combo chart (Combinations of bar chart and line chart)
 * Customized legend
 * Tool-tip
 * Chart animation

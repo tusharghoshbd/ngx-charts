@@ -10,7 +10,8 @@ import { PieComponent } from './pie/pie.component';
 import { LineComponent } from './line/line.component';
 import { ComboComponent } from './combo/combo.component';
 
-import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsComboModule, ngxChartsPieModule, ngxChartsStackedModule } from 'ngx-charts';
+import { ngxChartsBarModule, ngxChartsLineModule, ngxChartsComboModule, ngxChartsPieModule, ngxChartsStackedModule } from '@tusharghoshbd/ngx-charts';
+
 
 @NgModule({
     declarations: [
